@@ -1,0 +1,12 @@
+table, th, td {
+  border: solid 3px black;
+}
+
+.main-table {
+    width:100%;
+    height: 500px;
+    text-align: start;
+}
+button {
+    width: 20px;
+}
