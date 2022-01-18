@@ -22,22 +22,28 @@
                 <tr>
                     <td>1.Weather checker</td>
                     <td colspan="3">
-                        <input type="text" name="userinput">
-                        <input type="submit" name="Submit">
+                        <form>
+                            <input type="text" name="userinput">
+                            <input type="submit" name="Submit">
+                        </form>
                     </td>
                 </tr>
                 <tr>
                     <td>2.name</td>
                     <td colspan="3">
-                        <input type="text" name="userinput">
-                        <input type="submit" name="Submit">
+                        <form>
+                            <input type="text" name="userinput">
+                            <input type="submit" name="Submit">
+                        </form>
                     </td>
                 </tr>
                 <tr>
                     <td>3.name</td>
                     <td colspan="4">
-                        <input type="text" name="userinput">
-                        <input type="submit" name="Submit">
+                        <form>
+                            <input type="text" name="userinput">
+                            <input type="submit" name="Submit">
+                        </form>
                     </td>
                 </tr>
             </tbody>
