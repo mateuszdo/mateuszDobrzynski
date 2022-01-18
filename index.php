@@ -22,7 +22,7 @@
                 <tr>
                     <td>1.Weather checker</td>
                     <td colspan="3">
-                        <form>
+                        <form action="" method="POST">
                             <input type="text" name="userinput">
                             <input type="submit" name="Submit">
                         </form>
@@ -31,7 +31,7 @@
                 <tr>
                     <td>2.name</td>
                     <td colspan="3">
-                        <form>
+                        <form action="" method="POST">
                             <input type="text" name="userinput">
                             <input type="submit" name="Submit">
                         </form>
@@ -40,7 +40,7 @@
                 <tr>
                     <td>3.name</td>
                     <td colspan="3">
-                        <form>
+                        <form action="" method="POST">
                             <input type="text" name="userinput">
                             <input type="submit" name="Submit">
                         </form>
