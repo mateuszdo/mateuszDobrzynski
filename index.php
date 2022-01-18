@@ -49,7 +49,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="5">
+                    <td colspan="3">
                         <?php
     $ch = curl_init();
 
