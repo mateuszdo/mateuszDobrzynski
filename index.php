@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td>3.name</td>
-                    <td colspan="4">
+                    <td colspan="3">
                         <form>
                             <input type="text" name="userinput">
                             <input type="submit" name="Submit">
