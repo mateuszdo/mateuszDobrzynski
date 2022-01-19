@@ -8,5 +8,8 @@ table, th, td {
     text-align: start;
 }
 button {
-    width: 20px;
+    width: 30px;
+}
+.submitBtn {
+    width: 30px;
 }
