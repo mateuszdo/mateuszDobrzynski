@@ -1,23 +1,26 @@
     <?php
     
 
-	$url = 'http://api.geonames.org/weatherIcaoJSON?formatted=true&ICAO=EGKK' . $_REQUEST['getStation'] . '&username=mateuszdo&style=full';
+	$url='http://api.geonames.org/weatherIcaoJSON?formatted=true&ICAO=' . $_REQUEST['getStation'] . '&username=mateuszdo&style=full';
     
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	
-	$resp = curl_exec($ch);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    
+	$result=curl_exec($ch);
 
-    if($e = curl_error($ch)) {
-		echo $e;
-	}
-	else {
-		$decoded = json_decode($resp, true);
-        print_r($decoded);
-        
-	}
-	
 	curl_close($ch);
+
+	$decode = json_decode($result,true);	
+
+	$output['status']['code'] = "200";
+	$output['status']['name'] = "ok";
+	$output['status']['description'] = "success";
+	$output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
+	$output['data'] = $decode['geonames'];
+	
+	header('Content-Type: application/json; charset=UTF-8');
+
+	echo json_encode($output); 
     ?>
