@@ -1,7 +1,7 @@
     <?php
     
 
-	$url='http://api.geonames.org/weatherIcaoJSON?formatted=true&ICAO=' . $_REQUEST['getStation'] . '&username=mateuszdo&style=full';
+	$url='http://api.geonames.org/weatherIcaoJSON?formatted=true&ICAO=' . $_REQUEST['getStation'] . '&username=mateuszdo';
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -12,8 +12,9 @@
 
 	curl_close($ch);
 
-	$decode = json_decode($result,true);	
-
+	$decode = json_decode($result,true);
+		
+    
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
@@ -23,4 +24,5 @@
 	header('Content-Type: application/json; charset=UTF-8');
 
 	echo json_encode($output); 
+	
     ?>
