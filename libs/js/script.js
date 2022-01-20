@@ -16,7 +16,10 @@
                 console.log(JSON.stringify(result));
                 if (result) {
                     console.log("all good");
-                    $("#weatherResult").html(JSON.stringify(result));
+                    $("#getTemp").html(JSON.stringify(result.weatherObservation.temperature));
+                    $("#getWind").html(JSON.stringify(result.weatherObservation.windSpeed));
+                    $("#getCloud").html(JSON.stringify(result.weatherObservation.clouds));
+                    $("#getHumidity").html(JSON.stringify(result.weatherObservation.humidity));
                 }
         
             },
@@ -29,7 +32,7 @@
 $("#getPlace").click(function () {
 
     //does click work?
-    alert("works");  
+    
     //$("#weatherResult").html("works");      
     $.ajax({
         url: "libs/php/getPlace.php",
@@ -44,7 +47,9 @@ $("#getPlace").click(function () {
             console.log(JSON.stringify(result));
             if (result) {
                 console.log("all good");
-                $("#weatherResult").html(JSON.stringify(result));
+                $("#cityName").html(JSON.stringify(result.geonames[0]['toponymName']));
+                $("#countryName").html(JSON.stringify(result.geonames[0]['countryName']));
+                
             }
 
         },
@@ -54,3 +59,39 @@ $("#getPlace").click(function () {
     });
 });
 //});
+
+    $("#getEarthquake").click(function () {
+
+    //does click work?
+    
+    //$("#weatherResult").html("works");      
+        $.ajax({
+            url: "libs/php/getEarthquake.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+                north: $("#north").val(),
+                south: $("#south").val(),
+                east: $("#east").val(),
+                west: $("#west").val()
+        },
+        success: function (result) {
+
+            console.log(JSON.stringify(result));
+            if (result) {
+                console.log("all good");
+                //$("#oceanName").html
+                console.log(JSON.stringify(result));
+                $("#earthquakeDate").html(JSON.stringify(result.earthquakes[0]['datetime']));
+                $("#earthquakeDepth").html(JSON.stringify(result.earthquakes[0]['depth']));
+                $("#earthquakeMagnitude").html(JSON.stringify(result.earthquakes[0]['magnitude']));
+               
+
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+});

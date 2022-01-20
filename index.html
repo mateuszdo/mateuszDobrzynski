@@ -14,14 +14,15 @@
         <table class="main-table">
             <thead>
                 <tr>
-                    <th colspan="1">API name</th>
-                    <th colspan="3">API description</th>
+                    <th>API name</th>
+                    <th>API description</th>
+                    <th>Results</th>
                 </tr>
             </thead>   
             <tbody>
                 <tr>
-                    <td id="name">1.Weather checker in UK using nearby airports</td>
-                    <td colspan="3">
+                    <td id="name">1. WEATHER CHECKER USING NEARBY AIRPORTS ICAO CODES</td>
+                    <td>
                         <!--<form action="libs/php/getWeather.php" method="POST">-->
                             <select id="weatherId">
                                 <option value="EGLL">Heathrow</option>
@@ -38,31 +39,52 @@
                             <button class="submitBtn" id="getWeather">SUBMIT</button>
                         <!--</form>-->
                     </td>
+                    <td>
+                        <div>
+                            <p>Temperature(C):</p><h2 id="getTemp"></h2><br>
+                             <p>Wind Speed(KN):</p><h2 id="getWind"></h2>
+                             <p>Clouds:</p><h2 id="getCloud"></h2><br>
+                             <p>Humidity:</p><h2 id="getHumidity"></h2>
+                        </div>
+                    </td>
+                    
                 </tr>
                 <tr>
-                    <td>2.Find nearby populated place</td>
-                    <td colspan="3">
+                    <td>2. FIND NEAREST POPULATED PLACE</td>
+                    <td>
                         
                             <input type="number" id="lat" name="lat" placeholder="latitude in decimal"><br>
                             <input type="number" id="lng" name="lng" placeholder="longitude in decimal"><br>
                             <button class="submitBtn" id="getPlace">SUBMIT</button>
                         
                     </td>
+                    <td>
+                        <div>
+                            <p>City:</p><h2 id="cityName"></h2><br>
+                            <p>Country:</p><h2 id="countryName"></h2>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
-                    <td>3.name</td>
-                    <td colspan="3">
-                        
-                            <input type="text" id="lat" name="lat" placeholder="latitude in decimal"><br>
-                            <button class="submitBtn" id="getPlace">SUBMIT</button>
-                        
+                    <td>3. RECENT EARTHQUAKES</td>
+                    <td>  <label for="north">Coordinates of bounding box</label><br>
+                          <input type="number" id="north" name="north" placeholder="north boundry"><br>
+                          <input type="number" id="south" name="south" placeholder="south boundry"><br>
+                           <input type="number" id="east" name="east" placeholder="east boundry"><br>
+                           <input type="number" id="west" name="south" placeholder="west boundry"><br>
+                           <button class="submitBtn" id="getEarthquake">SUBMIT</button>
+                    </td>
+                    <td>
+                        <div>
+                            <p>Date:</p><h2 id="earthquakeDate"></h2><br>
+                            <p>Depth(km):</p><h2 id="earthquakeDepth"></h2><br>
+                            <p>Magnitude:</p><h2 id="earthquakeMagnitude"></h2>
+                        </div>
                     </td>
                 </tr>
             </tbody>
             <tfoot>
-                <tr>
-                    <td id='weatherResult' colspan="5">Result</td>
-                </tr>
+                
             </tfoot>
         </table>
     </div>
