@@ -7,9 +7,10 @@ table, th, td {
     height: 500px;
     text-align: start;
 }
-button {
-    width: 30px;
-}
+
 .submitBtn {
-    width: 30px;
+    width: 110px;
+}
+h2 {
+    color: brown
 }

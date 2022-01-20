@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="libs/css/style.css">
+    <link rel="stylesheet" href="./libs/css/style.css">
     <title>Task</title>
 </head>
 <body>
@@ -24,6 +24,7 @@
                     <td id="name">1. WEATHER CHECKER USING NEARBY AIRPORTS ICAO CODES</td>
                     <td>
                         <!--<form action="libs/php/getWeather.php" method="POST">-->
+                            <p>Please select the airport from the droplist to find out the weather condition</p><br>
                             <select id="weatherId">
                                 <option value="EGLL">Heathrow</option>
                                 <option value="EGKK">London Gatwick</option>
@@ -35,7 +36,7 @@
                                 <option value="EGGD">Bristol</option>
                                 <option value="EGPF">Glasgow</option>
                                 <option value="EGAA">Belfast International</option>             
-                            </select>                               
+                            </select> <br>                              
                             <button class="submitBtn" id="getWeather">SUBMIT</button>
                         <!--</form>-->
                     </td>
@@ -52,7 +53,7 @@
                 <tr>
                     <td>2. FIND NEAREST POPULATED PLACE</td>
                     <td>
-                        
+                            <label for="lat">Please type in lattitude and longitude in order to find closest city and the country of selected spot</label><br>
                             <input type="number" id="lat" name="lat" placeholder="latitude in decimal"><br>
                             <input type="number" id="lng" name="lng" placeholder="longitude in decimal"><br>
                             <button class="submitBtn" id="getPlace">SUBMIT</button>
@@ -67,7 +68,7 @@
                 </tr>
                 <tr>
                     <td>3. RECENT EARTHQUAKES</td>
-                    <td>  <label for="north">Coordinates of bounding box</label><br>
+                    <td>  <label for="north">Please select coordinates of bounding box</label><br>
                           <input type="number" id="north" name="north" placeholder="north boundry"><br>
                           <input type="number" id="south" name="south" placeholder="south boundry"><br>
                            <input type="number" id="east" name="east" placeholder="east boundry"><br>
