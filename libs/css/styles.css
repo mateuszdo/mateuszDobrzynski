@@ -1,0 +1,38 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+html, body, #map {
+    width: 100vw;
+    height: 94vh;
+  
+}
+nav {
+    background-color: rgb(94, 84, 39);
+    height: 6vh;
+    display: flex;
+    align-items: center;
+}
+h1 {
+    color: rgb(155, 207, 34);
+    margin-left: 3vw;
+}
+#country {
+    margin-left: auto;
+    margin-right: 2vw;
+    max-width: 50%;
+}
+footer {
+    width: 100vw;
+    height: 200px;
+    background-color: aquamarine;
+    z-index: 1;
+}
+h2 {
+    color: black;
+}
+#getPlace {
+    width: 100px;
+    height: 30px;
+}
+

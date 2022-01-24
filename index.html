@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Gazetter</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    
+    <link rel="stylesheet" href="libs/css/styles.css">
+</head>
+<body>
+    <nav>
+        <h1>Gazetter</h1>
+        <select id="country" name="country">
+            
+        </select>
+        <select id="c" name="c">c</select>
+
+    </nav>
+    <main>
+        <div id="map"></div>
+    </main>
+    <footer>
+      <p id="lat"></p>
+      <p id="lng"></p>
+      <p id="cityName"></p>
+      <p id="countryName"></p>
+      <input id="lat" type="text">
+      <input id="lng" type="text">
+      <button id="getPlace">Submit</button>
+    </footer>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="libs/js/script.js"></script>
+   
+    </body>
+</html>
