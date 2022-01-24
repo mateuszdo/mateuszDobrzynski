@@ -21,6 +21,14 @@ if('geolocation' in navigator) {
         console.log(position);
         L.marker([lat, lng]).addTo(map).bindPopup("You are here : Lattitude: " + lat + " Longitude: " + lng).openPopup();
   
+
+
+
+    });
+} else {
+    console.log('geolocation not available');
+};
+
 $("#getPlace").click(function () {
 
     //does click work?
@@ -31,8 +39,8 @@ $("#getPlace").click(function () {
         type: "POST",
         dataType: "json",
         data: {
-            lat: $("#lat").val(),
-            lng: $("#lng").val(),
+            lat: $("#lt").val(),
+            lng: $("#lg").val(),
         },
         success: function (result) {
 
@@ -51,26 +59,4 @@ $("#getPlace").click(function () {
     });
 });
 
-
-    });
-} else {
-    console.log('geolocation not available');
-};
-
-/* let dropdown = $('#country');
-
-dropdown.empty();
-
-dropdown.append('<option selected="true" disabled>Choose Country</option>');
-dropdown.prop('selectedIndex', 0);
-
-const url = 'libs/json/countryBorders.geo.json';
-
-// Populate dropdown with list of provinces
-$.getJSON(url, function (data) {
-    $.each(data, function (key, entry) {
-        dropdown.append($('<option></option>').attr('value', entry.abbreviation).text(entry.name));
-    })
-});
-*/
 
