@@ -3,19 +3,22 @@
     margin: 0;
 }
 html, body, #map {
-    width: 100vw;
-    height: 94vh;
+    width: 100%;
+    height: 100vh;
   
 }
-nav {
+#map {
+    z-index: 0;
+}
+#nav-wrapper {
     background-color: rgb(94, 84, 39);
     height: 6vh;
     display: flex;
     align-items: center;
 }
-h1 {
+#nav-heading {
     color: rgb(155, 207, 34);
-    margin-left: 3vw;
+    margin-left: 40vw;
 }
 #country {
     margin-left: auto;
@@ -35,4 +38,67 @@ h2 {
     width: 100px;
     height: 30px;
 }
+.sidebar {
+    height: 100vh;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(182, 204, 204);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    border: solid 3px rgb(94, 84, 39);
+}
 
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: rgb(114, 98, 25);
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: rgb(94, 84, 39);
+    color: white;
+    padding: 14px 15px;
+    border: none;
+    z-index:1
+}
+
+.openbtn:hover {
+   color: rgb(155, 207, 34);
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+
+}
+.leaflet-top {
+    position: relative;
+}
+.leaflet-control-zoom {
+    position: absolute;
+    right: 3vh;
+    top: 3vh;
+    
+    
+}
