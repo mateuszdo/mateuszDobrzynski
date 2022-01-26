@@ -23,6 +23,11 @@ if ('geolocation' in navigator) {
         $("#getPlace").click(function () {
             getLocation(latitude, longitude)
         });
+
+        $("#getAllCountries").click(function() {
+            console.log("click");
+            getSelect()
+        });
     });
 } else {
     console.log('geolocation not available');
@@ -50,4 +55,12 @@ function getLocation(lat, lng) {
         }
     })
 };
+
+function getSelect() {
+    $.getJSON("libs/php/getSelect.php", function(result){
+        $("#getAllCountries").html("hey");
+       console.log(result);
+    })
+};   
+
 
