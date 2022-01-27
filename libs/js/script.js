@@ -7,7 +7,7 @@ L.tileLayer('https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}.png?key=psJfNymH
     attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
 
 }).addTo(map);
-let countryName;
+
 if ('geolocation' in navigator) {
     console.log('geolocation available');
     navigator.geolocation.getCurrentPosition(position => {
@@ -22,15 +22,20 @@ if ('geolocation' in navigator) {
         //get countryName based on lat i long
         
         //get client country info from opencage
-        //$("#getPlace").click(function () {
         getLocation(latitude, longitude);
+        getCountryName(latitude, longitude);
+        getCountryInfo();
         //get initial weather status from clients country
         getWeather(latitude, longitude);
         //get initial weather forecast from clients country
         getWeatherForecast(latitude, longitude);
-        //open sidebar with client country info
+        //populate select country options
         getSelect();
+        //open sidebar with client country info
         openNav();
+        
+        
+        
         
         
     });
@@ -54,7 +59,7 @@ function getCountryName(lat, lng) {
             if (data) {
                 //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
                 countryName = data.results[0]['components']['country'];
-                
+                console.log(countryName.toLowerCase());
 
             }
 
@@ -64,6 +69,32 @@ function getCountryName(lat, lng) {
         }
     })
 };
+
+function getCountryInfo() {
+    $.ajax({
+        url: "libs/php/getCountry.php",
+        type: "POST",
+        dataType: "json",
+        success: function (data) {
+            if (data) {
+                //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
+               // $("#countryName").html(data.results[0]['components']['country']);
+               // country1 = data.results[0]['components']['country'];
+               // $("#flag").prepend(data.results[0]['annotations']['flag']);
+               // $("#currency").html('Currency: ' + data.results[0]['annotations']['currency']['name']);
+                //$("#cityName").html(result.geonames[0]['toponymName']);
+                //$("#countryName").html(result.geonames[0]['countryName']);
+                //console.log(data);
+                //console.log(country1);
+                console.log(data);
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    })
+}
 // get user location and info using lat i lng from navigator
 function getLocation(lat, lng) {
     $.ajax({
@@ -78,7 +109,7 @@ function getLocation(lat, lng) {
             if (data) {
                 //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
                 $("#countryName").html(data.results[0]['components']['country']);
-                country1 = data.results[0]['components']['country']
+                country1 = data.results[0]['components']['country'];
                 $("#flag").prepend(data.results[0]['annotations']['flag']);
                 $("#currency").html('Currency: ' + data.results[0]['annotations']['currency']['name']);
                 //$("#cityName").html(result.geonames[0]['toponymName']);
@@ -159,6 +190,8 @@ function getWeatherForecast(lat, lon) {
     })
 };
 
+
+ 
 
 function openNav() {
     document.getElementById("mySidebar").style.width = "400px";
