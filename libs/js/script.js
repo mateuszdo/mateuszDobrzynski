@@ -136,8 +136,19 @@ function getWeatherForecast(lat, lon) {
             if (data) {
                 //$("#cityname").html(data.name + " " + "Weather Status");
                 $("#weather-forecast-descr1").html(data.daily[0]['weather'][0]['description']);
+                $("#weather-forecast-descr2").html(data.daily[1]['weather'][0]['description']);
+                $("#weather-forecast-descr3").html(data.daily[2]['weather'][0]['description']);
+                $("#temp1day").html("day: " + data.daily[0]['temp']['day'] + "℃");
+                $("#temp2day").html("day: " + data.daily[1]['temp']['day'] + "℃");
+                $("#temp3day").html("day: " + data.daily[2]['temp']['day'] + "℃");
+                $("#temp1day").html("day: " + data.daily[0]['temp']['night'] + "℃");
+                $("#temp2day").html("day: " + data.daily[1]['temp']['night'] + "℃");
+                $("#temp3day").html("day: " + data.daily[2]['temp']['night'] + "℃");
+                $("#wicon1").attr('src', "http://openweathermap.org/img/w/"+data.daily[0]['weather'][0]['icon']+".png");
+                $("#wicon2").attr('src', "http://openweathermap.org/img/w/"+data.daily[1]['weather'][0]['icon']+".png");
+                $("#wicon3").attr('src', "http://openweathermap.org/img/w/"+data.daily[2]['weather'][0]['icon']+".png");
                 //$("#wicon").attr('src', "http://openweathermap.org/img/w/" + data.weather[0]['icon'] + ".png");
-                //$("#temp").html(data.main.temp + "℃");
+               
                 //$("#humidity").html("Humidity: " + data.main.humidity);
                 //$("#pressure").html("Pressure: " + data.main.pressure + "hPa");
                 //$("#wind").html("Wind: " + data.wind.speed + "m/ph");
@@ -162,17 +173,17 @@ function closeNav() {
     document.getElementById("mySidebar").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
 };
-/*
+
 function getSelect() {
    $.ajax({
        url: 'libs/php/getSelect.php',
        type: 'POST',
        dataType: 'json',
        success: function(data){
-           console.log(JSON.parse(data));
+           console.log(data);
        }
    })
 }
-*/
 
 
+getSelect();
