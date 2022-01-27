@@ -67,32 +67,7 @@ function getLocation(lat, lng) {
         }
     })
 };
-/*
-if ('geolocation' in navigator) {
-    console.log('geolocation available');
-    navigator.geolocation.getCurrentPosition(position => {
-        let {
-            latitude,
-            longitude
-        } = position.coords
-        //document.getElementById('lat').textContent = latitude;
-        //document.getElementById('lng').textContent = longitude;
-        //marker showing actual clients position
-        
-        //getWeather(latitude, longitude);
-        //get client country info from opencage
-        //$("#getPlace").click(function () {
-        
-        //});
 
-        //open sidebar with client country info
-       
-
-
-
-    });
-}
-*/ 
 //get weather based on lat and long from navigator
 function getWeather(lat, lon) {
     $.ajax({
@@ -180,10 +155,15 @@ function getSelect() {
        type: 'POST',
        dataType: 'json',
        success: function(data){
-           console.log(data);
+           console.log(data)
+           for(let i = 0; i < data.length; i++) {
+              $("#select").append('<option value=' + element[i].iso_a3 + '>' + element[i].name + '</option');
+           }
+               
        }
    })
 }
 
 
 getSelect();
+
