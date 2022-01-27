@@ -1,21 +1,28 @@
 <?php
-      $url = file_get_contents("libs/json/countryBorders.geo.json");
-      $arr = json_decode($url,true);
+   $url = file_get_contents("libs/json/countryBorders.geo.json");
+   $decode = json_decode($url,true);
     
-    $countries = array();
-    foreach($arr['features'] as $value)  {
-             $name = $value['properties']['name'];
-             $iso =  $value['properties']['iso_a2'];
-             /*
-             $option =  "<option value=$iso>$name</option>";
-             $json_option = json_encode($option);
-             echo $json_option;
-             */
-            
-            array_push($countries, $name, $iso);
-            print_r($countries);
-       };
-       
+    $country_names_and_iso_codes = [];
+
+    foreach($decode['features'] as $country_data)  {
+        array_push(
+              $country_names_and_iso_codes,
+              array(
+                    "name" => $country_data["properties"]["name"],
+                    "iso_a2" => $country_data["properties"]["iso_a2"],
+                    "iso_a3"=> $country_data["properties"]["iso_a3"],
+                  )
+            );
+      } 
+      
+      $output['status']['code'] = "200";
+	$output['status']['name'] = "ok";
+	$output['data'] = $country_names_and_iso_codes;
+	
+	header('Content-Type: application/json; charset=UTF-8');
+      
+      echo json_encode($output);
+      
 ?>
 
             

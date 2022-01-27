@@ -1,7 +1,7 @@
  <?php
     
 
-	$url='https://api.opencagedata.com/geocode/v1/json?q='.$_REQUEST['lat'].'+'.$_REQUEST['lng'].'&key=5795e180dff0480db74061cd19f7bf62';
+	$url='https://api.countrylayer.com/v2/name/'.$_REQUEST['name'].'?access_key=9bfbacb750d0d12d9167d458f5a557fe&fullText=true';
     
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -29,4 +29,3 @@
 
 
     ?>
-
