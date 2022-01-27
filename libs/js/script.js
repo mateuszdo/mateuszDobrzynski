@@ -7,7 +7,7 @@ L.tileLayer('https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}.png?key=psJfNymH
     attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
 
 }).addTo(map);
-
+let countryName;
 if ('geolocation' in navigator) {
     console.log('geolocation available');
     navigator.geolocation.getCurrentPosition(position => {
@@ -19,6 +19,7 @@ if ('geolocation' in navigator) {
         //document.getElementById('lng').textContent = longitude;
         //marker showing actual clients position
         L.marker([latitude, longitude]).addTo(map).bindPopup("You are here : Lattitude: " + latitude + " Longitude: " + longitude).openPopup();
+        //get countryName based on lat i long
         
         //get client country info from opencage
         //$("#getPlace").click(function () {
@@ -28,15 +29,40 @@ if ('geolocation' in navigator) {
         //get initial weather forecast from clients country
         getWeatherForecast(latitude, longitude);
         //open sidebar with client country info
+        getSelect();
         openNav();
-
         
-
+        
     });
 }
 
  else {
     console.log('geolocation not available');
+};
+
+//get country name from lat i lng
+function getCountryName(lat, lng) {
+    $.ajax({
+        url: "libs/php/getLocation.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            lat: lat,
+            lng: lng,
+        },
+        success: function (data) {
+            if (data) {
+                //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
+                countryName = data.results[0]['components']['country'];
+                
+
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    })
 };
 // get user location and info using lat i lng from navigator
 function getLocation(lat, lng) {
@@ -52,12 +78,13 @@ function getLocation(lat, lng) {
             if (data) {
                 //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
                 $("#countryName").html(data.results[0]['components']['country']);
-                var country1 = data.results[0]['components']['country']
+                country1 = data.results[0]['components']['country']
                 $("#flag").prepend(data.results[0]['annotations']['flag']);
                 $("#currency").html('Currency: ' + data.results[0]['annotations']['currency']['name']);
                 //$("#cityName").html(result.geonames[0]['toponymName']);
                 //$("#countryName").html(result.geonames[0]['countryName']);
-               
+                //console.log(data);
+                //console.log(country1);
                 
             }
 
@@ -97,7 +124,7 @@ function getWeather(lat, lon) {
         }
     })
 };
-
+//get 3 days weather forecast
 function getWeatherForecast(lat, lon) {
     $.ajax({
         url: "libs/php/getWeatherForecast.php",
@@ -122,12 +149,6 @@ function getWeatherForecast(lat, lon) {
                 $("#wicon1").attr('src', "http://openweathermap.org/img/w/"+data.daily[0]['weather'][0]['icon']+".png");
                 $("#wicon2").attr('src', "http://openweathermap.org/img/w/"+data.daily[1]['weather'][0]['icon']+".png");
                 $("#wicon3").attr('src', "http://openweathermap.org/img/w/"+data.daily[2]['weather'][0]['icon']+".png");
-                //$("#wicon").attr('src', "http://openweathermap.org/img/w/" + data.weather[0]['icon'] + ".png");
-               
-                //$("#humidity").html("Humidity: " + data.main.humidity);
-                //$("#pressure").html("Pressure: " + data.main.pressure + "hPa");
-                //$("#wind").html("Wind: " + data.wind.speed + "m/ph");
-                console.log(data);
 
             }
 
@@ -154,16 +175,17 @@ function getSelect() {
        url: 'libs/php/getSelect.php',
        type: 'POST',
        dataType: 'json',
-       success: function(data){
-           console.log(data)
-           for(let i = 0; i < data.length; i++) {
-              $("#select").append('<option value=' + element[i].iso_a3 + '>' + element[i].name + '</option');
+       success: function(result){
+           for(let i = 0; i < result.data.length; i++) {
+            $("#select").append('<option value="' + result.data[i].iso_a3 + '">' + result.data[i].name + '</option>');
            }
-               
-       }
-   })
+        }
+    }) 
 }
+    
 
 
-getSelect();
+
+
+
 

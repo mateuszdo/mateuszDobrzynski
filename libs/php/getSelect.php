@@ -1,5 +1,5 @@
 <?php
-   $url = file_get_contents("libs/json/countryBorders.geo.json");
+   $url = file_get_contents("../json/countryBorders.geo.json");
    $decode = json_decode($url,true);
     
     $country_names_and_iso_codes = [];
