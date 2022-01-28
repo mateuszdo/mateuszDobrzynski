@@ -16,7 +16,7 @@ html, body, #map {
     align-items: center;
 }
 #nav-heading {
-    color: rgb(109, 136, 48);
+    color: rgb(211, 219, 89);
     margin-left: 50vw;
 }
 #select {
@@ -25,13 +25,13 @@ html, body, #map {
     width: 200px;
 }
 .sidebar {
-    height: 60vh;
+    height: 100vh;
     width: 0;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: rgb(182, 204, 204);
+    background-color: rgb(212, 218, 218);
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -89,3 +89,35 @@ html, body, #map {
 #flag {
     width: 20vw;
 }
+.country-name{
+    display: grid;
+    align-items: center;;
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 50% 50%;
+    
+
+}
+#flag {
+    grid-column: 2 / span 1;
+    width: 40%;
+    justify-self: center;
+    padding: 5px;
+    margin-right: 20px;
+    
+}
+#countryName {
+    
+    font-size: 3rem;
+    font-weight: 50;
+    margin-left: 50px;
+    padding: 10px;
+}
+.country-info-wrapper {
+    display: block;
+    align-items: center;
+    margin: 15px;
+    padding: 10px;
+    text-align: center;
+    line-height: 3rem;
+}
+

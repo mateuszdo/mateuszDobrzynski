@@ -29,7 +29,7 @@ if ('geolocation' in navigator) {
         //populate select country options
         getSelect();
         
-        getCurrency();
+        
         
         //open sidebar with client country info
         openNav();
@@ -46,6 +46,7 @@ if ('geolocation' in navigator) {
 };
 
 
+getCurrency();
 
 //get country info based on name from lat and lng from navigator
 function getCountryInfo(lat, lng) {
@@ -71,13 +72,13 @@ function getCountryInfo(lat, lng) {
                     success: function (data) {
                         if (data) {
                            $("#countryName").html(data[0]['name']);
-                           $("#flag").attr('src', data[0]['flags']['png']);
-                           $("#countryNativeName").html("( " + data[0]['nativeName'] + " )");
-                           $("#area").html("Area: " + data[0]['area'] + " &#13218");
+                           $("#flag").attr('src', data[0]['flags']['svg']);
+                           //$("#countryNativeName").html("( " + data[0]['nativeName'] + " )");
+                           $("#area").html("<em>Area: " + data[0]['area'] + " &#13218");
                            $("#capital").html("Capital: " + data[0]['capital']);
-                           $("#language").html("Language(s): " + data[0]['languages'][0]['name']);
-                           $("#population").html("Population: " + data[0]['population']);
-                           $("#currency").html("Currency: " + data[0]['currencies'][0]['name'] + "( " + data[0]['currencies'][0]['symbol'] + " )");
+                           $("#language").html("<em>Language(s): " + data[0]['languages'][0]['name']);
+                           $("#population").html("<em>Population: " + data[0]['population']);
+                           $("#currency").html("<em>Currency: " + data[0]['currencies'][0]['name'] + "( " + data[0]['currencies'][0]['symbol'] + " )");
                             
                         }
 
