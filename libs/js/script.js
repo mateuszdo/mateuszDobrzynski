@@ -20,16 +20,17 @@ if ('geolocation' in navigator) {
         //marker showing actual clients position
         L.marker([latitude, longitude]).addTo(map).bindPopup("You are here : Lattitude: " + latitude + " Longitude: " + longitude).openPopup();
         //get initial users country info
-        getWikipedia(47, 9);
+       
         getCountryInfo(latitude, longitude);
         //get initial weather status from clients country
         getWeather(latitude, longitude);
         //get initial weather forecast from clients country
         getWeatherForecast(latitude, longitude);
-        //get wikipedia links based on lat i lng
-        
         //populate select country options
         getSelect();
+        
+        getCurrency();
+        
         //open sidebar with client country info
         openNav();
         
@@ -43,6 +44,8 @@ if ('geolocation' in navigator) {
  else {
     console.log('geolocation not available');
 };
+
+
 
 //get country info based on name from lat and lng from navigator
 function getCountryInfo(lat, lng) {
@@ -94,38 +97,7 @@ function getCountryInfo(lat, lng) {
     
 };
 
-/*
-// get user location and info using lat i lng from navigator
-function getLocation(lat, lng) {
-    $.ajax({
-        url: "libs/php/getLocation.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-            lat: lat,
-            lng: lng,
-        },
-        success: function (data) {
-            if (data) {
-                //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
-                $("#countryName").html(data.results[0]['components']['country']);
-                country1 = data.results[0]['components']['country'];
-                $("#flag").prepend(data.results[0]['annotations']['flag']);
-                $("#currency").html('Currency: ' + data.results[0]['annotations']['currency']['name']);
-                //$("#cityName").html(result.geonames[0]['toponymName']);
-                //$("#countryName").html(result.geonames[0]['countryName']);
-                //console.log(data);
-                //console.log(country1);
-                
-            }
 
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
-    })
-};
-*/
 //get weather based on lat and long from navigator
 function getWeather(lat, lon) {
     $.ajax({
@@ -190,24 +162,7 @@ function getWeatherForecast(lat, lon) {
     })
 };
 
-function getWikipedia(lat, lng){
-    $.ajax({
-        url: 'libs/php/getWikipedia.php',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            lat: lat,
-            lng: lng
-        },
-        success: function(data){
-            if(data) {
-                console.log(data);
-            }
-            
-        }
-    })
-}
- 
+
 
 function openNav() {
     document.getElementById("mySidebar").style.width = "400px";
@@ -230,9 +185,22 @@ function getSelect() {
            }
         }
     }) 
-}
-    
+};
 
+function getCurrency() {
+    $.ajax({
+        url: 'libs/php/getCurrency.php',
+        type: 'POST',
+        dataType: 'json',
+        success: function(result) {
+            for (let i = 0; i < result.symbols.length; i++) {
+             $("#selectCurrency").append('<option value="' + result.symbols[i] + '">' + result.symbols[i] + '</option>');
+            console.log(result);
+            
+            }
+        }
+    })
+};
 
 
 
