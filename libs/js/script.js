@@ -19,23 +19,22 @@ if ('geolocation' in navigator) {
         //document.getElementById('lng').textContent = longitude;
         //marker showing actual clients position
         L.marker([latitude, longitude]).addTo(map).bindPopup("You are here : Lattitude: " + latitude + " Longitude: " + longitude).openPopup();
-        //get countryName based on lat i long
-        
-        //get client country info from opencage
-        getLocation(latitude, longitude);
-        getCountryName(latitude, longitude);
-        getCountryInfo();
+        //get initial users country info
+        getWikipedia(47, 9);
+        getCountryInfo(latitude, longitude);
         //get initial weather status from clients country
         getWeather(latitude, longitude);
         //get initial weather forecast from clients country
         getWeatherForecast(latitude, longitude);
+        //get wikipedia links based on lat i lng
+        
         //populate select country options
         getSelect();
         //open sidebar with client country info
         openNav();
         
         
-        
+        console.log(countryname);
         
         
     });
@@ -45,8 +44,8 @@ if ('geolocation' in navigator) {
     console.log('geolocation not available');
 };
 
-//get country name from lat i lng
-function getCountryName(lat, lng) {
+//get country info based on name from lat and lng from navigator
+function getCountryInfo(lat, lng) {
     $.ajax({
         url: "libs/php/getLocation.php",
         type: "POST",
@@ -58,9 +57,33 @@ function getCountryName(lat, lng) {
         success: function (data) {
             if (data) {
                 //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
-                countryName = data.results[0]['components']['country'];
-                console.log(countryName.toLowerCase());
+                countryname = data.results[0]['components']['country'];
+                $.ajax({
+                    url: "libs/php/getCountry.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        name: countryname
+                    },
+                    success: function (data) {
+                        if (data) {
+                           $("#countryName").html(data[0]['name']);
+                           $("#flag").attr('src', data[0]['flags']['png']);
+                           $("#countryNativeName").html("( " + data[0]['nativeName'] + " )");
+                           $("#area").html("Area: " + data[0]['area'] + " &#13218");
+                           $("#capital").html("Capital: " + data[0]['capital']);
+                           $("#language").html("Language(s): " + data[0]['languages'][0]['name']);
+                           $("#population").html("Population: " + data[0]['population']);
+                           $("#currency").html("Currency: " + data[0]['currencies'][0]['name'] + "( " + data[0]['currencies'][0]['symbol'] + " )");
+                            
+                        }
 
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    }
+                })
+                
             }
 
         },
@@ -68,33 +91,10 @@ function getCountryName(lat, lng) {
             alert(errorThrown);
         }
     })
+    
 };
 
-function getCountryInfo() {
-    $.ajax({
-        url: "libs/php/getCountry.php",
-        type: "POST",
-        dataType: "json",
-        success: function (data) {
-            if (data) {
-                //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
-               // $("#countryName").html(data.results[0]['components']['country']);
-               // country1 = data.results[0]['components']['country'];
-               // $("#flag").prepend(data.results[0]['annotations']['flag']);
-               // $("#currency").html('Currency: ' + data.results[0]['annotations']['currency']['name']);
-                //$("#cityName").html(result.geonames[0]['toponymName']);
-                //$("#countryName").html(result.geonames[0]['countryName']);
-                //console.log(data);
-                //console.log(country1);
-                console.log(data);
-            }
-
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
-    })
-}
+/*
 // get user location and info using lat i lng from navigator
 function getLocation(lat, lng) {
     $.ajax({
@@ -125,7 +125,7 @@ function getLocation(lat, lng) {
         }
     })
 };
-
+*/
 //get weather based on lat and long from navigator
 function getWeather(lat, lon) {
     $.ajax({
@@ -190,7 +190,23 @@ function getWeatherForecast(lat, lon) {
     })
 };
 
-
+function getWikipedia(lat, lng){
+    $.ajax({
+        url: 'libs/php/getWikipedia.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            lat: lat,
+            lng: lng
+        },
+        success: function(data){
+            if(data) {
+                console.log(data);
+            }
+            
+        }
+    })
+}
  
 
 function openNav() {

@@ -86,3 +86,6 @@ html, body, #map {
     right: 3vh;
     top: 3vh;
 }
+#flag {
+    width: 20vw;
+}
