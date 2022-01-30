@@ -20,7 +20,6 @@ if ('geolocation' in navigator) {
         //marker showing actual clients position
         L.marker([latitude, longitude]).addTo(map).bindPopup("You are here : Lattitude: " + latitude + " Longitude: " + longitude).openPopup();
         //get initial users country info
-       
         getCountryInfo(latitude, longitude);
         //get initial weather status from clients country
         getWeather(latitude, longitude);
@@ -28,14 +27,16 @@ if ('geolocation' in navigator) {
         getWeatherForecast(latitude, longitude);
         //populate select country options
         getSelect();
+        getCurrency();
         
         
         
+    
         //open sidebar with client country info
-        openNav();
+       // openNav();
         
         
-        console.log(countryname);
+     
         
         
     });
@@ -62,31 +63,7 @@ function getCountryInfo(lat, lng) {
             if (data) {
                 //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
                 countryname = data.results[0]['components']['country'];
-                $.ajax({
-                    url: "libs/php/getCountry.php",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-                        name: countryname
-                    },
-                    success: function (data) {
-                        if (data) {
-                           $("#countryName").html(data[0]['name']);
-                           $("#flag").attr('src', data[0]['flags']['svg']);
-                           //$("#countryNativeName").html("( " + data[0]['nativeName'] + " )");
-                           $("#area").html("<em>Area: " + data[0]['area'] + " &#13218");
-                           $("#capital").html("Capital: " + data[0]['capital']);
-                           $("#language").html("<em>Language(s): " + data[0]['languages'][0]['name']);
-                           $("#population").html("<em>Population: " + data[0]['population']);
-                           $("#currency").html("<em>Currency: " + data[0]['currencies'][0]['name'] + "( " + data[0]['currencies'][0]['symbol'] + " )");
-                            
-                        }
-
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert(errorThrown);
-                    }
-                })
+                getCountryInfoByName(countryname);
                 
             }
 
@@ -97,7 +74,34 @@ function getCountryInfo(lat, lng) {
     })
     
 };
+// called inside getCountryInfo
+function getCountryInfoByName(name) {
+    $.ajax({
+        url: "libs/php/getCountry.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            name: name
+        },
+        success: function (data) {
+            if (data) {
+                $("#countryName").html(data[0]['name']);
+                $("#flag").attr('src', data[0]['flags']['svg']);
+                //$("#countryNativeName").html("( " + data[0]['nativeName'] + " )");
+                $("#area").html("<em>Area: " + data[0]['area'] + " &#13218");
+                $("#capital").html("Capital: " + data[0]['capital']);
+                $("#language").html("<em>Language(s): " + data[0]['languages'][0]['name']);
+                $("#population").html("<em>Population: " + data[0]['population']);
+                $("#currency").html("<em>Currency: " + data[0]['currencies'][0]['name'] + "( " + data[0]['currencies'][0]['symbol'] + " )");
 
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    })
+}
 
 //get weather based on lat and long from navigator
 function getWeather(lat, lon) {
@@ -188,22 +192,18 @@ function getSelect() {
     }) 
 };
 
-function getCurrency() {
-    $.ajax({
-        url: 'libs/php/getCurrency.php',
-        type: 'POST',
-        dataType: 'json',
-        success: function(result) {
-            for (let i = 0; i < result.symbols.length; i++) {
-             $("#selectCurrency").append('<option value="' + result.symbols[i] + '">' + result.symbols[i] + '</option>');
-            console.log(result);
-            
-            }
-        }
+
+
+function printMyName() {
+    console.log("Mateusz");
+}
+
+function getMoney() {
+    $.getJSON("libs/php/getCurrency.php", function(result){
+        console.log(result);
+        console.log("hello");
+        
     })
 };
-
-
-
 
 

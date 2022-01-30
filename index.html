@@ -21,12 +21,11 @@
         </div>
         <div id="mySidebar" class="sidebar">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                    <div class="country-wraper">
-                        <div class="country-name">
+                    <div class="country-name">
                             <h2 id="countryName"></h2>
                             <img id="flag" src="">
-                        </div>
                     </div>
+                    
                         <hr>
                     <div class="country-info-wrapper">
                          <h3 class="info-right" id="capital"></h3>
@@ -36,38 +35,42 @@
                          <h3 class="info-right" id="currency"></h3>
                     </div>
                     <hr>
-                    <div id="city-name-wrapper">
+                    <div class="city-weather-wrapper">
                         <h2 class="text-center" id="cityname"></h2>
                         <div id="city-status">
-                            <p id="weather-descr"></p>
-                            <div id="weather-logo">
+                            
+                           
+                                <p id="weather-descr"></p>
                                 <img id="wicon" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo">
                                 <p id="temp"></p>
-                            </div>
+                            
                         </div>
-                        <div>
+                        <div id="weather-numbers">
+                            
                             <p id="pressure"></p>
                             <p id="humidity"></p>
                             <p id="wind"></p>
                         </div>
                     </div>
+                        <h3 class="next-3-days">Next 3 days</h3>
                         <!-- forecast  -->
-                    <div id="weather-forecast-wrapper">
-                        <div id="day1">
+                    <div class="weather-forecast-wrapper">
+                        
+                        <div class="day">
                             <p id="weather-forecast-descr1"></p>
                             <div id="weather-logo1"><img id="wicon1" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo">
                                 <p id="temp1day"></p>
                                 <p id="temp1night"></p>
                             </div>
                         </div>
-                        <div id="day2">
+                        <div class="day">
                             <p id="weather-forecast-descr2"></p>
                             <div id="weather-logo2"><img id="wicon2" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo">
                                 <p id="temp2day"></p>
                                 <p id="temp1night"></p>
                             </div>
                         </div>
-                        <div id="day3">
+                        <div class="day">
                             <p id="weather-forecast-descr3"></p>
                             <div id="weather-logo3"><img id="wicon3" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo">
                                 <p id="temp3day"></p>
