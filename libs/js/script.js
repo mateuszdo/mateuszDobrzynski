@@ -26,12 +26,13 @@ if ('geolocation' in navigator) {
         //get initial weather forecast from clients country
         getWeatherForecast(latitude, longitude);
         //populate select country options
+        //getWikipedia(latitude, longitude);
         getSelect();
         getCurrency();
+        console.log(latitude);
+        openNav();        
         
         
-        
-    
         //open sidebar with client country info
        // openNav();
         
@@ -47,7 +48,7 @@ if ('geolocation' in navigator) {
 };
 
 
-getCurrency();
+
 
 //get country info based on name from lat and lng from navigator
 function getCountryInfo(lat, lng) {
@@ -198,12 +199,37 @@ function printMyName() {
     console.log("Mateusz");
 }
 
-function getMoney() {
+function getCurrency() {
     $.getJSON("libs/php/getCurrency.php", function(result){
-        console.log(result);
-        console.log("hello");
+        console.log(result.symbols);
+        for(const key in result.symbols) {
+            console.log(`${key}: ${result.symbols[key]}`);
+            $("#selectCurrency").append('<option value="' + key + '">' + result.symbols[key] + '</option>');
+        }
         
     })
 };
 
 
+
+function getWikipedia(lat, lng) {
+    $.ajax({
+        url: "libs/php/getWikipedia.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            lat: lat,
+            lng: lng,
+        },
+        success: function (data) {
+            if (data) {
+                console.log(data);
+
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    })
+};

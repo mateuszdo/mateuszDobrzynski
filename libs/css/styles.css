@@ -189,3 +189,11 @@ h2#countryName {
     margin: 10px;
     align-self: center;
 }
+
+.currency {
+    display: block;
+    align-items: center;
+    text-align: center;
+    margin: 15px;
+    padding: 10px;
+}
