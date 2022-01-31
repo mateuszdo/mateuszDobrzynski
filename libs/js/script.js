@@ -24,22 +24,21 @@ if ('geolocation' in navigator) {
         //get initial users country info
         getCountryInfo(latitude, longitude);
         //get initial weather status from clients country
-        
+        //getBorders("Germany");
         getWeather(latitude, longitude);
         //get initial weather forecast from clients country
         getWeatherForecast(latitude, longitude);
         //populate select country options
         //getWikipedia(latitude, longitude);
-        getBorders();
         getSelect();
+        
+        
         //getBorders();
         getCurrency();
         
         openNav();        
         
-        
-        //open sidebar with client country info
-       // openNav();
+       // addEvent();
         
         
         
@@ -52,7 +51,7 @@ if ('geolocation' in navigator) {
     console.log('geolocation not available');
 };
 
-
+ 
 //exchangeCurrency("USD", "PHP", 10);
 //document.getElementById("selectCurrency").addEventListener("click", console.log("miau"));
 //get country info based on name from lat and lng from navigator
@@ -69,7 +68,9 @@ function getCountryInfo(lat, lng) {
             if (data) {
                 //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
                 countryname = data.results[0]['components']['country'];
+                //countrycurrency = data[0]['currencies'][0]['name'];
                 getCountryInfoByName(countryname);
+                getBorders(countryname);
                 
             }
 
@@ -98,7 +99,7 @@ function getCountryInfoByName(name) {
                 $("#capital").html("Capital: " + data[0]['capital']);
                 $("#language").html("<em>Language(s): " + data[0]['languages'][0]['name']);
                 $("#population").html("<em>Population: " + data[0]['population']);
-                $("#currency").html("<em>Currency: " + data[0]['currencies'][0]['name'] + "( " + data[0]['currencies'][0]['symbol'] + " )");
+                $("#currency").html("<em>Currency: " + data[0]['currencies'][0]['name'] + " ( " + data[0]['currencies'][0]['symbol'] + " )");
 
             }
 
@@ -110,8 +111,27 @@ function getCountryInfoByName(name) {
 }
 
 //get countryBorders from geo.json
-function getBorders() {
-   $.getJSON("libs/php/getBorders.php", function(result) {
+function getBorders(name) {
+   $.ajax({
+       url: "libs/php/getBorders.php",
+       type: "POST",
+       dataType: "json",
+       data: {
+           name: name
+       },
+       success: function(result) {
+              let latLngs = L.GeoJSON.coordsToLatLngs(result.data[0]);
+              L.polygon(latLngs, {
+                  color: "grey",
+                  weight: 8,
+                  opacity: 1,
+                  fillColor: "lightgrey",
+                  fillOpacity: 0.5
+              }).addTo(map);
+              map.fitBounds(latLngs);
+       }
+    })
+   /*getJSON("libs/php/getBorders.php", function(result) {
        console.log(result.data[0]);
     /*
        L.geoJSON(result.data[0], {
@@ -123,15 +143,7 @@ function getBorders() {
        }).addTo(map);
     */
       
-        let latLngs = L.GeoJSON.coordsToLatLngs(result.data[0]);
-        L.polygon(latLngs, {
-          color: "grey",
-          weight: 8,
-          opacity: 1,
-          fillColor: "lightgrey",
-          fillOpacity: 0.5
-      }).addTo(map);
-      map.fitBounds(latLngs);
+     
        /*
        L.geoJSON(result.data[0], {
            color: "green",
@@ -140,7 +152,7 @@ function getBorders() {
            fillOpacity: 0.5
        }).addTo(map);
        */
-   })
+   
 };
 
 //get weather based on lat and long from navigator
@@ -226,17 +238,26 @@ function getSelect() {
        dataType: 'json',
        success: function(result){
            for(let i = 0; i < result.data.length; i++) {
-            $("#select").append('<option value="' + result.data[i].iso_a3 + '">' + result.data[i].name + '</option>');
-           }
-        }
+            $("#select").append('<option class="select-country" "value="' + result.data[i].iso_a3 + '">' + result.data[i].name + '</option>');
+            }
+            
+            //console.log($(".select-country").val());
+            
+            
+         }    
+            //let elements = document.querySelectorAll('.select-country');
+           // console.log(elements);
+            // adding the event listener by looping
+            
+           // });
+        
+        
+        
     }) 
+    
 };
 
 
-
-function printMyName() {
-    console.log("Mateusz");
-}
 
 function getCurrency() {
     $.getJSON("libs/php/getCurrency.php", function(result){
@@ -300,3 +321,4 @@ function getWikipedia(lat, lng) {
         }
     })
 };
+
