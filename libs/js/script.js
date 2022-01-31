@@ -3,10 +3,12 @@ var map = L.map('map').locate({
     maxZoom: 16,
     minZoom: 3
 });
+
 L.tileLayer('https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}.png?key=psJfNymHeKKgEI07anEa', {
     attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
 
 }).addTo(map);
+
 
 if ('geolocation' in navigator) {
     console.log('geolocation available');
@@ -22,14 +24,17 @@ if ('geolocation' in navigator) {
         //get initial users country info
         getCountryInfo(latitude, longitude);
         //get initial weather status from clients country
+        
         getWeather(latitude, longitude);
         //get initial weather forecast from clients country
         getWeatherForecast(latitude, longitude);
         //populate select country options
         //getWikipedia(latitude, longitude);
+        getBorders();
         getSelect();
+        //getBorders();
         getCurrency();
-        console.log(latitude);
+        
         openNav();        
         
         
@@ -37,7 +42,7 @@ if ('geolocation' in navigator) {
        // openNav();
         
         
-     
+        
         
         
     });
@@ -48,8 +53,8 @@ if ('geolocation' in navigator) {
 };
 
 
-
-
+//exchangeCurrency("USD", "PHP", 10);
+//document.getElementById("selectCurrency").addEventListener("click", console.log("miau"));
 //get country info based on name from lat and lng from navigator
 function getCountryInfo(lat, lng) {
     $.ajax({
@@ -103,6 +108,40 @@ function getCountryInfoByName(name) {
         }
     })
 }
+
+//get countryBorders from geo.json
+function getBorders() {
+   $.getJSON("libs/php/getBorders.php", function(result) {
+       console.log(result.data[0]);
+    /*
+       L.geoJSON(result.data[0], {
+              color: "grey",
+              weight: 8,
+              opacity: 1,
+              fillColor: "lightgrey",
+              fillOpacity: 0.5
+       }).addTo(map);
+    */
+      
+        let latLngs = L.GeoJSON.coordsToLatLngs(result.data[0]);
+        L.polygon(latLngs, {
+          color: "grey",
+          weight: 8,
+          opacity: 1,
+          fillColor: "lightgrey",
+          fillOpacity: 0.5
+      }).addTo(map);
+      map.fitBounds(latLngs);
+       /*
+       L.geoJSON(result.data[0], {
+           color: "green",
+           weight: 14,
+           opacity: 1,
+           fillOpacity: 0.5
+       }).addTo(map);
+       */
+   })
+};
 
 //get weather based on lat and long from navigator
 function getWeather(lat, lon) {
@@ -201,17 +240,45 @@ function printMyName() {
 
 function getCurrency() {
     $.getJSON("libs/php/getCurrency.php", function(result){
-        console.log(result.symbols);
+        //console.log(result.symbols);
         for(const key in result.symbols) {
-            console.log(`${key}: ${result.symbols[key]}`);
-            $("#selectCurrency").append('<option value="' + key + '">' + result.symbols[key] + '</option>');
+            //console.log(`${key}: ${result.symbols[key]}`);
+            $("#selectCurrency").append('<option class="convert" onclick="exchangeCurrency()" "value="' + key + '">' + result.symbols[key] + '</option>');
         }
         
     })
 };
 
+function exchangeCurrency(from, to, amount) {
+    $.ajax({
+        url: "libs/php/exchangeCurrency.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            from: from,
+            to: to,
+            amount: amount,
+        },
+        success: function (data) {
+            if (data) {
+                console.log(data);
+                $("#exchangeResult").html(data);
+            }
 
-
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    })
+};
+/*
+const convert = document.getElementsByClassName('.convert');
+convert.forEach(function (item) {
+    item.addEventListener('click', function () {
+        console.log("hey hey hey");
+    })
+})
+*/
 function getWikipedia(lat, lng) {
     $.ajax({
         url: "libs/php/getWikipedia.php",
