@@ -137,7 +137,7 @@ h2#countryName {
     display: grid;
     align-items: center;
     margin: 15px;
-    padding: 10px;
+    padding: 15px;
     grid-template-rows: 50% 50%;
     grid-template-columns: 50% 50%;
     background-color: rgba(162, 173, 97, 0.25);
@@ -149,14 +149,14 @@ h2#countryName {
 .text-center {
     grid-column: 1 / span 2;
     margin: 5px;
-    padding: 5px;
+    padding: 15px;
 }
 #city-status {
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
-    padding: 0;
+    padding: 10px;
     width: 60%;
-    margin-left: 60px;
+ 
     align-self: center;
    
 }
@@ -175,18 +175,19 @@ h2#countryName {
     grid-template-columns: 33% 33% 33%;
     max-width: 90%;
     justify-items: center;
-    justify-content: center;
+    justify-content: space-around;
     margin: 15px;
     padding: 10px;
     background-color: rgba(245, 147, 90, 0.25);
     border-radius: 1rem;
 }
 .next-3-days {
+    
+    margin: 0px;
     text-align: center;
-    margin: 10px;
 }
 .day {
-    margin: 10px;
+    margin: 5px;
     align-self: center;
 }
 
@@ -195,5 +196,18 @@ h2#countryName {
     align-items: center;
     text-align: center;
     margin: 15px;
+    padding: 10px;
+}
+
+.wikipedia-container {
+    display: block;
+    align-items: center;
+    text-align: center;
+    margin: 15px;
+    padding: 10px;
+}
+
+.wikipedia {
+    margin: 10px;
     padding: 10px;
 }

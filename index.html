@@ -15,7 +15,7 @@
         <div id="nav-wrapper">
                 <button class="openbtn" onclick="openNav()">☰</button>
                 <h1 id="nav-heading">Gazetter</h1><br>
-                <select id="select" class="selectedOpt" name="select">
+                <select id="select" class="selectedOpt" name="select" onchange="clickSelect()">
                     <option>Choose Country</option>
                 </select>
         </div>
@@ -67,7 +67,7 @@
                             <p id="weather-forecast-descr2"></p>
                             <div id="weather-logo2"><img id="wicon2" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo">
                                 <p id="temp2day"></p>
-                                <p id="temp1night"></p>
+                                <p id="temp2night"></p>
                             </div>
                         </div>
                         <div class="day">
@@ -91,12 +91,20 @@
                          </select>
                     </div>
                     <hr>
-                    <div id="wikipedia">
-                         <h2>Wikipedia</h2>
-                         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex voluptatem reprehenderit alias! Facere, at laborum suscipit consequuntur repellat vitae maxime voluptatum quia eos tempora nulla dolorum similique ad voluptates aliquid?</p>
-                         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex voluptatem reprehenderit alias! Facere, at laborum
-                            suscipit consequuntur repellat vitae maxime voluptatum quia eos tempora nulla dolorum similique ad voluptates
-                            aliquid?</p>
+                    <div class="wikipedia-container">
+                         <h2>Wikipedia Articles</h2>
+                         <div class="wikipedia">
+                            <a id="link1" href=""></a>
+                            <p id="wiki1"></p>
+                         </div>
+                        <div class="wikipedia">
+                            <a id="link2" href=""></a>
+                            <p id="wiki2"></p>
+                        </div>
+                        <div class="wikipedia">
+                            <a id="link3" href=""></a>
+                            <p id="wiki3"></p>
+                        </div>
                     </div>
         </div>
     </nav>

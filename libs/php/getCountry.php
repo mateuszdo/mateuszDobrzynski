@@ -3,7 +3,7 @@
 $curl = curl_init();
 
 curl_setopt_array($curl, [
-	CURLOPT_URL => "https://restcountries.com/v2/name/".$_REQUEST['name']."?fullText=true",
+	CURLOPT_URL => "https://restcountries.com/v2/alpha/".$_REQUEST['code']."?fullText=true",
 	CURLOPT_RETURNTRANSFER => true,
 	CURLOPT_FOLLOWLOCATION => true,
 	CURLOPT_ENCODING => "",
