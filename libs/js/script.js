@@ -4,11 +4,34 @@ var map = L.map('map').locate({
     minZoom: 3
 });
 
-L.tileLayer('https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}.png?key=psJfNymHeKKgEI07anEa', {
+var base = L.tileLayer('https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}.png?key=psJfNymHeKKgEI07anEa', {
     attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
 
 }).addTo(map);
 
+
+var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+}).addTo(map);
+var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+}).addTo(map);
+var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+}).addTo(map);
+
+
+var baseMaps = {
+    "Terrain": googleTerrain,
+    "Hybrid": googleHybrid,
+    "Streets": googleStreets,
+    "Base": base
+}
+
+L.control.layers(baseMaps).addTo(map);
 
 if ('geolocation' in navigator) {
     console.log('geolocation available');
@@ -17,34 +40,26 @@ if ('geolocation' in navigator) {
             latitude,
             longitude
         } = position.coords
+        
         //document.getElementById('lat').textContent = latitude;
         //document.getElementById('lng').textContent = longitude;
+        
         //marker showing actual clients position
         L.marker([latitude, longitude]).addTo(map).bindPopup("You are here : Lattitude: " + latitude + " Longitude: " + longitude).openPopup();
+   
         //get initial users country info
         getCountryInfo(latitude, longitude);
         //get initial weather status from clients country
-        //getBorders("Germany");
         getWeather(latitude, longitude);
         //get initial weather forecast from clients country
         getWeatherForecast(latitude, longitude);
         //populate select country options
-        //getWikipedia(latitude, longitude);
         getSelect();
-        
-        
-        //getBorders();
+        //get full list of world currencies
         getCurrency();
-        
+        //open sidebar
         openNav();        
-        
-       // addEvent();
-        
-        
-        
-        
-        
-    });
+        });
 }
 
  else {
@@ -54,6 +69,8 @@ if ('geolocation' in navigator) {
  
 //exchangeCurrency("USD", "PHP", 10);
 //document.getElementById("selectCurrency").addEventListener("click", console.log("miau"));
+
+
 //get country info based on name from lat and lng from navigator
 function getCountryInfo(lat, lng) {
     $.ajax({
@@ -67,13 +84,11 @@ function getCountryInfo(lat, lng) {
         success: function (data) {
             if (data) {
                 //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
-                countryname = data.results[0]['components']['country'];
+                let countryname = data.results[0]['components']['country'];
                 //countrycurrency = data[0]['currencies'][0]['name'];
                 getCountryInfoByName(countryname);
                 getBorders(countryname);
-                
             }
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown);
@@ -100,7 +115,8 @@ function getCountryInfoByName(name) {
                 $("#language").html("<em>Language(s): " + data[0]['languages'][0]['name']);
                 $("#population").html("<em>Population: " + data[0]['population']);
                 $("#currency").html("<em>Currency: " + data[0]['currencies'][0]['name'] + " ( " + data[0]['currencies'][0]['symbol'] + " )");
-
+                let capitalname = data[0]['capital'];
+                getWikipedia('london');
             }
 
         },
@@ -239,19 +255,16 @@ function getSelect() {
        success: function(result){
            for(let i = 0; i < result.data.length; i++) {
             $("#select").append('<option class="select-country" "value="' + result.data[i].iso_a3 + '">' + result.data[i].name + '</option>');
-            }
             
-            //console.log($(".select-country").val());
+              
+        }
+            
+            $("option").click(function(){
+                 console.log("hey");
+            })
             
             
-         }    
-            //let elements = document.querySelectorAll('.select-country');
-           // console.log(elements);
-            // adding the event listener by looping
-            
-           // });
-        
-        
+         }       
         
     }) 
     
@@ -300,18 +313,17 @@ convert.forEach(function (item) {
     })
 })
 */
-function getWikipedia(lat, lng) {
+function getWikipedia(name) {
     $.ajax({
         url: "libs/php/getWikipedia.php",
         type: "POST",
         dataType: "json",
         data: {
-            lat: lat,
-            lng: lng,
+            name: name
         },
         success: function (data) {
             if (data) {
-                console.log(data);
+               $("#wikipedia").append(data);
 
             }
 

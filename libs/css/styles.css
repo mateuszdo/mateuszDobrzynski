@@ -90,7 +90,7 @@ html, body {
 .leaflet-control-zoom {
     position: absolute;
     right: 3vh;
-    top: 3vh;
+    top: 10vh;
 }
 
 .country-name{
