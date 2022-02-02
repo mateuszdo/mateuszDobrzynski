@@ -86,18 +86,23 @@ function getCountryInfo(lat, lng) {
         },
         success: function (data) {
             if (data) {
-                console.log(data);
+                //console.log(data);
                 //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
                 let countryISO2 = data.results[0]['components']['ISO_3166-1_alpha-2'];
                 //countrycurrency = data[0]['currencies'][0]['name'];
                 let countryname = data.results[0]['components']['country'];
-                console.log(countryISO2)
+                let currencyFrom = data.results[0]['annotations']['currency']['name']
+                let currencyTo = $("#selectCurrency").innerText;
+                let amount = $("#currencyValue").innerText;
+                //console.log(countryISO2);
+                //console.log(currencyFrom);
+                //console.log(currencyTo)
                 if(countryname === "United Kingdom"){
                     countryISO2 = "GB";
                 }
                 getCountryInfoByISO2(countryISO2);
                 getBorders(countryISO2);
-                
+                exchangeCurrency(currencyFrom, currencyTo, amount);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -116,7 +121,7 @@ function getCountryInfoByISO2(code) {
         },
         success: function (data) {
             if (data) {
-                console.log(data);
+                //console.log(data);
                 
                 $("#countryName").html(data['name']);
                 $("#flag").attr('src', data['flags']['svg']);
@@ -126,6 +131,7 @@ function getCountryInfoByISO2(code) {
                 $("#language").html("<em>Language(s): " + data['languages'][0]['name']);
                 $("#population").html("<em>Population: " + data['population']);
                 $("#currency").html("<em>Currency: " + data['currencies'][0]['name'] + " ( " + data['currencies'][0]['symbol'] + " )");
+                $("#currencyName").html(data['currencies'][0]['name'] + " ( " + data['currencies'][0]['symbol'] + " )");
                 let capitalname = data['capital'];
                 getWikipedia(capitalname);  
             }
@@ -147,6 +153,7 @@ function getBorders(iso_a2) {
            iso_a2: iso_a2
        },
        success: function(result) {
+           /*
               let latLngs = L.GeoJSON.coordsToLatLngs(result.data[0]);
               L.polygon(latLngs, {
                   color: "grey",
@@ -158,28 +165,30 @@ function getBorders(iso_a2) {
               map.fitBounds(latLngs);
        }
     })
-    
-  
-    /*
-       L.geoJSON(result.data[0], {
-              color: "grey",
-              weight: 8,
-              opacity: 1,
-              fillColor: "lightgrey",
-              fillOpacity: 0.5
-       }).addTo(map);
+   
     */
-      
-     
-       /*
-       L.geoJSON(result.data[0], {
-           color: "green",
-           weight: 14,
-           opacity: 1,
-           fillOpacity: 0.5
-       }).addTo(map);
-       */
     
+       console.log(result);
+       let state = {
+           "type": "Feature",
+           "geometry": {
+               "type": result.data['type'],
+               "coordinates": result.data['coordinates']
+           }
+       };
+       console.log(state);
+       L.geoJSON(state, {
+                   color: "grey",
+                   weight: 8,
+                   opacity: 1,
+                   fillColor: "lightgrey",
+                   fillOpacity: 0.5
+       }).addTo(map);
+       let latLngs = L.GeoJSON.coordsToLatLngs(result.data['coordinates'][0]);
+        map.fitBounds(latLngs);
+       console.log(state);
+      } 
+   })
 };
 
 //get weather based on lat and long from navigator
@@ -284,7 +293,7 @@ function getCurrency() {
         //console.log(result.symbols);
         for(const key in result.symbols) {
             //console.log(`${key}: ${result.symbols[key]}`);
-            $("#selectCurrency").append('<option class="convert" onclick="exchangeCurrency()" value="' + key + '">' + result.symbols[key] + '</option>');
+            $("#selectCurrency").append('<option class="convert" value="' + key + '">' + result.symbols[key] + '</option>');
         }
         
     })
@@ -330,7 +339,7 @@ function getWikipedia(name) {
         },
         success: function (data) {
             if (data) {
-               console.log(data);
+               //console.log(data);
                $("#link1").html(data.geonames[0]['title']);
                $("#link1").attr('href', data.geonames[0]['wikipediaUrl']);
                $("#wiki1").html(data.geonames[0]['summary']);
@@ -355,6 +364,6 @@ function clickSelect() {
        //var x = document.getElementById("select").value;
       // alert(x);
        
-       getCountryInfoByISO2(code);
-       getBorders(code);
+      // getCountryInfoByISO2(code);
+      // getBorders(code);
 }
