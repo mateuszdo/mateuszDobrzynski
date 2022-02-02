@@ -20,5 +20,5 @@ function convertCurrency($amount,$from_currency,$to_currency){
 }
 
 
-echo convertCurrency(10, 'USD', 'PHP');
+echo convertCurrency($amount,$from_currency,$to_currency);
 ?>

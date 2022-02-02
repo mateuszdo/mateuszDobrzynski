@@ -83,11 +83,11 @@
                     <div class="currency">
                          <h2 id="currencyName"></h2>
                          <label for="currencyValue"></label>
-                         <input type="number" id="currencyValue" name="currencyValue" onchange="exchangeCurrency()"><br><br>
+                         <input type="text" id="currencyValue" name="currencyValue" ><br><br>
                          <h2 id="equalSign">=</h2><br><br>
                          <h2 id="exchangeResult"></h2><br><br>
                          <h2>Select a currency to convert to:</h2>
-                         <select id="selectCurrency">
+                         <select id="selectCurrency" onchange="currencyChange()">
 
                          </select>
                     </div>

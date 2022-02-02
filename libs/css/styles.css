@@ -211,3 +211,7 @@ h2#countryName {
     margin: 10px;
     padding: 10px;
 }
+.custom {
+    background-color: yellow;
+    color: blue;
+}

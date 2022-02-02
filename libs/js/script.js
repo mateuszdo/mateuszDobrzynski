@@ -45,7 +45,17 @@ if ('geolocation' in navigator) {
         //document.getElementById('lng').textContent = longitude;
         
         //marker showing actual clients position
-        L.marker([latitude, longitude]).addTo(map).bindPopup("You are here : Lattitude: " + latitude + " Longitude: " + longitude).openPopup();
+        L.marker([latitude, longitude], 
+            {
+                draggable: true
+            }).on('dragend', function(event) {
+                var latlng = event.target.getLatLng();
+                getWeather(latlng.lat, latlng.lng);
+                getWeatherForecast(latlng.lat, latlng.lng);
+            }).addTo(map).bindPopup("You are here. Move the marker to check local weather elswhere", {
+                keepInView: true,
+                className: "custom"
+            }).openPopup();
    
         //get initial users country info
         getCountryInfo(latitude, longitude);
@@ -59,7 +69,9 @@ if ('geolocation' in navigator) {
         getCurrency();
         //open sidebar
         openNav();   
-            
+           
+        getCities();
+        
         
         });
 }
@@ -102,7 +114,7 @@ function getCountryInfo(lat, lng) {
                 }
                 getCountryInfoByISO2(countryISO2);
                 getBorders(countryISO2);
-                exchangeCurrency(currencyFrom, currencyTo, amount);
+                getCities(countryISO2);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -121,7 +133,7 @@ function getCountryInfoByISO2(code) {
         },
         success: function (data) {
             if (data) {
-                //console.log(data);
+                console.log(data);
                 
                 $("#countryName").html(data['name']);
                 $("#flag").attr('src', data['flags']['svg']);
@@ -131,7 +143,7 @@ function getCountryInfoByISO2(code) {
                 $("#language").html("<em>Language(s): " + data['languages'][0]['name']);
                 $("#population").html("<em>Population: " + data['population']);
                 $("#currency").html("<em>Currency: " + data['currencies'][0]['name'] + " ( " + data['currencies'][0]['symbol'] + " )");
-                $("#currencyName").html(data['currencies'][0]['name'] + " ( " + data['currencies'][0]['symbol'] + " )");
+                $("#currencyName").html(data['currencies'][0]['code'] + " ( " + data['currencies'][0]['symbol'] + " )");
                 let capitalname = data['capital'];
                 getWikipedia(capitalname);  
             }
@@ -163,9 +175,7 @@ function getBorders(iso_a2) {
                   fillOpacity: 0.5
               }).addTo(map);
               map.fitBounds(latLngs);
-       }
-    })
-   
+
     */
     
        console.log(result);
@@ -177,15 +187,16 @@ function getBorders(iso_a2) {
            }
        };
        console.log(state);
-       L.geoJSON(state, {
+       var border = L.geoJSON(state, {
                    color: "grey",
                    weight: 8,
                    opacity: 1,
                    fillColor: "lightgrey",
                    fillOpacity: 0.5
        }).addTo(map);
-       let latLngs = L.GeoJSON.coordsToLatLngs(result.data['coordinates'][0]);
-        map.fitBounds(latLngs);
+       map.fitBounds(border.getBounds(), {maxZoom: 7});
+       
+       //map.fitBounds(latLngs);
        console.log(state);
       } 
    })
@@ -211,6 +222,34 @@ function getWeather(lat, lon) {
                 $("#pressure").html("Pressure: " + data.main.pressure + "hPa");
                 $("#wind").html("Wind: " + data.wind.speed + "m/ph");
                 
+
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    })
+};
+
+function getWeatherByCity(city) {
+    $.ajax({
+        url: "libs/php/getWeatherByCityName.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            city: city
+        },
+        success: function (data) {
+            if (data) {
+                $("#cityname").html(data.name + " " + "Weather Status");
+                $("#weather-descr").html(data.weather[0]['description']);
+                $("#wicon").attr('src', "http://openweathermap.org/img/w/" + data.weather[0]['icon'] + ".png");
+                $("#temp").html(data.main.temp + "℃");
+                $("#humidity").html("Humidity: " + data.main.humidity);
+                $("#pressure").html("Pressure: " + data.main.pressure + "hPa");
+                $("#wind").html("Wind: " + data.wind.speed + "m/ph");
+
 
             }
 
@@ -290,7 +329,7 @@ function getSelect() {
 
 function getCurrency() {
     $.getJSON("libs/php/getCurrency.php", function(result){
-        //console.log(result.symbols);
+        console.log(result.symbols);
         for(const key in result.symbols) {
             //console.log(`${key}: ${result.symbols[key]}`);
             $("#selectCurrency").append('<option class="convert" value="' + key + '">' + result.symbols[key] + '</option>');
@@ -361,9 +400,52 @@ function getWikipedia(name) {
 function clickSelect() {
       const code = $("#select option:selected").attr("value");
       console.log(code);
+      
        //var x = document.getElementById("select").value;
       // alert(x);
        
-      // getCountryInfoByISO2(code);
-      // getBorders(code);
+       getCountryInfoByISO2(code);
+       let city = $("#capital").innerText;
+       getBorders(code);
+      // getWeather(city);
+};
+
+function currencyChange() {
+    console.log("works");
+    let from = $("#currencyName").innerText;
+    console.log(from);
+    let to = $("#selectCurrency option:selected").textContent;
+    console.log(to);
+    let amount = $("#currencyValue").val();
+    console.log(amount);
+    exchangeCurrency(from, to, amount);
 }
+
+function getCities(code) {
+    $.ajax({
+        url: "libs/php/getCities.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            code: code
+        },
+        success: function (data) {
+            console.log(data);
+            data.forEach(element => {
+                let latMarker = element.coordinates.latitude;
+                let lonMarker = element.coordinates.longitude;
+                
+                L.marker([latMarker, lonMarker], {
+                    riseOnHover: true,
+                    title: element.name,
+                    opacity: 0.8
+                }).addTo(map).bindPopup("Population: " + element.population).bindTooltip(element.name, {
+                    permanent: true, opacity: 0.7});
+                
+            })
+         },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    })
+};
