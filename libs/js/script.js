@@ -68,11 +68,11 @@ if ('geolocation' in navigator) {
         //get full list of world currencies
         getCurrency();
         //open sidebar
-        openNav();   
+         
            
         getCities();
         
-        
+        openNav();  
         });
 }
 
@@ -103,9 +103,9 @@ function getCountryInfo(lat, lng) {
                 let countryISO2 = data.results[0]['components']['ISO_3166-1_alpha-2'];
                 //countrycurrency = data[0]['currencies'][0]['name'];
                 let countryname = data.results[0]['components']['country'];
-                let currencyFrom = data.results[0]['annotations']['currency']['name']
-                let currencyTo = $("#selectCurrency").innerText;
-                let amount = $("#currencyValue").innerText;
+                //let currencyFrom = data.results[0]['annotations']['currency']['name']
+                //let currencyTo = $("#selectCurrency").innerText;
+                //let amount = $("#currencyValue").innerText;
                 //console.log(countryISO2);
                 //console.log(currencyFrom);
                 //console.log(currencyTo)
@@ -145,7 +145,21 @@ function getCountryInfoByISO2(code) {
                 $("#currency").html("<em>Currency: " + data['currencies'][0]['name'] + " ( " + data['currencies'][0]['symbol'] + " )");
                 $("#currencyName").html(data['currencies'][0]['code'] + " ( " + data['currencies'][0]['symbol'] + " )");
                 let capitalname = data['capital'];
-                getWikipedia(capitalname);  
+                let lt = data['latlng'][0];
+                let ln = data['latlng'][1];
+                getWikipedia(capitalname); 
+                getWeatherByCity(capitalname);
+                //getWeatherForecast(lt, ln);
+                /*
+                let from = data['currencies'][0]['code'];
+                console.log(from);
+                let to = $("#selectCurrency option:selected").val();
+                console.log(to);
+                let  amount = $("#currencyValue").val();
+                console.log(amount);
+                exchangeCurrency(from, to, amount);
+                */
+                
             }
 
         },
@@ -177,8 +191,7 @@ function getBorders(iso_a2) {
               map.fitBounds(latLngs);
 
     */
-    
-       console.log(result);
+       //console.log(result);
        let state = {
            "type": "Feature",
            "geometry": {
@@ -186,7 +199,7 @@ function getBorders(iso_a2) {
                "coordinates": result.data['coordinates']
            }
        };
-       console.log(state);
+       //console.log(state);
        var border = L.geoJSON(state, {
                    color: "grey",
                    weight: 8,
@@ -197,7 +210,7 @@ function getBorders(iso_a2) {
        map.fitBounds(border.getBounds(), {maxZoom: 7});
        
        //map.fitBounds(latLngs);
-       console.log(state);
+       //console.log(state);
       } 
    })
 };
@@ -329,7 +342,7 @@ function getSelect() {
 
 function getCurrency() {
     $.getJSON("libs/php/getCurrency.php", function(result){
-        console.log(result.symbols);
+        //console.log(result.symbols);
         for(const key in result.symbols) {
             //console.log(`${key}: ${result.symbols[key]}`);
             $("#selectCurrency").append('<option class="convert" value="' + key + '">' + result.symbols[key] + '</option>');
@@ -352,6 +365,7 @@ function exchangeCurrency(from, to, amount) {
             if (data) {
                 console.log(data);
                 $("#exchangeResult").html(data);
+                console.log("works");
             }
 
         },
@@ -399,28 +413,28 @@ function getWikipedia(name) {
 
 function clickSelect() {
       const code = $("#select option:selected").attr("value");
-      console.log(code);
+      //console.log(code);
       
        //var x = document.getElementById("select").value;
       // alert(x);
        
        getCountryInfoByISO2(code);
-       let city = $("#capital").innerText;
        getBorders(code);
+       getCities(code);
       // getWeather(city);
 };
-
+/*
 function currencyChange() {
-    console.log("works");
+    //console.log("works");
     let from = $("#currencyName").innerText;
-    console.log(from);
+    //console.log(from);
     let to = $("#selectCurrency option:selected").textContent;
-    console.log(to);
+    //console.log(to);
     let amount = $("#currencyValue").val();
-    console.log(amount);
+    //console.log(amount);
     exchangeCurrency(from, to, amount);
 }
-
+*/
 function getCities(code) {
     $.ajax({
         url: "libs/php/getCities.php",
@@ -430,7 +444,7 @@ function getCities(code) {
             code: code
         },
         success: function (data) {
-            console.log(data);
+            //console.log(data);
             data.forEach(element => {
                 let latMarker = element.coordinates.latitude;
                 let lonMarker = element.coordinates.longitude;
@@ -449,3 +463,13 @@ function getCities(code) {
         }
     })
 };
+
+function clickChangeCurrency() {
+        let from = 'GBP';
+        //console.log(from);
+        let to = $("#selectCurrency option:selected").val();
+        //console.log(to);
+        let  amount = $("#currencyValue").val();
+        //console.log(amount);
+        exchangeCurrency(from, to, amount);
+}

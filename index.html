@@ -81,13 +81,13 @@
                 
                     <hr>
                     <div class="currency">
-                         <h2 id="currencyName"></h2>
-                         <label for="currencyValue"></label>
-                         <input type="text" id="currencyValue" name="currencyValue" ><br><br>
+                         <h2 id="currencyName"></h2><br>
+                         <label class="currency-heading" for="currencyValue" id="currency">select amount to convert</label><br>
+                         <input type="text" id="currencyValue" name="currencyValue"  oninput="clickChangeCurrency()"><br><br>
                          <h2 id="equalSign">=</h2><br><br>
-                         <h2 id="exchangeResult"></h2><br><br>
-                         <h2>Select a currency to convert to:</h2>
-                         <select id="selectCurrency" onchange="currencyChange()">
+                         <h2 id="exchangeResult"></h2><br>
+                         <h2 class="currency-heading">Select a currency to convert to:</h2>
+                         <select id="selectCurrency" onchange="clickChangeCurrency()">
 
                          </select>
                     </div>

@@ -1,5 +1,5 @@
 <?php
-    $url = 'api.openweathermap.org/data/2.5/weather?q='.$_REQUEST['city'].'&appid=c872ee2bf5d26793a6e75aa009fc4f0d';
+    $url = 'api.openweathermap.org/data/2.5/weather?units=metric&q='.$_REQUEST['city'].'&appid=c872ee2bf5d26793a6e75aa009fc4f0d';
     
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
