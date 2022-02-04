@@ -64,12 +64,7 @@ if ('geolocation' in navigator) {
         //marker showing actual clients position
         L.marker([latitude, longitude], 
             {
-                icon: greenIcon,
-                draggable: true
-            }).on('dragend', function(event) {
-                var latlng = event.target.getLatLng();
-                getWeather(latlng.lat, latlng.lng);
-                getWeatherForecast(latlng.lat, latlng.lng);
+              icon: greenIcon,
             }).addTo(map).bindPopup("You are here", {
                 keepInView: true,
             }).openPopup();
@@ -84,11 +79,9 @@ if ('geolocation' in navigator) {
         getSelect();
         //get full list of world currencies
         getCurrency();
-        //open sidebar
-         
-           
+        //get 10 country's biggest cities as markers
         getCities();
-        
+        //open sidebar
         openNav();  
         });
 }
@@ -208,18 +201,6 @@ function getBorders(iso_a2) {
            iso_a2: iso_a2
        },
        success: function(result) {
-           /*
-              let latLngs = L.GeoJSON.coordsToLatLngs(result.data[0]);
-              L.polygon(latLngs, {
-                  color: "grey",
-                  weight: 8,
-                  opacity: 1,
-                  fillColor: "lightgrey",
-                  fillOpacity: 0.5
-              }).addTo(map);
-              map.fitBounds(latLngs);
-
-    */
        //console.log(result);
        let state = {
            "type": "Feature",
@@ -237,9 +218,6 @@ function getBorders(iso_a2) {
                    fillOpacity: 0.5
        }).addTo(map);
        map.fitBounds(border.getBounds());
-       
-       //map.fitBounds(latLngs);
-       //console.log(state);
       } 
    })
 };
@@ -273,7 +251,7 @@ function getWeather(lat, lon) {
         }
     })
 };
-
+//get weather based on cityname
 function getWeatherByCity(city) {
     $.ajax({
         url: "libs/php/getWeatherByCityName.php",
@@ -337,17 +315,18 @@ function getWeatherForecast(lat, lon) {
 };
 
 
-
+//open sidebar 
 function openNav() {
     document.getElementById("mySidebar").style.width = "400px";
     document.getElementById("main").style.marginLeft = "250px";
 };
-
+//close sidebar
 function closeNav() {
     document.getElementById("mySidebar").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
 };
 
+//populate list of countries from geo.json
 function getSelect() {
    $.ajax({
        url: 'libs/php/getSelect.php',
@@ -368,7 +347,7 @@ function getSelect() {
 };
 
 
-
+//populate world currencies from api
 function getCurrency() {
     $.getJSON("libs/php/getCurrency.php", function(result){
         //console.log(result.symbols);
@@ -379,7 +358,7 @@ function getCurrency() {
         
     })
 };
-
+//convert currency from base to any from select options
 function exchangeCurrency(from, to, amount) {
     $.ajax({
         url: "libs/php/exchangeCurrency.php",
@@ -403,14 +382,9 @@ function exchangeCurrency(from, to, amount) {
         }
     })
 };
-/*
-const convert = document.getElementsByClassName('.convert');
-convert.forEach(function (item) {
-    item.addEventListener('click', function () {
-        console.log("hey hey hey");
-    })
-})
-*/
+
+
+//get articles based on city name
 function getWikipedia(name) {
     $.ajax({
         url: "libs/php/getWikipedia.php",
@@ -440,30 +414,10 @@ function getWikipedia(name) {
     })
 };
 
-function clickSelect() {
-      const code = $("#select option:selected").attr("value");
-      //console.log(code);
-      
-       //var x = document.getElementById("select").value;
-      // alert(x);
-       
-       getCountryInfoByISO2(code);
-       getBorders(code);
-       getCities(code);
-      // getWeather(city);
-};
-/*
-function currencyChange() {
-    //console.log("works");
-    let from = $("#currencyName").innerText;
-    //console.log(from);
-    let to = $("#selectCurrency option:selected").textContent;
-    //console.log(to);
-    let amount = $("#currencyValue").val();
-    //console.log(amount);
-    exchangeCurrency(from, to, amount);
-}
-*/
+
+
+
+//get country's 10 biggest cities based on population
 function getCities(code) {
     $.ajax({
         url: "libs/php/getCities.php",
@@ -493,6 +447,16 @@ function getCities(code) {
     })
 };
 
+//click event changing info based on country selected from list of countries
+function clickSelect() {
+    const code = $("#select option:selected").attr("value");
+    //console.log(code);
+    getCountryInfoByISO2(code);
+    getBorders(code);
+    getCities(code);
+    // getWeather(city);
+};
+//click and onchange event to exchange currency from base to selected one  
 function clickChangeCurrency() {
         let from = 'GBP';
         //console.log(from);
