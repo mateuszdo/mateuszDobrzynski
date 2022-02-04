@@ -182,7 +182,7 @@ function getCountryInfoByISO2(code) {
                         keepInView: true,
                     }).openPopup();
                    
-                /*
+                
                 let from = data['currencies'][0]['code'];
                 console.log(from);
                 let to = $("#selectCurrency option:selected").val();
@@ -190,7 +190,7 @@ function getCountryInfoByISO2(code) {
                 let  amount = $("#currencyValue").val();
                 console.log(amount);
                 exchangeCurrency(from, to, amount);
-                */
+                
                 
             }
 
@@ -469,8 +469,8 @@ function clickSelect() {
     getCities(code);
     // getWeather(city);
 };
+/*
 //click and onchange event to exchange currency from base to selected one  
-
 function clickChangeCurrency() {
     
         let from = 'GBP';
@@ -483,7 +483,7 @@ function clickChangeCurrency() {
     
     
 }
-
+*/
 function addLayer(layer) {
     layer.addTo(map);
 };
