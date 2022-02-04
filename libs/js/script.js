@@ -33,6 +33,23 @@ var baseMaps = {
 
 L.control.layers(baseMaps).addTo(map);
 
+var greenIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [40, 61],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+var orangeIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [40, 61],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
 if ('geolocation' in navigator) {
     console.log('geolocation available');
     navigator.geolocation.getCurrentPosition(position => {
@@ -47,14 +64,14 @@ if ('geolocation' in navigator) {
         //marker showing actual clients position
         L.marker([latitude, longitude], 
             {
+                icon: greenIcon,
                 draggable: true
             }).on('dragend', function(event) {
                 var latlng = event.target.getLatLng();
                 getWeather(latlng.lat, latlng.lng);
                 getWeatherForecast(latlng.lat, latlng.lng);
-            }).addTo(map).bindPopup("You are here. Move the marker to check local weather elswhere", {
+            }).addTo(map).bindPopup("You are here", {
                 keepInView: true,
-                className: "custom"
             }).openPopup();
    
         //get initial users country info
@@ -144,12 +161,24 @@ function getCountryInfoByISO2(code) {
                 $("#population").html("<em>Population: " + data['population']);
                 $("#currency").html("<em>Currency: " + data['currencies'][0]['name'] + " ( " + data['currencies'][0]['symbol'] + " )");
                 $("#currencyName").html(data['currencies'][0]['code'] + " ( " + data['currencies'][0]['symbol'] + " )");
+                //let countryname = data['name'];
                 let capitalname = data['capital'];
                 let lt = data['latlng'][0];
                 let ln = data['latlng'][1];
                 getWikipedia(capitalname); 
                 getWeatherByCity(capitalname);
-                //getWeatherForecast(lt, ln);
+                getWeatherForecast(lt, ln);
+                L.marker([lt, ln],
+                    {
+                        icon: orangeIcon,
+                        draggable: true
+                    }).on('dragend', function (event) {
+                        var latlng = event.target.getLatLng();
+                        getWeather(latlng.lat, latlng.lng);
+                        getWeatherForecast(latlng.lat, latlng.lng);
+                    }).addTo(map).bindPopup("Move this marker to check local weather elswhere", {
+                        keepInView: true,
+                    }).openPopup();
                 /*
                 let from = data['currencies'][0]['code'];
                 console.log(from);
@@ -207,7 +236,7 @@ function getBorders(iso_a2) {
                    fillColor: "lightgrey",
                    fillOpacity: 0.5
        }).addTo(map);
-       map.fitBounds(border.getBounds(), {maxZoom: 7});
+       map.fitBounds(border.getBounds());
        
        //map.fitBounds(latLngs);
        //console.log(state);
