@@ -31,7 +31,8 @@ var baseMaps = {
     "Base": base
 }
 
-L.control.layers(baseMaps).addTo(map);
+
+//L.control.layers(baseMaps).addTo(map);
 
 var greenIcon = new L.Icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -62,13 +63,13 @@ if ('geolocation' in navigator) {
         //document.getElementById('lng').textContent = longitude;
         
         //marker showing actual clients position
-        L.marker([latitude, longitude], 
+        var greenMarker = L.marker([latitude, longitude], 
             {
               icon: greenIcon,
             }).addTo(map).bindPopup("You are here", {
                 keepInView: true,
             }).openPopup();
-   
+        map.addLayer(greenMarker);
         //get initial users country info
         getCountryInfo(latitude, longitude);
         //get initial weather status from clients country
@@ -82,7 +83,15 @@ if ('geolocation' in navigator) {
         //get 10 country's biggest cities as markers
         getCities();
         //open sidebar
-        openNav();  
+        openNav(); 
+        var overlayMaps = {
+            "Green Marker": greenMarker,
+            //"Weather Marker": weatherMarker,
+            //"Cities": blueMarker
+            //"Weather Marker": weatherMarker
+        } 
+        
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
         });
 }
 
@@ -161,7 +170,7 @@ function getCountryInfoByISO2(code) {
                 getWikipedia(capitalname); 
                 getWeatherByCity(capitalname);
                 getWeatherForecast(lt, ln);
-                L.marker([lt, ln],
+                var weatherMarker = L.marker([lt, ln],
                     {
                         icon: orangeIcon,
                         draggable: true
@@ -172,6 +181,7 @@ function getCountryInfoByISO2(code) {
                     }).addTo(map).bindPopup("Move this marker to check local weather elswhere", {
                         keepInView: true,
                     }).openPopup();
+                   
                 /*
                 let from = data['currencies'][0]['code'];
                 console.log(from);
@@ -317,13 +327,14 @@ function getWeatherForecast(lat, lon) {
 
 //open sidebar 
 function openNav() {
-    document.getElementById("mySidebar").style.width = "400px";
-    document.getElementById("main").style.marginLeft = "250px";
+    document.getElementById("mySidebar").style.width = "35vw";
+    //document.getElementById("map").style.max- = "100vw";
+    //document.getElementById("map").style.float = "right";
 };
 //close sidebar
 function closeNav() {
     document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
+    document.getElementById("map").style.marginLeft = "0";
 };
 
 //populate list of countries from geo.json
@@ -432,7 +443,7 @@ function getCities(code) {
                 let latMarker = element.coordinates.latitude;
                 let lonMarker = element.coordinates.longitude;
                 
-                L.marker([latMarker, lonMarker], {
+                var blueMarker = L.marker([latMarker, lonMarker], {
                     riseOnHover: true,
                     title: element.name,
                     opacity: 0.8
@@ -440,6 +451,7 @@ function getCities(code) {
                     permanent: true, opacity: 0.7});
                 
             })
+            
          },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown);
@@ -450,6 +462,7 @@ function getCities(code) {
 //click event changing info based on country selected from list of countries
 function clickSelect() {
     const code = $("#select option:selected").attr("value");
+    
     //console.log(code);
     getCountryInfoByISO2(code);
     getBorders(code);
@@ -457,7 +470,9 @@ function clickSelect() {
     // getWeather(city);
 };
 //click and onchange event to exchange currency from base to selected one  
+
 function clickChangeCurrency() {
+    
         let from = 'GBP';
         //console.log(from);
         let to = $("#selectCurrency option:selected").val();
@@ -465,4 +480,15 @@ function clickChangeCurrency() {
         let  amount = $("#currencyValue").val();
         //console.log(amount);
         exchangeCurrency(from, to, amount);
+    
+    
 }
+
+function addLayer(layer) {
+    layer.addTo(map);
+};
+
+function removeLayer(layer) {
+    map.remove(layer);
+}
+

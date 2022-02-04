@@ -216,3 +216,18 @@ h2#countryName {
     font-size: 15px;
     color: grey;
 }
+
+
+@media screen and (max-width: 450px) {
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    .sidebar {
+        width: 100vw;
+        height: 40vh;
+        position: absolute;
+        bottom: 0;
+        margin-top: auto;
+    }
+}
