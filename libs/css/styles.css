@@ -20,10 +20,13 @@ html, body {
     height: 6vh;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 #nav-heading {
+    
     color: rgb(211, 219, 89);
-    margin-left: 40vw;
+    text-align: center;
+    
 }
 #select {
     margin-left: auto;
@@ -214,18 +217,45 @@ h2#countryName {
   width: 0;
 }
 .open {
- width: 35vw;
+ width: 38vw;
 }
 @media screen and (max-width: 450px) {
     body {
         padding: 0;
         margin: 0;
     }
+    #nav-heading {
+        font-size: 1rem;
+    }
+
     .sidebar {
         width: 100vw;
         height: 40vh;
         position: absolute;
         bottom: 0;
         margin-top: auto;
+    }
+}
+
+@media screen and (min-width: 450px) {
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar {
+        width: 50vw;
+        
+    }
+}
+@media screen and (min-width: 760px) {
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar {
+        width: 38vw;
+
     }
 }
