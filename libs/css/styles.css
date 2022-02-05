@@ -141,41 +141,34 @@ h2#countryName {
     grid-template-rows: 50% 50%;
     grid-template-columns: 50% 50%;
     background-color: rgba(162, 173, 97, 0.25);
-    
+    text-align: center;
     border: solid 1px rgba(229, 240, 166, 0.25);
     border-radius: 1rem;
 }
-
-.text-center {
+#cityname {
     grid-column: 1 / span 2;
-    margin: 5px;
-    padding: 15px;
-}
-#city-status {
-    grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-    padding: 10px;
-    width: 60%;
- 
-    align-self: center;
-   
-}
-#cityname.text-center {
-    text-align: center;
-    padding: 10px;
-}
-#weather-numbers {
-    grid-column: 2 / span 1;
-    grid-row: 2 / span 1;
+    grid-row: 1 / span 1;
     margin: 10px;
-    padding: 5px;
+}
+
+#city-status {
+    grid-column: 1 / span 2;
+    grid-row: 2 / span 1;
+    display: flex;
+    justify-content: space-around;
+     align-items: center;
+     width: 100%;
+     margin-right: 20px;
+     padding: 10px;
+}
+#temp {
+    font-size: 2rem;
 }
 .weather-forecast-wrapper {
-    display: grid;
-    grid-template-columns: 33% 33% 33%;
-    max-width: 90%;
+    display: flex;
+     max-width: 90%;
     justify-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     margin: 15px;
     padding: 10px;
     background-color: rgba(245, 147, 90, 0.25);
@@ -217,7 +210,12 @@ h2#countryName {
     color: grey;
 }
 
-
+.close {
+  width: 0;
+}
+.open {
+ width: 35vw;
+}
 @media screen and (max-width: 450px) {
     body {
         padding: 0;

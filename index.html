@@ -15,7 +15,7 @@
         <div id="nav-wrapper">
                 <button class="openbtn" onclick="openNav()">☰</button>
                 <h1 id="nav-heading">Gazetter</h1><br>
-                <select id="select" class="selectedOpt" name="select" onchange="clickSelect()">
+                <select id="select" class="selectedOpt" name="select" onchange="clickSelect()" >
                     <option>Choose Country</option>
                 </select>
         </div>
@@ -36,20 +36,18 @@
                     </div>
                     <hr>
                     <div class="city-weather-wrapper">
-                        <h2 class="text-center" id="cityname"></h2>
+                        <h2 id="cityname"></h2>
                         <div id="city-status">
-                            
-                           
+                            <div class="city-status-element">
                                 <p id="weather-descr"></p>
                                 <img id="wicon" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo">
-                                <p id="temp"></p>
-                            
-                        </div>
-                        <div id="weather-numbers">
-                            
-                            <p id="pressure"></p>
-                            <p id="humidity"></p>
-                            <p id="wind"></p>
+                            </div>
+                            <p id="temp"></p>
+                            <div class="">    
+                                <p id="pressure"></p>
+                                <p id="humidity"></p>
+                                <p id="wind"></p>
+                            </div>
                         </div>
                     </div>
                         <h3 class="next-3-days">Next 3 days</h3>
@@ -60,21 +58,18 @@
                             <p id="weather-forecast-descr1"></p>
                             <div id="weather-logo1"><img id="wicon1" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo">
                                 <p id="temp1day"></p>
-                                <p id="temp1night"></p>
                             </div>
                         </div>
                         <div class="day">
                             <p id="weather-forecast-descr2"></p>
                             <div id="weather-logo2"><img id="wicon2" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo">
                                 <p id="temp2day"></p>
-                                <p id="temp2night"></p>
                             </div>
                         </div>
                         <div class="day">
                             <p id="weather-forecast-descr3"></p>
                             <div id="weather-logo3"><img id="wicon3" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo">
                                 <p id="temp3day"></p>
-                                <p id="temp3night"></p>
                             </div>
                         </div>
                     </div>
@@ -83,11 +78,11 @@
                     <div class="currency">
                          <h2 id="currencyName"></h2><br>
                          <label class="currency-heading" for="currencyValue" id="currency">select amount to convert</label><br>
-                         <input type="text" id="currencyValue" name="currencyValue"  value="1" oninput="exchangeCurrency()"><br><br>
+                         <input type="text" id="currencyValue" name="currencyValue"  value="1"><br><br>
                          <h2 id="equalSign">=</h2><br><br>
                          <h2 id="exchangeResult"></h2><br>
                          <h2 class="currency-heading">Select a currency to convert to:</h2>
-                         <select id="selectCurrency" onchange="exchangeCurrency()">
+                         <select id="selectCurrency">
 
                          </select>
                     </div>
@@ -118,6 +113,8 @@
     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="libs/js/script.js"></script>
-   
+   <!--   onclick="closeNav()"
+javascript:void(0)
+ onclick="openNav()"-->
     </body>
 </html>

@@ -1,40 +1,54 @@
-var map = L.map('map').locate({
+
+   const map = L.map('map');
+    map.locate({
     setView: true,
     maxZoom: 16,
     minZoom: 3
 });
 
-var base = L.tileLayer('https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}.png?key=psJfNymHeKKgEI07anEa', {
+ 
+    base = L.tileLayer('https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}.png?key=psJfNymHeKKgEI07anEa', {
     attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
 
 }).addTo(map);
+  
 
-
-var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+const googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 }).addTo(map);
-var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 }).addTo(map);
-var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+const googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 }).addTo(map);
+    
 
-
-var baseMaps = {
+let baseMaps = {
     "Terrain": googleTerrain,
     "Hybrid": googleHybrid,
     "Streets": googleStreets,
     "Base": base
 }
 
+let mylayer = L.layerGroup().addTo(map);
+    
+function addMyData(layer) {
+    mylayer.addLayer(layer)
+}
 
+let layerControl = {
+    "My Layer": mylayer,
+}
+
+L.control.layers(baseMaps, layerControl).addTo(map);
 //L.control.layers(baseMaps).addTo(map);
 
-var greenIcon = new L.Icon({
+
+const greenIcon = new L.Icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
     iconSize: [40, 61],
@@ -42,7 +56,7 @@ var greenIcon = new L.Icon({
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
 });
-var orangeIcon = new L.Icon({
+const orangeIcon = new L.Icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
     iconSize: [40, 61],
@@ -63,13 +77,14 @@ if ('geolocation' in navigator) {
         //document.getElementById('lng').textContent = longitude;
         
         //marker showing actual clients position
-        var greenMarker = L.marker([latitude, longitude], 
+        const greenMarker = L.marker([latitude, longitude], 
             {
               icon: greenIcon,
             }).addTo(map).bindPopup("You are here", {
                 keepInView: true,
             }).openPopup();
-        map.addLayer(greenMarker);
+        addMyData(greenMarker);
+            //map.addLayer(greenMarker);
         //get initial users country info
         getCountryInfo(latitude, longitude);
         //get initial weather status from clients country
@@ -84,15 +99,14 @@ if ('geolocation' in navigator) {
         getCities();
         //open sidebar
         openNav(); 
-        var overlayMaps = {
-            "Green Marker": greenMarker,
-            //"Weather Marker": weatherMarker,
-            //"Cities": blueMarker
-            //"Weather Marker": weatherMarker
-        } 
-        
+        /*
+        let overlayMaps = {
+            "green marker": greenMarker,
+        }
         L.control.layers(baseMaps, overlayMaps).addTo(map);
+        */
         });
+        
 }
 
  else {
@@ -106,7 +120,7 @@ if ('geolocation' in navigator) {
 
 //get country info based on name from lat and lng from navigator
 function getCountryInfo(lat, lng) {
-    
+    let currency_from, currency_to;
     $.ajax({
         url: "libs/php/getLocation.php",
         type: "POST",
@@ -143,6 +157,7 @@ function getCountryInfo(lat, lng) {
 };
 // called inside getCountryInfo
 function getCountryInfoByISO2(code) {
+    
     $.ajax({
         url: "libs/php/getCountry.php",
         type: "POST",
@@ -170,26 +185,24 @@ function getCountryInfoByISO2(code) {
                 getWikipedia(capitalname); 
                 getWeatherByCity(capitalname);
                 getWeatherForecast(lt, ln);
-                var weatherMarker = L.marker([lt, ln],
+                let weatherMarker = L.marker([lt, ln],
                     {
                         icon: orangeIcon,
                         draggable: true
                     }).on('dragend', function (event) {
-                        var latlng = event.target.getLatLng();
+                        let latlng = event.target.getLatLng();
                         getWeather(latlng.lat, latlng.lng);
                         getWeatherForecast(latlng.lat, latlng.lng);
                     }).addTo(map).bindPopup("Move this marker to check local weather elswhere", {
-                        keepInView: true,
+                        keepInView: false,
                     }).openPopup();
-                   
+                addMyData(weatherMarker);
                 
-                let from = data['currencies'][0]['code'];
-                console.log(from);
-                let to = $("#selectCurrency option:selected").val();
-                console.log(to);
+                currency_from = data['currencies'][0]['code'];
+                currency_to = $("#selectCurrency option:selected").val();
                 let  amount = $("#currencyValue").val();
                 console.log(amount);
-                exchangeCurrency(from, to, amount);
+                exchangeCurrency(currency_from, currency_to, amount);
                 
                 
             }
@@ -220,7 +233,7 @@ function getBorders(iso_a2) {
            }
        };
        //console.log(state);
-       var border = L.geoJSON(state, {
+       let border = L.geoJSON(state, {
                    color: "grey",
                    weight: 8,
                    opacity: 1,
@@ -228,6 +241,7 @@ function getBorders(iso_a2) {
                    fillOpacity: 0.5
        }).addTo(map);
        map.fitBounds(border.getBounds());
+       addMyData(border);
       } 
    })
 };
@@ -247,7 +261,7 @@ function getWeather(lat, lon) {
                 $("#cityname").html(data.name + " " + "Weather Status");
                 $("#weather-descr").html(data.weather[0]['description']);
                 $("#wicon").attr('src', "http://openweathermap.org/img/w/"+data.weather[0]['icon']+".png");
-                $("#temp").html(data.main.temp +  "℃");
+                $("#temp").html(Math.round(data.main.temp) +  "℃");
                 $("#humidity").html("Humidity: " + data.main.humidity);
                 $("#pressure").html("Pressure: " + data.main.pressure + "hPa");
                 $("#wind").html("Wind: " + data.wind.speed + "m/ph");
@@ -275,7 +289,7 @@ function getWeatherByCity(city) {
                 $("#cityname").html(data.name + " " + "Weather Status");
                 $("#weather-descr").html(data.weather[0]['description']);
                 $("#wicon").attr('src', "http://openweathermap.org/img/w/" + data.weather[0]['icon'] + ".png");
-                $("#temp").html(data.main.temp + "℃");
+                $("#temp").html(Math.round(data.main.temp) + "℃");
                 $("#humidity").html("Humidity: " + data.main.humidity);
                 $("#pressure").html("Pressure: " + data.main.pressure + "hPa");
                 $("#wind").html("Wind: " + data.wind.speed + "m/ph");
@@ -305,12 +319,9 @@ function getWeatherForecast(lat, lon) {
                 $("#weather-forecast-descr1").html(data.daily[0]['weather'][0]['description']);
                 $("#weather-forecast-descr2").html(data.daily[1]['weather'][0]['description']);
                 $("#weather-forecast-descr3").html(data.daily[2]['weather'][0]['description']);
-                $("#temp1day").html("day: " + data.daily[0]['temp']['day'] + "℃");
-                $("#temp2day").html("day: " + data.daily[1]['temp']['day'] + "℃");
-                $("#temp3day").html("day: " + data.daily[2]['temp']['day'] + "℃");
-                $("#temp1night").html("night: " + data.daily[0]['temp']['night'] + "℃");
-                $("#temp2night").html("night: " + data.daily[1]['temp']['night'] + "℃");
-                $("#temp3night").html("night: " + data.daily[2]['temp']['night'] + "℃");
+                $("#temp1day").html(Math.round(data.daily[0]['temp']['day']) + "℃" + "  |  " + Math.round(data.daily[0]['temp']['night']) + "℃");
+                $("#temp2day").html(Math.round(data.daily[1]['temp']['day']) + "℃" + "  |  " + Math.round(data.daily[1]['temp']['night']) + "℃");
+                $("#temp3day").html(Math.round(data.daily[2]['temp']['day']) + "℃" + "  |  " + Math.round(data.daily[2]['temp']['night']) + "℃");
                 $("#wicon1").attr('src', "http://openweathermap.org/img/w/"+data.daily[0]['weather'][0]['icon']+".png");
                 $("#wicon2").attr('src', "http://openweathermap.org/img/w/"+data.daily[1]['weather'][0]['icon']+".png");
                 $("#wicon3").attr('src', "http://openweathermap.org/img/w/"+data.daily[2]['weather'][0]['icon']+".png");
@@ -327,14 +338,17 @@ function getWeatherForecast(lat, lon) {
 
 //open sidebar 
 function openNav() {
-    document.getElementById("mySidebar").style.width = "35vw";
+    //el.classList.add('open');
+    document.getElementById("mySidebar").classList.remove('close');
+    document.getElementById("mySidebar").classList.add('open');
     //document.getElementById("map").style.max- = "100vw";
     //document.getElementById("map").style.float = "right";
 };
 //close sidebar
 function closeNav() {
-    document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("map").style.marginLeft = "0";
+    document.getElementById("mySidebar").classList.remove('open');
+    document.getElementById("mySidebar").classList.add('close');
+   // document.getElementById("map").style.marginLeft = "0";
 };
 
 //populate list of countries from geo.json
@@ -344,15 +358,15 @@ function getSelect() {
        type: 'POST',
        dataType: 'json',
        success: function(result){
-           
+           //console.log(result);
            for(let i = 0; i < result.data.length; i++) {
-            $("#select").append('<option class="select-country" value="' + result.data[i].iso_a2 + '">' + result.data[i].name + '</option>');
+            $("#select").append('<option class="select-country" value="' + result.data[i].iso_a2 + '">' + result.data[i].name + '</option>').sort();
             //console.log(result.data[i].iso_a2);
               
               }
             
          }       
-        
+       
     }) 
     
 };
@@ -382,9 +396,9 @@ function exchangeCurrency(from, to, amount) {
         },
         success: function (data) {
             if (data) {
-                console.log(data);
+                //console.log(data);
                 $("#exchangeResult").html(data);
-                console.log("works");
+                //console.log("works");
             }
 
         },
@@ -443,13 +457,13 @@ function getCities(code) {
                 let latMarker = element.coordinates.latitude;
                 let lonMarker = element.coordinates.longitude;
                 
-                var blueMarker = L.marker([latMarker, lonMarker], {
+                let blueMarker = L.marker([latMarker, lonMarker], {
                     riseOnHover: true,
                     title: element.name,
                     opacity: 0.8
                 }).addTo(map).bindPopup("Population: " + element.population).bindTooltip(element.name, {
                     permanent: true, opacity: 0.7});
-                
+                addMyData(blueMarker)
             })
             
          },
@@ -461,29 +475,31 @@ function getCities(code) {
 
 //click event changing info based on country selected from list of countries
 function clickSelect() {
+    //blueMarker.remove();
+    map.removeLayer(mylayer);
+    
+    //latitude = null;
+    //longitude = null;
+   
     const code = $("#select option:selected").attr("value");
     
     //console.log(code);
     getCountryInfoByISO2(code);
     getBorders(code);
     getCities(code);
+    map.addLayer(mylayer);
     // getWeather(city);
 };
-/*
-//click and onchange event to exchange currency from base to selected one  
-function clickChangeCurrency() {
-    
-        let from = 'GBP';
-        //console.log(from);
-        let to = $("#selectCurrency option:selected").val();
-        //console.log(to);
-        let  amount = $("#currencyValue").val();
-        //console.log(amount);
-        exchangeCurrency(from, to, amount);
-    
-    
-}
-*/
+
+$("#selectCurrency").on("change", () => {
+    currency_to = $("#selectCurrency option:selected").val();
+    exchangeCurrency(currency_from, currency_to, $("#currencyValue").val());
+});
+
+$("#currencyValue").on("input", (e) => {
+    exchangeCurrency(currency_from, currency_to, e.target.value);
+});
+
 function addLayer(layer) {
     layer.addTo(map);
 };
@@ -492,3 +508,11 @@ function removeLayer(layer) {
     map.remove(layer);
 }
 
+function sort() {
+    $("#select").append($("#cars option").remove().sort(
+        function(a,b) {
+            var atext = $(a).text(), btext = $(b).text();
+            return atext.localeCompare(btext);
+        }
+    ))
+}
