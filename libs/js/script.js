@@ -65,6 +65,10 @@ const orangeIcon = new L.Icon({
     shadowSize: [41, 41]
 });
 
+
+
+
+
 if ('geolocation' in navigator) {
     console.log('geolocation available');
     navigator.geolocation.getCurrentPosition(position => {
@@ -99,12 +103,7 @@ if ('geolocation' in navigator) {
         getCities();
         //open sidebar
         openNav(); 
-        /*
-        let overlayMaps = {
-            "green marker": greenMarker,
-        }
-        L.control.layers(baseMaps, overlayMaps).addTo(map);
-        */
+       
         });
         
 }
@@ -145,6 +144,7 @@ function getCountryInfo(lat, lng) {
                 if(countryname === "United Kingdom"){
                     countryISO2 = "GB";
                 }
+                $("#select").val(countryISO2).trigger("change");
                 getCountryInfoByISO2(countryISO2);
                 getBorders(countryISO2);
                 getCities(countryISO2);
@@ -240,7 +240,8 @@ function getBorders(iso_a2) {
                    fillColor: "lightgrey",
                    fillOpacity: 0.5
        }).addTo(map);
-       map.fitBounds(border.getBounds());
+       bounds = border.getBounds();
+       map.fitBounds(bounds);
        addMyData(border);
       } 
    })
@@ -319,9 +320,9 @@ function getWeatherForecast(lat, lon) {
                 $("#weather-forecast-descr1").html(data.daily[0]['weather'][0]['description']);
                 $("#weather-forecast-descr2").html(data.daily[1]['weather'][0]['description']);
                 $("#weather-forecast-descr3").html(data.daily[2]['weather'][0]['description']);
-                $("#temp1day").html(Math.round(data.daily[0]['temp']['day']) + "℃" + "  |  " + Math.round(data.daily[0]['temp']['night']) + "℃");
-                $("#temp2day").html(Math.round(data.daily[1]['temp']['day']) + "℃" + "  |  " + Math.round(data.daily[1]['temp']['night']) + "℃");
-                $("#temp3day").html(Math.round(data.daily[2]['temp']['day']) + "℃" + "  |  " + Math.round(data.daily[2]['temp']['night']) + "℃");
+                $("#temp1day").html(Math.round(data.daily[0]['temp']['day']) +  "  |  " + Math.round(data.daily[0]['temp']['night']) + "℃");
+                $("#temp2day").html(Math.round(data.daily[1]['temp']['day']) +  "  |  " + Math.round(data.daily[1]['temp']['night']) + "℃");
+                $("#temp3day").html(Math.round(data.daily[2]['temp']['day']) +  "  |  " + Math.round(data.daily[2]['temp']['night']) + "℃");
                 $("#wicon1").attr('src', "http://openweathermap.org/img/w/"+data.daily[0]['weather'][0]['icon']+".png");
                 $("#wicon2").attr('src', "http://openweathermap.org/img/w/"+data.daily[1]['weather'][0]['icon']+".png");
                 $("#wicon3").attr('src', "http://openweathermap.org/img/w/"+data.daily[2]['weather'][0]['icon']+".png");
@@ -358,11 +359,12 @@ function getSelect() {
        type: 'POST',
        dataType: 'json',
        success: function(result){
-           //console.log(result);
+           console.log(result);
+           result.data.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
            for(let i = 0; i < result.data.length; i++) {
             $("#select").append('<option class="select-country" value="' + result.data[i].iso_a2 + '">' + result.data[i].name + '</option>').sort();
             //console.log(result.data[i].iso_a2);
-              
+            $("#select option[value=countryname]").attr('selected', 'selected'); 
               }
             
          }       
@@ -442,17 +444,18 @@ function getWikipedia(name) {
 
 
 
-//get country's 10 biggest cities based on population
+//get country's  biggest nearby cities based on population
 function getCities(code) {
     $.ajax({
         url: "libs/php/getCities.php",
         type: "POST",
         dataType: "json",
         data: {
-            code: code
+           code: code
         },
         success: function (data) {
-            //console.log(data);
+            console.log(data);
+          
             data.forEach(element => {
                 let latMarker = element.coordinates.latitude;
                 let lonMarker = element.coordinates.longitude;
@@ -465,6 +468,7 @@ function getCities(code) {
                     permanent: true, opacity: 0.7});
                 addMyData(blueMarker)
             })
+            
             
          },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -508,11 +512,4 @@ function removeLayer(layer) {
     map.remove(layer);
 }
 
-function sort() {
-    $("#select").append($("#cars option").remove().sort(
-        function(a,b) {
-            var atext = $(a).text(), btext = $(b).text();
-            return atext.localeCompare(btext);
-        }
-    ))
-}
+

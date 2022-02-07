@@ -13,7 +13,7 @@ curl_setopt_array($curl, [
 	CURLOPT_CUSTOMREQUEST => "GET",
 	CURLOPT_HTTPHEADER => [
 		"x-rapidapi-host: spott.p.rapidapi.com",
-		"x-rapidapi-key: 4cf284d3d9mshb26832e2ad9f655p143164jsn49df42bf940e"
+		"x-rapidapi-key: f19ad0d7e7mshd2c7305ba1d031ap188e86jsna8d6f3a6dac1"
 	],
 ]);
 
@@ -27,3 +27,10 @@ if ($err) {
 } else {
 	print_r($response);
 }
+
+
+
+
+
+
+?>

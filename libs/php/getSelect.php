@@ -14,7 +14,11 @@
                   )
             );
       } 
-      
+/*
+      usort($country_names_and_iso_codes, function($a, $b) {
+            return strcasecmp($a[0], $b[0]);
+      });
+  */    
       $output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['data'] = $country_names_and_iso_codes;

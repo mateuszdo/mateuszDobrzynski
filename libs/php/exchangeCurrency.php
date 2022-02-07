@@ -1,7 +1,7 @@
 
 <?php
 function convertCurrency($amount,$from_currency,$to_currency){
-  $apikey = 'dedfb71e62583a88c9db';
+  $apikey = '7ba9c15e9588ef5a55dc';
 
   $amount = $_REQUEST['amount'];
   $from_Currency = urlencode($_REQUEST['from']);

@@ -17,20 +17,5 @@
 	echo $result
 
 
-/*
-// initialize CURL:
-$ch = curl_init('http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key);   
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-// get the JSON data:
-$json = curl_exec($ch);
-curl_close($ch);
-
-// Decode JSON response:
-$symbolsResult = json_decode($json, true);
-
-// access the conversion result
-//echo $symbolsResult;
-echo $symbolsResult;
-*/
 ?>

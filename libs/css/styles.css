@@ -228,7 +228,7 @@ h2#countryName {
         font-size: 1rem;
     }
 
-    .sidebar {
+    .open {
         width: 100vw;
         height: 40vh;
         position: absolute;
@@ -243,7 +243,7 @@ h2#countryName {
         margin: 0;
     }
 
-    .sidebar {
+    .open {
         width: 50vw;
         
     }
@@ -254,7 +254,7 @@ h2#countryName {
         margin: 0;
     }
 
-    .sidebar {
+    .open {
         width: 38vw;
 
     }
