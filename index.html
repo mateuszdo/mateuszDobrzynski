@@ -13,14 +13,14 @@
 <body>
     <nav>
         <div id="nav-wrapper">
-                <button class="openbtn" onclick="openNav()">☰</button>
+                <button id="openButton" class="openbtn">☰</button>
                 <h1 id="nav-heading">Gazetter</h1><br>
                 <select id="select" class="selectedOpt" name="select" onchange="clickSelect()" >
                     <option>Choose Country</option>
                 </select>
         </div>
         <div id="mySidebar" class="sidebar">
-                    <a href="javascript:closeNav()" class="closebtn" onclick="closeNav()">×</a>
+                    <a href="#" class="closebtn" id="closeButton" ">×</a>
                     <div class="country-name">
                             <h2 id="countryName"></h2>
                             <img id="flag" src="">

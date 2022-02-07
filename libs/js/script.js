@@ -77,8 +77,7 @@ if ('geolocation' in navigator) {
             longitude
         } = position.coords
         
-        //document.getElementById('lat').textContent = latitude;
-        //document.getElementById('lng').textContent = longitude;
+        
         
         //marker showing actual clients position
         const greenMarker = L.marker([latitude, longitude], 
@@ -113,8 +112,7 @@ if ('geolocation' in navigator) {
 };
 
  
-//exchangeCurrency("USD", "PHP", 10);
-//document.getElementById("selectCurrency").addEventListener("click", console.log("miau"));
+
 
 
 //get country info based on name from lat and lng from navigator
@@ -131,16 +129,8 @@ function getCountryInfo(lat, lng) {
         success: function (data) {
             if (data) {
                 //console.log(data);
-                //$("#capital").html('Capital City: ' + data.results[0]['components']['city']);
                 let countryISO2 = data.results[0]['components']['ISO_3166-1_alpha-2'];
-                //countrycurrency = data[0]['currencies'][0]['name'];
                 let countryname = data.results[0]['components']['country'];
-                //let currencyFrom = data.results[0]['annotations']['currency']['name']
-                //let currencyTo = $("#selectCurrency").innerText;
-                //let amount = $("#currencyValue").innerText;
-                //console.log(countryISO2);
-                //console.log(currencyFrom);
-                //console.log(currencyTo)
                 if(countryname === "United Kingdom"){
                     countryISO2 = "GB";
                 }
@@ -320,9 +310,9 @@ function getWeatherForecast(lat, lon) {
                 $("#weather-forecast-descr1").html(data.daily[0]['weather'][0]['description']);
                 $("#weather-forecast-descr2").html(data.daily[1]['weather'][0]['description']);
                 $("#weather-forecast-descr3").html(data.daily[2]['weather'][0]['description']);
-                $("#temp1day").html(Math.round(data.daily[0]['temp']['day']) +  "  |  " + Math.round(data.daily[0]['temp']['night']) + "℃");
-                $("#temp2day").html(Math.round(data.daily[1]['temp']['day']) +  "  |  " + Math.round(data.daily[1]['temp']['night']) + "℃");
-                $("#temp3day").html(Math.round(data.daily[2]['temp']['day']) +  "  |  " + Math.round(data.daily[2]['temp']['night']) + "℃");
+                $("#temp1day").html(Math.round(data.daily[0]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[0]['temp']['night']) + "℃");
+                $("#temp2day").html(Math.round(data.daily[1]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[1]['temp']['night']) + "℃");
+                $("#temp3day").html(Math.round(data.daily[2]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[2]['temp']['night']) + "℃");
                 $("#wicon1").attr('src', "http://openweathermap.org/img/w/"+data.daily[0]['weather'][0]['icon']+".png");
                 $("#wicon2").attr('src', "http://openweathermap.org/img/w/"+data.daily[1]['weather'][0]['icon']+".png");
                 $("#wicon3").attr('src', "http://openweathermap.org/img/w/"+data.daily[2]['weather'][0]['icon']+".png");
@@ -337,20 +327,31 @@ function getWeatherForecast(lat, lon) {
 };
 
 
+
+
 //open sidebar 
 function openNav() {
-    //el.classList.add('open');
+    
+    
     document.getElementById("mySidebar").classList.remove('close');
     document.getElementById("mySidebar").classList.add('open');
-    //document.getElementById("map").style.max- = "100vw";
-    //document.getElementById("map").style.float = "right";
+    
 };
 //close sidebar
 function closeNav() {
+    
     document.getElementById("mySidebar").classList.remove('open');
     document.getElementById("mySidebar").classList.add('close');
-   // document.getElementById("map").style.marginLeft = "0";
+
 };
+
+$("#openButton").on('click', function () {
+    openNav();
+});
+
+$("#closeButton").on('click', function () {
+    closeNav();
+});
 
 //populate list of countries from geo.json
 function getSelect() {
@@ -388,7 +389,7 @@ function getCurrency() {
 //convert currency from base to any from select options
 function exchangeCurrency(from, to, amount) {
     $.ajax({
-        url: "libs/php/exchangeCurrency.php",
+        url: "libs/php/exchangeCurrency2.php",
         type: "POST",
         dataType: "json",
         data: {
@@ -398,9 +399,9 @@ function exchangeCurrency(from, to, amount) {
         },
         success: function (data) {
             if (data) {
-                //console.log(data);
-                $("#exchangeResult").html(data);
-                //console.log("works");
+                console.log(data);
+                $("#exchangeResult").html(data.conversion_result);
+                console.log("works");
             }
 
         },
