@@ -3,19 +3,21 @@
 <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <title>Gazetter</title>
+        <title>Gazetteer</title>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
-    
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="libs/css/styles.css">
 </head>
 <body>
     <nav>
         <div id="nav-wrapper">
                 <button id="openButton" class="openbtn">☰</button>
-                <h1 id="nav-heading">Gazetter</h1><br>
-                <select id="select" class="selectedOpt" name="select" onchange="clickSelect()" >
+                <h1 id="nav-heading">Gazetteer</h1><br>
+                <select id="select" class="selectedOpt" name="select">
                     <option>Choose Country</option>
                 </select>
         </div>

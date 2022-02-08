@@ -496,6 +496,10 @@ function clickSelect() {
     // getWeather(city);
 };
 
+$("#select").on('change', function () {
+    clickSelect();
+});
+
 $("#selectCurrency").on("change", () => {
     currency_to = $("#selectCurrency option:selected").val();
     exchangeCurrency(currency_from, currency_to, $("#currencyValue").val());
