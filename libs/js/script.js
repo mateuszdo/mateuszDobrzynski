@@ -34,14 +34,14 @@ let baseMaps = {
     "Base": base
 }
 
-let mylayer = L.layerGroup().addTo(map);
+let featuresLayer = L.layerGroup().addTo(map);
     
 function addMyData(layer) {
-    mylayer.addLayer(layer)
+    featuresLayer.addLayer(layer)
 }
 
 let layerControl = {
-    "My Layer": mylayer,
+    "Features": featuresLayer,
 }
 
 L.control.layers(baseMaps, layerControl).addTo(map);
@@ -80,13 +80,8 @@ if ('geolocation' in navigator) {
         
         
         //marker showing actual clients position
-        const greenMarker = L.marker([latitude, longitude], 
-            {
-              icon: greenIcon,
-            }).addTo(map).bindPopup("You are here", {
-                keepInView: true,
-            }).openPopup();
-        addMyData(greenMarker);
+        
+        //addMyData(greenMarker);
             //map.addLayer(greenMarker);
         //get initial users country info
         getCountryInfo(latitude, longitude);
@@ -101,8 +96,9 @@ if ('geolocation' in navigator) {
         //get 10 country's biggest cities as markers
         getCities();
         //open sidebar
-        openNav(); 
-       
+        //openNav(); 
+        getWikipedia(44.1, 9.9, 22.4, 55.2);
+        
         });
         
 }
@@ -138,6 +134,7 @@ function getCountryInfo(lat, lng) {
                 getCountryInfoByISO2(countryISO2);
                 getBorders(countryISO2);
                 getCities(countryISO2);
+                //getWikipedia(countryISO2);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -162,18 +159,21 @@ function getCountryInfoByISO2(code) {
                 $("#countryName").html(data['name']);
                 $("#flag").attr('src', data['flags']['svg']);
                 //$("#countryNativeName").html("( " + data[0]['nativeName'] + " )");
-                $("#area").html("<em>Area: " + data['area'] + " &#13218");
-                $("#capital").html("Capital: " + data['capital']);
-                $("#language").html("<em>Language(s): " + data['languages'][0]['name']);
-                $("#population").html("<em>Population: " + data['population']);
-                $("#currency").html("<em>Currency: " + data['currencies'][0]['name'] + " ( " + data['currencies'][0]['symbol'] + " )");
+                $("#area").html(data['area'].toLocaleString() + " &#13218");
+                $("#capital").html(data['capital']);
+                $("#language").html(data['languages'][0]['name']);
+                $("#population").html(data['population'].toLocaleString());
+                $("#currency").html(data['currencies'][0]['name'] + " ( " + data['currencies'][0]['symbol'] + " )");
                 $("#currencyName").html(data['currencies'][0]['code'] + " ( " + data['currencies'][0]['symbol'] + " )");
-                //let countryname = data['name'];
+                let countryname = data['name'];
                 let capitalname = data['capital'];
                 let lt = data['latlng'][0];
+                console.log(lt);
                 let ln = data['latlng'][1];
-                getWikipedia(capitalname); 
+                console.log(ln);
+                getWikipedia(lt, ln); 
                 getWeatherByCity(capitalname);
+                getWikipedia(capitalname, countryname)
                 getWeatherForecast(lt, ln);
                 let weatherMarker = L.marker([lt, ln],
                     {
@@ -191,7 +191,7 @@ function getCountryInfoByISO2(code) {
                 currency_from = data['currencies'][0]['code'];
                 currency_to = $("#selectCurrency option:selected").val();
                 let  amount = $("#currencyValue").val();
-                console.log(amount);
+                //console.log(amount);
                 exchangeCurrency(currency_from, currency_to, amount);
                 
                 
@@ -330,6 +330,7 @@ function getWeatherForecast(lat, lon) {
 
 
 //open sidebar 
+/*
 function openNav() {
     
     
@@ -352,7 +353,7 @@ $("#openButton").on('click', function () {
 $("#closeButton").on('click', function () {
     closeNav();
 });
-
+*/
 //populate list of countries from geo.json
 function getSelect() {
    $.ajax({
@@ -360,7 +361,7 @@ function getSelect() {
        type: 'POST',
        dataType: 'json',
        success: function(result){
-           console.log(result);
+           //console.log(result);
            result.data.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
            for(let i = 0; i < result.data.length; i++) {
             $("#select").append('<option class="select-country" value="' + result.data[i].iso_a2 + '">' + result.data[i].name + '</option>').sort();
@@ -413,17 +414,18 @@ function exchangeCurrency(from, to, amount) {
 
 
 //get articles based on city name
-function getWikipedia(name) {
+function getWikipedia(lat, lng) {
     $.ajax({
         url: "libs/php/getWikipedia.php",
         type: "POST",
         dataType: "json",
         data: {
-            name: name
+            lat: lat,
+            lng: lng
         },
         success: function (data) {
             if (data) {
-               //console.log(data);
+               console.log(data);
                $("#link1").html(data.geonames[0]['title']);
                $("#link1").attr('href', data.geonames[0]['wikipediaUrl']);
                $("#wiki1").html(data.geonames[0]['summary']);
@@ -455,7 +457,7 @@ function getCities(code) {
            code: code
         },
         success: function (data) {
-            console.log(data);
+            //console.log(data);
           
             data.forEach(element => {
                 let latMarker = element.coordinates.latitude;
@@ -481,7 +483,7 @@ function getCities(code) {
 //click event changing info based on country selected from list of countries
 function clickSelect() {
     //blueMarker.remove();
-    map.removeLayer(mylayer);
+    map.removeLayer(featuresLayer);
     
     //latitude = null;
     //longitude = null;
@@ -492,7 +494,7 @@ function clickSelect() {
     getCountryInfoByISO2(code);
     getBorders(code);
     getCities(code);
-    map.addLayer(mylayer);
+    map.addLayer(featuresLayer);
     // getWeather(city);
 };
 
