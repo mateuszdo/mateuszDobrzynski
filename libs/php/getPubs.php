@@ -5,7 +5,7 @@
 
 
 	//$url ='https://api.geoapify.com/v1/geocode/reverse?lat='.$lat.'&lon='.$lon.'&apiKey=a9b8cfee04524d8e842508ebe6ccedcb';
-    $url = 'https://api.geoapify.com/v2/places?categories=catering.pub&circle:'.$lon.','.$lat.',50000&bias=proximity:'.$lon.','.$lat.'&limit=50&apiKey=a9b8cfee04524d8e842508ebe6ccedcb';
+    $url = 'https://api.geoapify.com/v2/places?categories=catering.pub&circle:'.$lon.','.$lat.',500000&bias=proximity:'.$lon.','.$lat.'&limit=50&apiKey=a9b8cfee04524d8e842508ebe6ccedcb';
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -23,6 +23,7 @@ body, #map {
     position: absolute;
     top: 2vh;
     left: 25vh;
+
 }
 .info-icon {
     position: absolute;
@@ -110,7 +111,7 @@ body, #map {
 }
 
 .card {
-    background-color: rgb(253, 230, 222);
+    background-color: whitesmoke;
     border-radius: 50px;
     color: #6f707d;
     font-family: 'Marcellus', serif;
