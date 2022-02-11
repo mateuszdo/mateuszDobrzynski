@@ -15,6 +15,8 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
         <!--<link rel="manifest" href="/site.webmanifest">-->
+        <link rel="stylesheet" href='https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css'>
+        <link rel="stylesheet" href='https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css'>
     <link rel="stylesheet" href="libs/css/styles.css">
     <title>Gazetteer</title>
 </head>
@@ -28,13 +30,14 @@
                     <option>Choose country</option>
                 </select>
             </div>
-            <img class="info-icon icon" alt="info icon" data-bs-toggle="modal" data-bs-target="#infoModal" src="libs/favicon_io/favicon_io1/android-chrome-512x512.png">
+            <img class="info-icon icon" alt="info icon" data-bs-toggle="modal" data-bs-target="#infoModal"
+                src="libs/favicon_io/icons8-info-100.png">
             <img class="currency-icon icon" data-bs-toggle="modal" data-bs-target="#currencyModal"
-                src="libs/favicon_io/favicon_io3/android-chrome-512x512.png">
+                src="libs/favicon_io/icons8-currency-98.png">
             <img class="news-icon icon" data-bs-toggle="modal" data-bs-target="#newsModal"
-                src="libs/favicon_io/favicon_io4/android-chrome-512x512.png">
+                src="libs/favicon_io/icons8-news-100.png">
             <img class="wiki-icon icon" data-bs-toggle="modal" data-bs-target="#wikipediaModal"
-                src="libs/favicon_io/favicon_io5/android-chrome-512x512.png">
+                src="libs/favicon_io/icons8-wiktionary-128.png">
             <!--<div class="container">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4">
@@ -78,7 +81,7 @@
                     <div class="card p-4">
                         <div class="d-flex">
                             <h6 id="cityname"class="flex-grow-1"></h6>
-                            <h6>16:08</h6>
+                            <h6 id="weather-desc" class="flex-gor-1"></h6>
                         </div>
                         <div class="d-flex flex-column temp mt-5 mb-3">
                             <h1 class="mb-0 font-weight-bold" id="temp"> 13° C </h1> <span id="#weather-descr" class="small grey"></span>
@@ -86,7 +89,8 @@
                         <div class="d-flex">
                             <div class="temp-details flex-grow-1">
                                 <p class="my-1"> <img src="https://i.imgur.com/B9kqOzp.png" height="20px"> <span id="wind"></span> </p>
-                                <p class="my-1"> <i class="fa fa-tint mr-2" aria-hidden="true"></i> <span id="humidity"></span> </p>
+                                <p class="my-1"> <i class="fa-light fa-droplet-degree"
+                                    aria-hidden="true"></i> <span id="humidity"></span> </p>
                                 <p class="my-1"> <span id="pressure"></span>
                                 </p>
                             </div>
@@ -188,13 +192,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="countryName">United Kingdom</h5>
+                        <h5 class="modal-title" id="wiki">Wikipedia articles</h5>
                         <img id="flag" src="">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body wikipedia-body" >
                         <div class="wikipedia-container">
-                            <h2>Wikipedia Articles</h2>
+                            
                             <div class="wikipedia">
                                 <a id="link1" href="" target="_blank"></a>
                                 <p id="wiki1"></p>
@@ -208,9 +212,7 @@
                                 <p id="wiki3"></p>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                    </div>
+                    
                 </div>
             </div>
         </div>

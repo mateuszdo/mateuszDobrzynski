@@ -57,13 +57,24 @@ const greenIcon = new L.Icon({
     shadowSize: [41, 41]
 });
 const orangeIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+    iconUrl: 'libs/favicon_io/weather.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [40, 61],
+    iconSize: [80, 100],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
-    shadowSize: [41, 41]
+    shadowSize: [41, 41],
+    zIndexOffset: 1000
 });
+
+const myIcon = new L.Icon({
+    iconUrl: "https://img.icons8.com/office/80/000000/place-marker--v1.png",
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [40, 50],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+    zIndexOffset: 100
+})
 
 
 
@@ -87,15 +98,15 @@ if ('geolocation' in navigator) {
         //get initial users country info
         getCountryInfo(latitude, longitude);
         //get initial weather status from clients country
-        getWeather(latitude, longitude);
+        //getWeather(latitude, longitude);
         //get initial weather forecast from clients country
-        getWeatherForecast(latitude, longitude);
+        //getWeatherForecast(latitude, longitude);
         //populate select country options
         getSelect();
         //get full list of world currencies
         getCurrency();
         //get 10 country's biggest cities as markers
-        getCities();
+        //getCities();
         //open sidebar
         //openNav(); 
         
@@ -125,7 +136,7 @@ function getCountryInfo(lat, lng) {
         },
         success: function (data) {
             if (data) {
-                console.log(data);
+              
                 let countryISO2 = data.results[0]['components']['ISO_3166-1_alpha-2'];
                 let countryname = data.results[0]['components']['country'];
                 if(countryname === "United Kingdom"){
@@ -173,7 +184,7 @@ function getCountryInfoByISO2(code) {
                 let lt = data['latlng'][0];
                 
                 let ln = data['latlng'][1];
-               
+                getPOI(lt,ln);
                 getWikipedia(lt, ln); 
                 getWeatherByCity(capitalname);
                 //getWikipedia(capitalname, countryname)
@@ -181,7 +192,8 @@ function getCountryInfoByISO2(code) {
                 let weatherMarker = L.marker([lt, ln],
                     {
                         icon: orangeIcon,
-                        draggable: true
+                        draggable: true,
+                        zIndexOffset: 1000
                     }).on('dragend', function (event) {
                         let latlng = event.target.getLatLng();
                         getWeather(latlng.lat, latlng.lng);
@@ -252,7 +264,7 @@ function getWeather(lat, lon) {
         },
         success: function (data) {
             if (data) {
-        
+                
                 $("#cityname").html(data.name + " " + "Weather");
                 $("#weather-descr").html(data.weather[0]['description']);
                 $("#wicon").attr('src', "http://openweathermap.org/img/w/"+data.weather[0]['icon']+".png");
@@ -281,7 +293,7 @@ function getWeatherByCity(city) {
         },
         success: function (data) {
             if (data) {
-               
+                console.log(data);
                 $("#cityname").html(data.name + " " + "Weather");
                 $("#weather-descr").html(data.weather[0]['description']);
                 $("#wicon").attr('src', "http://openweathermap.org/img/w/" + data.weather[0]['icon'] + ".png");
@@ -465,18 +477,33 @@ function getNews(country) {
     })
 };
 
-function getPOI(lat, lng) {
+function getPOI(lat, lon) {
     $.ajax({
         url: "libs/php/getPOI.php",
         type: "POST",
         dataType: "json",
         data: {
             lat: lat,
-            lng: lng,
+            lon: lon,
         },
-        success: function (result) {
+        success: function (data) {
 
-            console.log(result);
+           console.log(data.features);
+            for(let i = 0; i < data.features.length; i++) {
+                //let pubMarkers = L.MarkerClusterGroup();
+                let ltMarker = data.features[i]['properties']['lat'];
+                let lnMarker = data.features[i]['properties']['lon'];
+                let blueMarker = L.marker([ltMarker, lnMarker], {
+                   riseOnHover: true,
+                    title: data.features[i]['properties']['name'],
+                    opacity: 0.8
+                }).addTo(map).bindPopup("Population: " + data.features[i]['properties']['address_line2']).bindTooltip(data.features[i]['properties']['name'], {
+                    permanent: true, opacity: 0.7
+                });
+                //pubMarkers.addLayer(blueMarker);
+                addMyData(blueMarker);
+                //map.addLayer(pubMarkers);
+            }
         }
     })
 };
@@ -491,19 +518,20 @@ function getCities(code) {
            code: code
         },
         success: function (data) {
-           
+           console.log(data);
           
             data.forEach(element => {
                 let latMarker = element.coordinates.latitude;
                 let lonMarker = element.coordinates.longitude;
                 
-                let blueMarker = L.marker([latMarker, lonMarker], {
+                let pinkMarker = L.marker([latMarker, lonMarker], {
+                    icon: myIcon,
                     riseOnHover: true,
                     title: element.name,
                     opacity: 0.8
                 }).addTo(map).bindPopup("Population: " + element.population.toLocaleString()).bindTooltip(element.name, {
                     permanent: true, opacity: 0.7});
-                addMyData(blueMarker)
+                addMyData(pinkMarker)
             })
             
             

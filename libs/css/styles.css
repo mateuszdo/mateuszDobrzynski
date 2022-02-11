@@ -26,7 +26,7 @@ body, #map {
 }
 .info-icon {
     position: absolute;
-    top: 26vh;
+    top: 28vh;
     left: 1vw;
     width: 5vw;
     opacity: 0.8;
@@ -35,21 +35,21 @@ body, #map {
 
 .currency-icon {
     position: absolute;
-    top: 32vh;
+    top: 34vh;
     left: 1vw;
     width: 5vw;
     opacity: 0.8;
 }
 .news-icon {
     position: absolute;
-    top: 38vh;
+    top: 40vh;
     left: 1vw;
     width: 5vw;
     opacity: 0.8;
 }
 .wiki-icon {
     position: absolute;
-    top: 44vh;
+    top: 46vh;
     left: 1vw;
     width: 5vw;
     opacity: 1;
@@ -110,11 +110,11 @@ body, #map {
 }
 
 .card {
-    background-color: rgb(230, 255, 255);
+    background-color: rgb(253, 230, 222);
     border-radius: 50px;
     color: #6f707d;
     font-family: 'Marcellus', serif;
-    opacity: 0.7;
+    opacity: 0.8;
     position: absolute;
     top: 63vh;
     left: 1vw;
@@ -132,14 +132,24 @@ body, #map {
 
 .temp-details>p>span,
 .grey {
-    color: #a3acc1;
+    color: #7a8294;
     font-size: 16px
 }
 
 .fa {
-    color: #a5a5b1
+    color: #8d8d96
 }
 
 *:focus {
     outline: none
+}
+.wikipedia-body {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: beige;
+}
+#wiki {
+    align-self: center;
 }
