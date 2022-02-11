@@ -5,47 +5,52 @@ body, #map {
 
 #map {
     height: 100vh;
-    width: 100%;
-    z-index: -10;
-    position: relative;
+    width: 100vw;
     
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1
 }
-.container {
+.overlap {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown {
+    position: absolute;
     top: 2vh;
-    left: 25vw;
+    left: 25vh;
 }
 .info-icon {
     position: absolute;
-    top: 20vh;
-    left: 3vw;
-    width: 5vw;
-    opacity: 0.8;
-}
-.weather-icon {
-    position: absolute;
     top: 26vh;
-    left: 3vw;
+    left: 1vw;
     width: 5vw;
     opacity: 0.8;
+    
 }
+
 .currency-icon {
     position: absolute;
     top: 32vh;
-    left: 3vw;
+    left: 1vw;
     width: 5vw;
     opacity: 0.8;
 }
 .news-icon {
     position: absolute;
     top: 38vh;
-    left: 3vw;
+    left: 1vw;
     width: 5vw;
     opacity: 0.8;
 }
 .wiki-icon {
     position: absolute;
     top: 44vh;
-    left: 3vw;
+    left: 1vw;
     width: 5vw;
     opacity: 1;
 }
@@ -97,6 +102,44 @@ body, #map {
     align-items: center;
     text-align: center;
 }
-.modal-header {
-    background-color: lightgray;
+
+#wicon {
+    width: 10vw;
+    height: 10vh;
+    z-index: 2;
+}
+
+.card {
+    background-color: rgb(230, 255, 255);
+    border-radius: 50px;
+    color: #6f707d;
+    font-family: 'Marcellus', serif;
+    opacity: 0.7;
+    position: absolute;
+    top: 63vh;
+    left: 1vw;
+    width: 20vw;
+}
+
+#temp {
+    font-size: 55px;
+    color: #2b304d
+}
+
+.temp {
+    place-items: center
+}
+
+.temp-details>p>span,
+.grey {
+    color: #a3acc1;
+    font-size: 16px
+}
+
+.fa {
+    color: #a5a5b1
+}
+
+*:focus {
+    outline: none
 }

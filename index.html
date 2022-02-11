@@ -20,28 +20,91 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="container w-50 position-absolute shadow-sm p-1 mb-4 bg-body rounded">
-            <select  id="select" class="form-select form-select-sm " aria-label="Default select example">
-                <option>Choose country</option>
-            </select>
-        </div>
+        
         <div id="map"></div>
-        <img class="info-icon icon" alt="info icon" data-bs-toggle="modal" data-bs-target="#infoModal" src="libs/favicon_io/favicon_io1/android-chrome-512x512.png">
-        <img class="weather-icon icon" data-bs-toggle="modal" data-bs-target="#weatherModal"
-            src="libs/favicon_io/favicon_io2/android-chrome-512x512.png">
-        <img class="currency-icon icon" data-bs-toggle="modal" data-bs-target="#currencyModal"
-            src="libs/favicon_io/favicon_io3/android-chrome-512x512.png">
-        <img class="news-icon icon" data-bs-toggle="modal" data-bs-target="#newsModal"
-            src="libs/favicon_io/favicon_io4/android-chrome-512x512.png">
-        <img class="wiki-icon icon" data-bs-toggle="modal" data-bs-target="#wikipediaModal"
-            src="libs/favicon_io/favicon_io5/android-chrome-512x512.png">
+        <div class="container overlap">
+            <div class="dropdown w-50  shadow-sm p-1 mb-4 bg-body rounded">
+                <select id="select" class="form-select form-select-sm " aria-label="Default select example">
+                    <option>Choose country</option>
+                </select>
+            </div>
+            <img class="info-icon icon" alt="info icon" data-bs-toggle="modal" data-bs-target="#infoModal" src="libs/favicon_io/favicon_io1/android-chrome-512x512.png">
+            <img class="currency-icon icon" data-bs-toggle="modal" data-bs-target="#currencyModal"
+                src="libs/favicon_io/favicon_io3/android-chrome-512x512.png">
+            <img class="news-icon icon" data-bs-toggle="modal" data-bs-target="#newsModal"
+                src="libs/favicon_io/favicon_io4/android-chrome-512x512.png">
+            <img class="wiki-icon icon" data-bs-toggle="modal" data-bs-target="#wikipediaModal"
+                src="libs/favicon_io/favicon_io5/android-chrome-512x512.png">
+            <!--<div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="weather">
+                            <div class="current">
+                                <div class="info">
+                                    <div>&nbsp;</div>
+                                    <div id="cityname" class="city"></div>
+                                    <div id="temp"class="temp"></div>
+                                    <div id="wind" class="wind"></div>
+                                    <div id="humidity" class="wind"></div>
+                                    <div id="pressure" class="wind"></div>
+                                    <div>&nbsp;</div>
+                                </div>
+                                <div class="icon">
+                                    <span class="wi-day-sunny"></span>
+                                </div>
+                            </div>
+                            <div class="future">
+                                <div class="day">
+                                    <h3>Mon</h3>
+                                    <div id="weather-logo1"><img id="wicon1" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo"></div>
+                                </div>
+                                <div class="day">
+                                    <h3>Tue</h3>
+                                    <div id="weather-logo2"><img id="wicon2" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo"></div>
+                                </div>
+                                <div class="day">
+                                    <h3>Wed</h3>
+                                    <div id="weather-logo3"><img id="wicon3" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        -->  
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-4 col-sm-12 col-xs-12">
+                    <div class="card p-4">
+                        <div class="d-flex">
+                            <h6 id="cityname"class="flex-grow-1"></h6>
+                            <h6>16:08</h6>
+                        </div>
+                        <div class="d-flex flex-column temp mt-5 mb-3">
+                            <h1 class="mb-0 font-weight-bold" id="temp"> 13° C </h1> <span id="#weather-descr" class="small grey"></span>
+                        </div>
+                        <div class="d-flex">
+                            <div class="temp-details flex-grow-1">
+                                <p class="my-1"> <img src="https://i.imgur.com/B9kqOzp.png" height="20px"> <span id="wind"></span> </p>
+                                <p class="my-1"> <i class="fa fa-tint mr-2" aria-hidden="true"></i> <span id="humidity"></span> </p>
+                                <p class="my-1"> <span id="pressure"></span>
+                                </p>
+                            </div>
+                            <div> <img id="wicon" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        </div>
         <!------------ modals ------------->
         <!-- info -->
-        <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade rounded" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title w-50 m-1 p-1" id="countryName"></h5>
+                        <h5 class="modal-title w-75 m-1 p-1" id="countryName"></h5>
                         <img class="w-25 m-1 p-1" id="flag" src="">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -69,66 +132,14 @@
                             </tr>
                         </table>
                     
+                    </div>
                 </div>
             </div>
         </div>
         <!-- weather -->
-        <div class="modal fade" id="weatherModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="weathercityname"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="city-weather-wrapper container"></div>
-                            <div id="city-status" class="row">
-                                <div class="city-status-element col">
-                                    <p id="weather-descr"></p>
-                                    <img id="wicon" src="http://openweathermap.org/img/w/10d.png" alt="weather-logo">
-                                </div>
-                                <p id="temp" class="col"></p>
-                                <div class="col">
-                                    <p id="pressure"></p>
-                                    <p id="humidity"></p>
-                                    <p id="wind"></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        
-                        <h5 class="next-3-days ">Next 3 days</h5>
-                        <!-- forecast  -->
-                        <div class="weather-forecast-wrapper container">
-                          <div class="row">
-                            <div class="day col">
-                                <p id="weather-forecast-descr1"></p>
-                                <div id="weather-logo1"><img id="wicon1" src="http://openweathermap.org/img/w/10d.png"
-                                        alt="weather-logo">
-                                    <p id="temp1day"></p>
-                                </div>
-                            </div>
-                            <div class="day col">
-                                <p id="weather-forecast-descr2"></p>
-                                <div id="weather-logo2"><img id="wicon2" src="http://openweathermap.org/img/w/10d.png"
-                                        alt="weather-logo">
-                                    <p id="temp2day"></p>
-                                </div>
-                            </div>
-                            <div class="day col">
-                                <p id="weather-forecast-descr3"></p>
-                                <div id="weather-logo3"><img id="wicon3" src="http://openweathermap.org/img/w/10d.png"
-                                        alt="weather-logo">
-                                    <p id="temp3day"></p>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- currency -->
-        <div class="modal fade" id="currencyModal" tabindex="-1"
+        <div class="modal fade rounded" id="currencyModal" tabindex="-1"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content ">
@@ -154,7 +165,7 @@
             </div>
         </div>
         <!--  news -->
-        <div class="modal fade" id="newsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade rounded" id="newsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -173,7 +184,7 @@
             </div>
         </div>
         <!-- wikipedia -->
-        <div class="modal fade" id="wikipediaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade rounded" id="wikipediaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -185,15 +196,15 @@
                         <div class="wikipedia-container">
                             <h2>Wikipedia Articles</h2>
                             <div class="wikipedia">
-                                <a id="link1" href=""></a>
+                                <a id="link1" href="" target="_blank"></a>
                                 <p id="wiki1"></p>
                             </div>
                             <div class="wikipedia">
-                                <a id="link2" href=""></a>
+                                <a id="link2" href="" target="_blank"></a>
                                 <p id="wiki2"></p>
                             </div>
                             <div class="wikipedia">
-                                <a id="link3" href=""></a>
+                                <a id="link3" href="" target="_blank"></a>
                                 <p id="wiki3"></p>
                             </div>
                         </div>

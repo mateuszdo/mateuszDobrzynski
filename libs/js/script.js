@@ -81,6 +81,7 @@ if ('geolocation' in navigator) {
         
         //marker showing actual clients position
         
+            //map.addLayer(greenMarker);
         //addMyData(greenMarker);
             //map.addLayer(greenMarker);
         //get initial users country info
@@ -97,7 +98,7 @@ if ('geolocation' in navigator) {
         getCities();
         //open sidebar
         //openNav(); 
-        getWikipedia(44.1, 9.9, 22.4, 55.2);
+        
         
         });
         
@@ -124,7 +125,7 @@ function getCountryInfo(lat, lng) {
         },
         success: function (data) {
             if (data) {
-                //console.log(data);
+                console.log(data);
                 let countryISO2 = data.results[0]['components']['ISO_3166-1_alpha-2'];
                 let countryname = data.results[0]['components']['country'];
                 if(countryname === "United Kingdom"){
@@ -134,6 +135,8 @@ function getCountryInfo(lat, lng) {
                 getCountryInfoByISO2(countryISO2);
                 getBorders(countryISO2);
                 getCities(countryISO2);
+                let lower = countryISO2.toLowerCase()
+                getNews('au');
                 //getWikipedia(countryISO2);
             }
         },
@@ -154,7 +157,7 @@ function getCountryInfoByISO2(code) {
         },
         success: function (data) {
             if (data) {
-                console.log(data);
+               
                 
                 $("#countryName").html(data['name']);
                 $("#flag").attr('src', data['flags']['svg']);
@@ -168,12 +171,12 @@ function getCountryInfoByISO2(code) {
                 let countryname = data['name'];
                 let capitalname = data['capital'];
                 let lt = data['latlng'][0];
-                console.log(lt);
+                
                 let ln = data['latlng'][1];
-                console.log(ln);
+               
                 getWikipedia(lt, ln); 
                 getWeatherByCity(capitalname);
-                getWikipedia(capitalname, countryname)
+                //getWikipedia(capitalname, countryname)
                 getWeatherForecast(lt, ln);
                 let weatherMarker = L.marker([lt, ln],
                     {
@@ -191,7 +194,7 @@ function getCountryInfoByISO2(code) {
                 currency_from = data['currencies'][0]['code'];
                 currency_to = $("#selectCurrency option:selected").val();
                 let  amount = $("#currencyValue").val();
-                //console.log(amount);
+                
                 exchangeCurrency(currency_from, currency_to, amount);
                 
                 
@@ -214,7 +217,7 @@ function getBorders(iso_a2) {
            iso_a2: iso_a2
        },
        success: function(result) {
-       //console.log(result);
+       
        let state = {
            "type": "Feature",
            "geometry": {
@@ -222,7 +225,7 @@ function getBorders(iso_a2) {
                "coordinates": result.data['coordinates']
            }
        };
-       //console.log(state);
+       
        let border = L.geoJSON(state, {
                    color: "grey",
                    weight: 8,
@@ -249,13 +252,14 @@ function getWeather(lat, lon) {
         },
         success: function (data) {
             if (data) {
-                $("#cityname").html(data.name + " " + "Weather Status");
+        
+                $("#cityname").html(data.name + " " + "Weather");
                 $("#weather-descr").html(data.weather[0]['description']);
                 $("#wicon").attr('src', "http://openweathermap.org/img/w/"+data.weather[0]['icon']+".png");
                 $("#temp").html(Math.round(data.main.temp) +  "℃");
-                $("#humidity").html("Humidity: " + data.main.humidity);
-                $("#pressure").html("Pressure: " + data.main.pressure + "hPa");
-                $("#wind").html("Wind: " + data.wind.speed + "m/ph");
+                $("#humidity").html(data.main.humidity + "%");
+                $("#pressure").html(data.main.pressure + "hPa");
+                $("#wind").html(Math.round(data.wind.speed) + "m/ph");
                 
 
             }
@@ -277,13 +281,14 @@ function getWeatherByCity(city) {
         },
         success: function (data) {
             if (data) {
-                $("#cityname").html(data.name + " " + "Weather Status");
+               
+                $("#cityname").html(data.name + " " + "Weather");
                 $("#weather-descr").html(data.weather[0]['description']);
                 $("#wicon").attr('src', "http://openweathermap.org/img/w/" + data.weather[0]['icon'] + ".png");
                 $("#temp").html(Math.round(data.main.temp) + "℃");
-                $("#humidity").html("Humidity: " + data.main.humidity);
-                $("#pressure").html("Pressure: " + data.main.pressure + "hPa");
-                $("#wind").html("Wind: " + data.wind.speed + "m/ph");
+                $("#humidity").html(data.main.humidity + "%");
+                $("#pressure").html(data.main.pressure + "hPa");
+                $("#wind").html(Math.round(data.wind.speed) + "m/ph");
 
 
             }
@@ -361,11 +366,11 @@ function getSelect() {
        type: 'POST',
        dataType: 'json',
        success: function(result){
-           //console.log(result);
+           
            result.data.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
            for(let i = 0; i < result.data.length; i++) {
             $("#select").append('<option class="select-country" value="' + result.data[i].iso_a2 + '">' + result.data[i].name + '</option>').sort();
-            //console.log(result.data[i].iso_a2);
+            
             $("#select option[value=countryname]").attr('selected', 'selected'); 
               }
             
@@ -379,9 +384,9 @@ function getSelect() {
 //populate world currencies from api
 function getCurrency() {
     $.getJSON("libs/php/getCurrency.php", function(result){
-        //console.log(result.symbols);
+     
         for(const key in result.symbols) {
-            //console.log(`${key}: ${result.symbols[key]}`);
+            
             $("#selectCurrency").append('<option class="convert" value="' + key + '">' + result.symbols[key] + '</option>');
         }
         
@@ -400,9 +405,9 @@ function exchangeCurrency(from, to, amount) {
         },
         success: function (data) {
             if (data) {
-                console.log(data);
+                
                 $("#exchangeResult").html(data.conversion_result);
-                console.log("works");
+                
             }
 
         },
@@ -427,13 +432,13 @@ function getWikipedia(lat, lng) {
             if (data) {
                console.log(data);
                $("#link1").html(data.geonames[0]['title']);
-               $("#link1").attr('href', data.geonames[0]['wikipediaUrl']);
+               $("#link1").attr('href', 'https://' + data.geonames[0]['wikipediaUrl']);
                $("#wiki1").html(data.geonames[0]['summary']);
                $("#link2").html(data.geonames[1]['title']);
-               $("#link2").attr('href', data.geonames[1]['wikipediaUrl']);
+               $("#link2").attr('href', 'https://' + data.geonames[1]['wikipediaUrl']);
                $("#wiki2").html(data.geonames[1]['summary']);
                $("#link3").html(data.geonames[2]['title']);
-               $("#link3").attr('href', data.geonames[2]['wikipediaUrl']);
+               $("#link3").attr('href', 'https://' + data.geonames[2]['wikipediaUrl']);
                $("#wiki3").html(data.geonames[2]['summary']);
             }
 
@@ -445,7 +450,36 @@ function getWikipedia(lat, lng) {
 };
 
 
+function getNews(country) {
+    $.ajax({
+        url: "libs/php/getNews.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            country: country
+        },
+        success: function (result) {
 
+            console.log(result);
+        }
+    })
+};
+
+function getPOI(lat, lng) {
+    $.ajax({
+        url: "libs/php/getPOI.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            lat: lat,
+            lng: lng,
+        },
+        success: function (result) {
+
+            console.log(result);
+        }
+    })
+};
 
 //get country's  biggest nearby cities based on population
 function getCities(code) {
@@ -457,7 +491,7 @@ function getCities(code) {
            code: code
         },
         success: function (data) {
-            //console.log(data);
+           
           
             data.forEach(element => {
                 let latMarker = element.coordinates.latitude;
@@ -467,7 +501,7 @@ function getCities(code) {
                     riseOnHover: true,
                     title: element.name,
                     opacity: 0.8
-                }).addTo(map).bindPopup("Population: " + element.population).bindTooltip(element.name, {
+                }).addTo(map).bindPopup("Population: " + element.population.toLocaleString()).bindTooltip(element.name, {
                     permanent: true, opacity: 0.7});
                 addMyData(blueMarker)
             })
