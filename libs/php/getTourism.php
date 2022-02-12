@@ -15,5 +15,5 @@
 
 	curl_close($ch);
     echo $result;
-    echo date('d/m/Y', 1644660000);
+    
     ?>

@@ -7,8 +7,8 @@
 });
 
  
-    base = L.tileLayer('https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}.png?key=psJfNymHeKKgEI07anEa', {
-    attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+base = L.tileLayer('https://api.maptiler.com/maps/outdoor/{z}/{x}/{y}.png?key=WNljffzMsHfVWwd1hLeq', {
+    attribution: '<a href="https://api.maptiler.com/maps/outdoor/style.json?key=WNljffzMsHfVWwd1hLeq" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
 
 }).addTo(map);
   
@@ -141,7 +141,7 @@ if ('geolocation' in navigator) {
         //populate select country options
         getSelect();
         //get full list of world currencies
-        getCurrency();
+        //getCurrency();
         //get 10 country's biggest cities as markers
         //getCities();
         //open sidebar
@@ -181,8 +181,8 @@ function getCountryInfo(lat, lng) {
                 }
                 $("#select").val(countryISO2).trigger("change");
                 getCountryInfoByISO2(countryISO2);
-                getBorders(countryISO2);
-                getCities(countryISO2);
+                //getBorders(countryISO2);
+                //getCities(countryISO2);
                 let lower = countryISO2.toLowerCase()
                 getNews(countryISO2);
                 //getWikipedia(countryISO2);
@@ -221,13 +221,13 @@ function getCountryInfoByISO2(code) {
                 let lt = data['latlng'][0];
                 
                 let ln = data['latlng'][1];
-                getPubs(lt,ln);
-                getHotels(lt,ln);
-                getTourism(lt,ln);
-                getWikipedia(lt, ln); 
-                getWeatherByCity(capitalname);
+                //getPubs(lt,ln);
+                //getHotels(lt,ln);
+                //getTourism(lt,ln);
+                //getWikipedia(lt, ln); 
+                //getWeatherByCity(capitalname);
                 //getWikipedia(capitalname, countryname)
-                getWeatherForecast(lt, ln);
+                //getWeatherForecast(lt, ln);
                 let weatherMarker = L.marker([lt, ln],
                     {
                         icon: orangeIcon,
@@ -308,6 +308,7 @@ function getWeather(lat, lon) {
             if (data) {
                 
                 $("#cityname").html(data.name);
+                $("#weatherForecastCityName").html(data.name);
                 $("#weather-descr").html(data.weather[0]['description']);
                 $("#wicon").attr('src', "http://openweathermap.org/img/w/"+data.weather[0]['icon']+".png");
                 $("#temp").html(Math.round(data.main.temp) +  "℃");
@@ -337,6 +338,7 @@ function getWeatherByCity(city) {
             if (data) {
             //console.log(data);
                 $("#cityname").html(data.name);
+                $("#weatherForecastCityName").html(data.name);
                 $("#weather-descr").html(data.weather[0]['description']);
                 $("#wicon").attr('src', "http://openweathermap.org/img/w/" + data.weather[0]['icon'] + ".png");
                 $("#temp").html(Math.round(data.main.temp) + "℃");
@@ -366,16 +368,28 @@ function getWeatherForecast(lat, lon) {
         success: function (data) {
             if (data) {
                 console.log(data);
-                //$("#cityname").html(data.name + " " + "Weather Status");
-                $("#weather-forecast-descr1").html(data.daily[0]['weather'][0]['description']);
-                $("#weather-forecast-descr2").html(data.daily[1]['weather'][0]['description']);
-                $("#weather-forecast-descr3").html(data.daily[2]['weather'][0]['description']);
-                $("#temp1day").html(Math.round(data.daily[0]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[0]['temp']['night']) + "℃");
-                $("#temp2day").html(Math.round(data.daily[1]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[1]['temp']['night']) + "℃");
-                $("#temp3day").html(Math.round(data.daily[2]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[2]['temp']['night']) + "℃");
-                $("#wicon1").attr('src', "http://openweathermap.org/img/w/"+data.daily[0]['weather'][0]['icon']+".png");
-                $("#wicon2").attr('src', "http://openweathermap.org/img/w/"+data.daily[1]['weather'][0]['icon']+".png");
-                $("#wicon3").attr('src', "http://openweathermap.org/img/w/"+data.daily[2]['weather'][0]['icon']+".png");
+                
+                $("#day1").html(new Date(data.daily[1]['dt'] * 1000).toLocaleDateString('en-us', { weekday: 'short' }));
+                $("#day2").html(new Date(data.daily[2]['dt'] * 1000).toLocaleDateString('en-us', { weekday: 'short' }));
+                $("#day3").html(new Date(data.daily[3]['sunrise'] * 1000).toLocaleDateString('en-us', { weekday: 'short' }));
+                $("#day4").html(new Date(data.daily[4]['sunrise'] * 1000).toLocaleDateString('en-us', { weekday: 'short' }));
+                $("#day5").html(new Date(data.daily[5]['sunrise'] * 1000).toLocaleDateString('en-us', { weekday: 'short' }));
+                $("#day6").html(new Date(data.daily[6]['sunrise'] * 1000).toLocaleDateString('en-us', { weekday: 'short' }));
+                $("#day7").html(new Date(data.daily[7]['sunrise'] * 1000).toLocaleDateString('en-us', { weekday: 'short' }));
+                $("#temp1day").html(Math.round(data.daily[1]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[1]['temp']['night']) + "℃");
+                $("#temp2day").html(Math.round(data.daily[2]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[2]['temp']['night']) + "℃");
+                $("#temp3day").html(Math.round(data.daily[3]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[3]['temp']['night']) + "℃");
+                $("#temp4day").html(Math.round(data.daily[4]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[4]['temp']['night']) + "℃");
+                $("#temp5day").html(Math.round(data.daily[5]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[5]['temp']['night']) + "℃");
+                $("#temp6day").html(Math.round(data.daily[6]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[6]['temp']['night']) + "℃");
+                $("#temp7day").html(Math.round(data.daily[7]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[7]['temp']['night']) + "℃");
+                $("#wicon1").attr('src', "http://openweathermap.org/img/w/"+data.daily[1]['weather'][0]['icon']+".png");
+                $("#wicon2").attr('src', "http://openweathermap.org/img/w/"+data.daily[2]['weather'][0]['icon']+".png");
+                $("#wicon3").attr('src', "http://openweathermap.org/img/w/"+data.daily[3]['weather'][0]['icon']+".png");
+                $("#wicon4").attr('src', "http://openweathermap.org/img/w/" + data.daily[4]['weather'][0]['icon'] + ".png");
+                $("#wicon5").attr('src', "http://openweathermap.org/img/w/" + data.daily[5]['weather'][0]['icon'] + ".png");
+                $("#wicon6").attr('src', "http://openweathermap.org/img/w/" + data.daily[6]['weather'][0]['icon'] + ".png");
+                $("#wicon7").attr('src', "http://openweathermap.org/img/w/" + data.daily[7]['weather'][0]['icon'] + ".png");
 
             }
 
@@ -387,34 +401,6 @@ function getWeatherForecast(lat, lon) {
 };
 
 
-
-
-//open sidebar 
-/*
-function openNav() {
-    
-    
-    document.getElementById("mySidebar").classList.remove('close');
-    document.getElementById("mySidebar").classList.add('open');
-    
-};
-//close sidebar
-function closeNav() {
-    
-    document.getElementById("mySidebar").classList.remove('open');
-    document.getElementById("mySidebar").classList.add('close');
-
-};
-
-$("#openButton").on('click', function () {
-    openNav();
-});
-
-$("#closeButton").on('click', function () {
-    closeNav();
-});
-*/
-//populate list of countries from geo.json
 function getSelect() {
    $.ajax({
        url: 'libs/php/getSelect.php',
@@ -485,7 +471,7 @@ function getWikipedia(lat, lng) {
         },
         success: function (data) {
             if (data) {
-               console.log(data);
+               //console.log(data);
                $("#link1").html(data.geonames[0]['title']);
                $("#link1").attr('href', 'https://' + data.geonames[0]['wikipediaUrl']);
                $("#wiki1").html(data.geonames[0]['summary']);
@@ -505,17 +491,32 @@ function getWikipedia(lat, lng) {
 };
 
 
-function getNews(country) {
+function getNews(code) {
     $.ajax({
         url: "libs/php/getNews.php",
         type: "POST",
         dataType: "json",
         data: {
-            country: country
+            code: code
         },
-        success: function (result) {
+        success: function (data) {
 
-           // console.log(result);
+            console.log(data);
+            $("#news-link1").html(data.feed[0]['title']);
+            $("#news-link1").attr('href', 'https://' + data.feed[0]['link']);
+            
+            $("#news-link2").html(data.feed[1]['title']);
+            $("#news-link2").attr('href', 'https://' + data.feed[1]['link']);
+            
+            $("#news-link3").html(data.feed[2]['title']);
+            $("#news-link3").attr('href', 'https://' + data.feed[2]['link']);
+           
+            $("#news-link4").html(data.feed[3]['title']);
+            $("#news-link4").attr('href', 'https://' + data.feed[3]['link']);
+            
+            $("#news-link5").html(data.feed[4]['title']);
+            $("#news-link5").attr('href', 'https://' + data.feed[4]['link']);
+            
         }
     })
 };
@@ -598,13 +599,13 @@ function getHotels(lat, lon) {
         },
         success: function (data) {
          
-            console.log(data.features);
+            //console.log(data.features);
             for (let i = 0; i < data.features.length; i++) {
                 //let pubMarkers = L.MarkerClusterGroup();
-                let ltMarker = data.features[i]['properties']['lat'];
-                let lnMarker = data.features[i]['properties']['lon'];
-                let goldMarker = L.marker([ltMarker, lnMarker], {
-                    icon: goldIcon,
+                let latiMarker = data.features[i]['properties']['lat'];
+                let longiMarker = data.features[i]['properties']['lon'];
+                let goldMarker = L.marker([latiMarker, longiMarker], {
+                    icon: greenIcon,
                     riseOnHover: true,
                     title: data.features[i]['properties']['name'],
                     opacity: 0.8
@@ -632,12 +633,12 @@ function getTourism(lat, lon) {
         },
         success: function (data) {
 
-            console.log(data.features);
+            console.log(data);
             for (let i = 0; i < data.features.length; i++) {
                 //let pubMarkers = L.MarkerClusterGroup();
-                let ltMarker = data.features[i]['properties']['lat'];
-                let lnMarker = data.features[i]['properties']['lon'];
-                let yellowMarker = L.marker([ltMarker, lnMarker], {
+                let latitMarker = data.features[i]['properties']['lat'];
+                let longitMarker = data.features[i]['properties']['lon'];
+                let yellowMarker = L.marker([latitMarker, longitMarker], {
                     icon: yellowIcon,
                     riseOnHover: true,
                     title: data.features[i]['properties']['name'],

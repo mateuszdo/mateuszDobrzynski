@@ -29,31 +29,38 @@ body, #map {
     position: absolute;
     top: 28vh;
     left: 1vw;
-    width: 5vw;
+    width: 7vw;
     opacity: 0.8;
     
+}
+.weather-forecast-icon {
+    position: absolute;
+    top: 34vh;
+    left: 1vw;
+    width: 7vw;
+    opacity: 0.8;
 }
 
 .currency-icon {
     position: absolute;
-    top: 34vh;
-    left: 1vw;
-    width: 5vw;
+    top: 43vh;
+    left: 2.5vw;
+    width: 4vw;
     opacity: 0.8;
 }
 .news-icon {
     position: absolute;
-    top: 40vh;
-    left: 1vw;
-    width: 5vw;
+    top: 48vh;
+    left: 2.0vw;
+    width: 6vw;
     opacity: 0.8;
 }
 .wiki-icon {
     position: absolute;
-    top: 46vh;
-    left: 1vw;
-    width: 5vw;
-    opacity: 1;
+    top: 55vh;
+    left: 2.5vw;
+    width: 4vw;
+    opacity: 0.8;
 }
 .icon:hover {
     transform: scale(1.4);
@@ -151,6 +158,25 @@ body, #map {
     text-align: center;
     background-color: beige;
 }
+
+.news-body {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: beige;
+}
+
 #wiki {
     align-self: center;
+}
+.montserrat {
+    font-family: 'Montserrat', sans-serif;
+    
+}
+h5 {
+   font-family: 'Archivo', sans-serif;
+}
+h6 {
+    font-family: 'Lora', serif;
 }
