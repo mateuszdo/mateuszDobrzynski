@@ -121,7 +121,7 @@ body, #map {
     background-color: whitesmoke;
     border-radius: 50px;
     color: #6f707d;
-    font-family: 'Marcellus', serif;
+    font-family: 'Lora', serif;
     opacity: 0.8;
     position: absolute;
     top: 63vh;
@@ -130,8 +130,10 @@ body, #map {
 }
 
 #temp {
-    font-size: 55px;
-    color: #2b304d
+    font-size: 45px;
+    color: #2b304d;
+    font-family: 'Marcellus', serif;
+    font-weight: lighter;
 }
 
 .temp {
@@ -147,7 +149,12 @@ body, #map {
 .fa {
     color: #8d8d96
 }
-
+#cityname {
+    margin-right: 10px;
+}
+#weather-descr {
+    float: right;
+}
 *:focus {
     outline: none
 }
@@ -179,4 +186,42 @@ h5 {
 }
 h6 {
     font-family: 'Lora', serif;
+}
+.marker-img {
+    width: 30vh;
+    height: ;
+    margin: 5px;
+    padding: 5px;
+}
+
+@media screen and (max-width: 896px) {
+    .dropdown {
+        width: 50vw;
+        width: 25vw;
+        position: absolute;
+        top: 2vh;
+        left: 25vh;
+    }
+
+    
+    .card {
+        display: flex;
+        width: 30vw;
+        justify-self: center;
+        align-self: center;
+    }
+}
+@media screen and (max-width: 595px) {
+ 
+    .dropdown {
+        width: 25vw;
+        position: absolute;
+        top: 2vh;
+        left: 10vh;
+
+    }
+
+    .card {
+        width: 50vw;
+    }
 }

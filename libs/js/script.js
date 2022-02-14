@@ -38,7 +38,9 @@ let cityMarkers = L.markerClusterGroup();
 let hotelMarkers = L.markerClusterGroup();
 let featuresLayer = L.layerGroup().addTo(map);
 let tourismMarkers = L.markerClusterGroup();
-
+let airportMarkers = L.markerClusterGroup();
+let beachMarkers = L.markerClusterGroup();
+let mountainMarkers = L.markerClusterGroup();
 
 function addMyData(layer) {
     featuresLayer.addLayer(layer)
@@ -50,7 +52,9 @@ let layerControl = {
     "Cities": cityMarkers,
     "Hotels": hotelMarkers,
     "Tourism": tourismMarkers,
-    
+    "Airports": airportMarkers,
+    "Beach": beachMarkers,
+    "Mountains": mountainMarkers
     
 }
 
@@ -79,7 +83,7 @@ const orangeIcon = new L.Icon({
 const myIcon = new L.Icon({
     iconUrl: "https://img.icons8.com/office/80/000000/place-marker--v1.png",
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [40, 50],
+    iconSize: [50, 50],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     shadowSize: [41, 41],
@@ -113,8 +117,32 @@ const violetIcon = new L.Icon({
     shadowSize: [41, 41]
 });
 
+const mountainIcon = new L.Icon({
+    iconUrl: 'libs/favicon_io/icons8-mountain-96.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [50, 50],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
 
+const airportIcon = new L.Icon({
+    iconUrl: 'libs/favicon_io/icons8-airport-100.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [50, 50],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
 
+const beachIcon = new L.Icon({
+    iconUrl: 'libs/favicon_io/icons8-beach-120.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [50, 50],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
 
 
 if ('geolocation' in navigator) {
@@ -141,7 +169,7 @@ if ('geolocation' in navigator) {
         //populate select country options
         getSelect();
         //get full list of world currencies
-        //getCurrency();
+        getCurrency();
         //get 10 country's biggest cities as markers
         //getCities();
         //open sidebar
@@ -181,10 +209,15 @@ function getCountryInfo(lat, lng) {
                 }
                 $("#select").val(countryISO2).trigger("change");
                 getCountryInfoByISO2(countryISO2);
-                //getBorders(countryISO2);
-                //getCities(countryISO2);
-                let lower = countryISO2.toLowerCase()
+                getBorders(countryISO2);
+                getCities(countryISO2);
+                //let lower = countryISO2.toLowerCase()
                 getNews(countryISO2);
+                
+
+                getAirports(countryISO2);
+                getBeach(countryISO2);
+                getMountain(countryISO2);
                 //getWikipedia(countryISO2);
             }
         },
@@ -221,13 +254,13 @@ function getCountryInfoByISO2(code) {
                 let lt = data['latlng'][0];
                 
                 let ln = data['latlng'][1];
-                //getPubs(lt,ln);
-                //getHotels(lt,ln);
-                //getTourism(lt,ln);
-                //getWikipedia(lt, ln); 
-                //getWeatherByCity(capitalname);
+                getPubs(lt,ln);
+                getHotels(lt,ln);
+                getTourism(lt,ln);
+                getWikipedia(lt, ln); 
+                getWeatherByCity(capitalname);
                 //getWikipedia(capitalname, countryname)
-                //getWeatherForecast(lt, ln);
+                getWeatherForecast(lt, ln);
                 let weatherMarker = L.marker([lt, ln],
                     {
                         icon: orangeIcon,
@@ -311,9 +344,9 @@ function getWeather(lat, lon) {
                 $("#weatherForecastCityName").html(data.name);
                 $("#weather-descr").html(data.weather[0]['description']);
                 $("#wicon").attr('src', "http://openweathermap.org/img/w/"+data.weather[0]['icon']+".png");
-                $("#temp").html(Math.round(data.main.temp) +  "℃");
+                $("#temp").html(Math.round(data.main.temp) +  "&#8451");
                 $("#humidity").html(data.main.humidity + "%");
-                $("#pressure").html(data.main.pressure + "hPa");
+                $("#pressure").html(data.main.pressure + " hPa");
                 $("#wind").html(Math.round(data.wind.speed) + "m/ph");
                 
 
@@ -341,9 +374,9 @@ function getWeatherByCity(city) {
                 $("#weatherForecastCityName").html(data.name);
                 $("#weather-descr").html(data.weather[0]['description']);
                 $("#wicon").attr('src', "http://openweathermap.org/img/w/" + data.weather[0]['icon'] + ".png");
-                $("#temp").html(Math.round(data.main.temp) + "℃");
+                $("#temp").html(Math.round(data.main.temp) + "&#8451");
                 $("#humidity").html(data.main.humidity + "%");
-                $("#pressure").html(data.main.pressure + "hPa");
+                $("#pressure").html(data.main.pressure + " hPa");
                 $("#wind").html(Math.round(data.wind.speed) + "m/ph");
 
 
@@ -502,20 +535,20 @@ function getNews(code) {
         success: function (data) {
 
             console.log(data);
-            $("#news-link1").html(data.feed[0]['title']);
-            $("#news-link1").attr('href', 'https://' + data.feed[0]['link']);
+            $("#news-link1").html(data.articles[0]['title']);
+            $("#news-link1").attr('href', data.articles[0]['link']);
             
-            $("#news-link2").html(data.feed[1]['title']);
-            $("#news-link2").attr('href', 'https://' + data.feed[1]['link']);
+            $("#news-link2").html(data.articles[1]['title']);
+            $("#news-link2").attr('href', data.articles[1]['link']);
             
-            $("#news-link3").html(data.feed[2]['title']);
-            $("#news-link3").attr('href', 'https://' + data.feed[2]['link']);
+            $("#news-link3").html(data.articles[2]['title']);
+            $("#news-link3").attr('href', data.articles[2]['link']);
            
-            $("#news-link4").html(data.feed[3]['title']);
-            $("#news-link4").attr('href', 'https://' + data.feed[3]['link']);
+            $("#news-link4").html(data.articles[3]['title']);
+            $("#news-link4").attr('href', data.articles[3]['link']);
             
-            $("#news-link5").html(data.feed[4]['title']);
-            $("#news-link5").attr('href', 'https://' + data.feed[4]['link']);
+            $("#news-link5").html(data.articles[4]['title']);
+            $("#news-link5").attr('href', data.articles[4]['link']);
             
         }
     })
@@ -601,7 +634,7 @@ function getHotels(lat, lon) {
          
             //console.log(data.features);
             for (let i = 0; i < data.features.length; i++) {
-                //let pubMarkers = L.MarkerClusterGroup();
+                
                 let latiMarker = data.features[i]['properties']['lat'];
                 let longiMarker = data.features[i]['properties']['lon'];
                 let goldMarker = L.marker([latiMarker, longiMarker], {
@@ -635,11 +668,11 @@ function getTourism(lat, lon) {
 
             console.log(data);
             for (let i = 0; i < data.features.length; i++) {
-                //let pubMarkers = L.MarkerClusterGroup();
+                
                 let latitMarker = data.features[i]['properties']['lat'];
                 let longitMarker = data.features[i]['properties']['lon'];
                 let yellowMarker = L.marker([latitMarker, longitMarker], {
-                    icon: yellowIcon,
+                    icon: violetIcon,
                     riseOnHover: true,
                     title: data.features[i]['properties']['name'],
                     opacity: 0.8
@@ -652,6 +685,115 @@ function getTourism(lat, lon) {
                 //map.addLayer(pubMarkers);
             }
             map.addLayer(tourismMarkers);
+        }
+    })
+};
+
+function getAirports(iso) {
+    $.ajax({
+        url: "libs/php/getAirports.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+           iso: iso
+        },
+        success: function (data) {
+          
+            console.log(data);
+            for (let i = 0; i < data.results.length; i++) {
+                //let pubMarkers = L.MarkerClusterGroup();
+                let latituMarker = data.results[i]['coordinates']['latitude'];
+                let longituMarker = data.results[i]['coordinates']['longitude'];
+                let airportMarker = L.marker([latituMarker, longituMarker], {
+                    icon: airportIcon,
+                    riseOnHover: true,
+                    title: data.results[i]['name'],
+                    opacity: 0.8
+                }).bindPopup(data.results[i]['snippet']).bindTooltip(data.results[i]['name'], {
+                    permanent: true,
+                    opacity: 0.7
+                }).openPopup();
+                airportMarkers.addLayer(airportMarker);
+                //addMyData(blueMarker);
+                //map.addLayer(pubMarkers);
+            }
+            map.addLayer(airportMarkers);
+        }
+    })
+};
+
+function getBeach(iso) {
+    $.ajax({
+        url: "libs/php/getBeach.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            iso: iso
+        },
+        success: function (data) {
+
+            console.log(data);
+            for (let i = 0; i < data.results.length; i++) {
+                //let pubMarkers = L.MarkerClusterGroup();
+                let lattMarker = data.results[i]['coordinates']['latitude'];
+                let longgMarker = data.results[i]['coordinates']['longitude'];
+                let beachMarker = L.marker([lattMarker, longgMarker], {
+                    icon: beachIcon,
+                    riseOnHover: true,
+                    title: data.results[i]['name'],
+                    opacity: 0.8
+                }).bindPopup(data.results[i]['snippet']).bindTooltip(data.results[i]['name'], {
+                    permanent: true,
+                    opacity: 0.7
+                }).openPopup();
+                beachMarkers.addLayer(beachMarker);
+                //addMyData(blueMarker);
+                //map.addLayer(pubMarkers);
+            }
+            map.addLayer(beachMarkers);
+        }
+    })
+};
+
+
+function getMountain(iso) {
+    $.ajax({
+        url: "libs/php/getMountain.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            iso: iso
+        },
+        success: function (data) {
+
+            console.log(data);
+            for (let i = 0; i < data.results.length; i++) {
+                //let pubMarkers = L.MarkerClusterGroup();
+                let latitudMarker = data.results[i]['coordinates']['latitude'];
+                let longitudMarker = data.results[i]['coordinates']['longitude'];
+                let image = data.results[i]['images'][0]['source_url'];
+                //let snippet = data.results[i]['snippet'];
+                let element = document.createElement("img");
+                //let snip = document.createElement("p");
+                element.setAttribute("src", image);
+                //snip.setAttribute("class", "marker-p");
+                element.setAttribute("class", "marker-img");
+                
+                //document.getElementsByClassName("marker-p").innerHTML(snippet);
+                let mountainMarker = L.marker([latitudMarker, longitudMarker], {
+                    icon: mountainIcon,
+                    riseOnHover: true,
+                    title: data.results[i]['name'],
+                    opacity: 0.8
+                }).bindPopup(element).bindTooltip(data.results[i]['name'], {
+                    permanent: true,
+                    opacity: 0.7
+                }).openPopup();
+                mountainMarkers.addLayer(mountainMarker);
+                //addMyData(blueMarker);
+                //map.addLayer(pubMarkers);
+            }
+            map.addLayer(mountainMarkers);
         }
     })
 };
@@ -669,6 +811,12 @@ function clickSelect() {
     hotelMarkers.clearLayers();
     map.removeLayer(tourismMarkers);
     tourismMarkers.clearLayers();
+    map.removeLayer(mountainMarkers);
+    mountainMarkers.clearLayers();
+    map.removeLayer(airportMarkers);
+    airportMarkers.clearLayers();
+    map.removeLayer(beachMarkers);
+    beachMarkers.clearLayers();
     //map.removeLayer(weatherMarker);
     //weatherMarker.clearLayers();
    
@@ -678,8 +826,10 @@ function clickSelect() {
     getCountryInfoByISO2(code);
     getBorders(code);
     getCities(code);
-    
-   
+    getNews(code);
+    getAirports(code.toLowerCase());
+    getBeach(code.toLowerCase());
+    getMountain(code.toLowerCase());
 };
 
 $("#select").on('change', function () {
