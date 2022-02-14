@@ -260,7 +260,7 @@ function getCountryInfoByISO2(code) {
                 getWikipedia(lt, ln); 
                 getWeatherByCity(capitalname);
                 //getWikipedia(capitalname, countryname)
-                getWeatherForecast(lt, ln);
+                //getWeatherForecast(lt, ln);
                 let weatherMarker = L.marker([lt, ln],
                     {
                         icon: orangeIcon,

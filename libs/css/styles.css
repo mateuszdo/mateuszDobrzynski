@@ -19,11 +19,8 @@ body, #map {
     padding: 0;
 }
 
-.dropdown {
-    position: absolute;
-    top: 2vh;
-    left: 25vh;
-
+.icon {
+    margin: 10px;
 }
 .info-icon {
     position: absolute;
@@ -125,8 +122,8 @@ body, #map {
     opacity: 0.8;
     position: absolute;
     top: 63vh;
-    left: 1vw;
-    width: 20vw;
+    margin-bottom: 2vh;
+    
 }
 
 #temp {
@@ -189,39 +186,7 @@ h6 {
 }
 .marker-img {
     width: 30vh;
-    height: ;
+    height: auto;
     margin: 5px;
     padding: 5px;
-}
-
-@media screen and (max-width: 896px) {
-    .dropdown {
-        width: 50vw;
-        width: 25vw;
-        position: absolute;
-        top: 2vh;
-        left: 25vh;
-    }
-
-    
-    .card {
-        display: flex;
-        width: 30vw;
-        justify-self: center;
-        align-self: center;
-    }
-}
-@media screen and (max-width: 595px) {
- 
-    .dropdown {
-        width: 25vw;
-        position: absolute;
-        top: 2vh;
-        left: 10vh;
-
-    }
-
-    .card {
-        width: 50vw;
-    }
 }
