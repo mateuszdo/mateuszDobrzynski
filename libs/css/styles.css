@@ -14,48 +14,51 @@ body, #map {
 }
 .overlap {
     position: relative;
+    width: 90%;
     z-index: 2;
     margin: 0;
     padding: 0;
+    width: 100%;
+    
 }
 
 .icon {
-    margin: 10px;
+    margin: 25px;
 }
 .info-icon {
     position: absolute;
-    top: 28vh;
-    left: 1vw;
+    top: 22vh;
+    left: -2vh;
     width: 7vw;
     opacity: 0.8;
     
 }
 .weather-forecast-icon {
     position: absolute;
-    top: 34vh;
-    left: 1vw;
+    top: 31vh;
+    left: -2vw;
     width: 7vw;
     opacity: 0.8;
 }
 
 .currency-icon {
     position: absolute;
-    top: 43vh;
-    left: 2.5vw;
+    top: 41vh;
+    left: -1vw;
     width: 4vw;
     opacity: 0.8;
 }
 .news-icon {
     position: absolute;
-    top: 48vh;
-    left: 2.0vw;
+    top: 47vh;
+    left: -2vw;
     width: 6vw;
     opacity: 0.8;
 }
 .wiki-icon {
     position: absolute;
     top: 55vh;
-    left: 2.5vw;
+    left: -1vw;
     width: 4vw;
     opacity: 0.8;
 }
@@ -122,7 +125,9 @@ body, #map {
     opacity: 0.8;
     position: absolute;
     top: 63vh;
+    left: -5vw;
     margin-bottom: 2vh;
+    
     
 }
 
