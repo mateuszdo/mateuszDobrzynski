@@ -20,8 +20,6 @@ body, #map {
     padding: 0;
     bottom: 0;
     
-    
-    
 }
 
 .icon {
@@ -32,45 +30,7 @@ body, #map {
     width: 10vh;
     margin-bottom: 50px;
 }
-/*
-.info-icon {
-    position: absolute;
-    top: 22vh;
-    left: -2vh;
-    width: 7vw;
-    opacity: 0.8;
-    
-}
-.weather-forecast-icon {
-    position: absolute;
-    top: 31vh;
-    left: -2vw;
-    width: 7vw;
-    opacity: 0.8;
-}
 
-.currency-icon {
-    position: absolute;
-    top: 41vh;
-    left: -1vw;
-    width: 4vw;
-    opacity: 0.8;
-}
-.news-icon {
-    position: absolute;
-    top: 47vh;
-    left: -2vw;
-    width: 6vw;
-    opacity: 0.8;
-}
-.wiki-icon {
-    position: absolute;
-    top: 55vh;
-    left: -1vw;
-    width: 4vw;
-    opacity: 0.8;
-}
-*/
 .icon:hover {
     transform: scale(1.4);
     opacity: 0.8;
@@ -134,12 +94,6 @@ body, #map {
     height: 28vh;
     
 }
-  /*  position: absolute;
-    top: 63vh;
-    margin-bottom: 2vh;
-  */
-   
-    
 
 
 #temp {

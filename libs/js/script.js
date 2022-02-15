@@ -166,6 +166,7 @@ if ('geolocation' in navigator) {
         getCountryInfo(latitude, longitude);
         //get full list of world currencies
         getCurrency();
+       
         
     });
         
@@ -198,14 +199,16 @@ function getCountryInfo(lat, lng) {
                 if(countryname === "United Kingdom"){
                     countryISO2 = "GB";
                 }
+                
                 $("#select").val(countryISO2).trigger("change");
-                getCountryInfoByISO2(countryISO2);
                 getBorders(countryISO2);
-                getCities(countryISO2);
+                //getCities(countryISO2);
                 getNews(countryISO2);
                 getAirports(countryISO2);
                 getBeach(countryISO2);
                 getMountain(countryISO2);
+                //getCountryInfoByISO2(countryISO2);
+                
                 
             }
         },
@@ -267,11 +270,11 @@ function getCountryInfoByISO2(code) {
                 currency_to = $("#selectCurrency option:selected").val();
                 let  amount = $("#currencyValue").val();
                 
-                exchangeCurrency(currency_from, currency_to, amount);
+                //exchangeCurrency(currency_from, currency_to, amount);
                 
                 
             }
-            map.addLayer(borderLayer);
+           // map.addLayer(borderLayer);
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown);
@@ -555,7 +558,7 @@ function getPubs(lat, lon) {
 
            //console.log(data.features);
             for(let i = 0; i < data.features.length; i++) {
-                //let pubMarkers = L.MarkerClusterGroup();
+                
                 let ltMarker = data.features[i]['properties']['lat'];
                 let lnMarker = data.features[i]['properties']['lon'];
                 let blueMarker = L.marker([ltMarker, lnMarker], {
@@ -567,8 +570,7 @@ function getPubs(lat, lon) {
                     permanent: true, opacity: 0.7
                 });
                 pubMarkers.addLayer(blueMarker);
-                //addMyData(blueMarker);
-                //map.addLayer(pubMarkers);
+              
             }
             map.addLayer(pubMarkers);
         }
@@ -812,6 +814,7 @@ function clickSelect() {
     getAirports(code.toLowerCase());
     getBeach(code.toLowerCase());
     getMountain(code.toLowerCase());
+    
 };
 
 $("#select").on('change', function () {
@@ -827,12 +830,6 @@ $("#currencyValue").on("input", (e) => {
     exchangeCurrency(currency_from, currency_to, e.target.value);
 });
 
-function addLayer(layer) {
-    layer.addTo(map);
-};
 
-function removeLayer(layer) {
-    map.remove(layer);
-}
 
 
