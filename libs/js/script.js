@@ -16,6 +16,8 @@ base = L.tileLayer('https://api.maptiler.com/maps/outdoor/{z}/{x}/{y}.png?key=WN
 
 L.easyButton('<img src="libs/favicon_io/icons8-restart-24.png">', function (btn, map) {
     map.flyTo([54, -9]);
+
+
     
 }).addTo(map);
 
@@ -95,7 +97,7 @@ const myIcon = new L.Icon({
 });
 
 const hotelIcon = new L.Icon({
-    iconUrl: 'libs/favicon_io/favicon_io2/icons8-hotel-bed-48.png',
+    iconUrl: 'libs/favicon_io/icons8-hotel-bed-48.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
     iconSize: [50, 50],
     iconAnchor: [12, 41],
@@ -198,14 +200,12 @@ function getCountryInfo(lat, lng) {
                 }
                 $("#select").val(countryISO2).trigger("change");
                 getCountryInfoByISO2(countryISO2);
-                //getBorders(countryISO2);
-                //getCities(countryISO2);
-                //getNews(countryISO2);
-                
-
-                //getAirports(countryISO2);
-                //getBeach(countryISO2);
-                //getMountain(countryISO2);
+                getBorders(countryISO2);
+                getCities(countryISO2);
+                getNews(countryISO2);
+                getAirports(countryISO2);
+                getBeach(countryISO2);
+                getMountain(countryISO2);
                 
             }
         },
@@ -244,13 +244,12 @@ function getCountryInfoByISO2(code) {
                 let lt = data['latlng'][0];
                 
                 let ln = data['latlng'][1];
-                //getPubs(lt,ln);
-                //getHotels(lt,ln);
-                //getTourism(lt,ln);
-                //getWikipedia(lt, ln); 
-                //getWeatherByCity(capitalname);
-                
-                //getWeatherForecast(lt, ln);
+                getPubs(lt,ln);
+                getHotels(lt,ln);
+                getTourism(lt,ln);
+                getWikipedia(lt, ln); 
+                getWeatherByCity(capitalname);
+                getWeatherForecast(lt, ln);
                 let weatherMarker = L.marker([lt, ln],
                     {
                         icon: orangeIcon,
@@ -262,7 +261,6 @@ function getCountryInfoByISO2(code) {
                     }).bindPopup("Move this marker to check local weather elswhere", {
                         keepInView: false,
                     }).openPopup();
-                    //addMyData(weatherMarker);
                     weatherMarker.addTo(borderLayer);
                     
                 currency_from = data['currencies'][0]['code'];
@@ -309,7 +307,6 @@ function getBorders(iso_a2) {
        }).addTo(map);
        bounds = border.getBounds();
        map.fitBounds(bounds);
-       //addMyData(border);
        border.addTo(borderLayer);
        map.addLayer(borderLayer);
        }
@@ -638,8 +635,7 @@ function getHotels(lat, lon) {
                     opacity: 0.7
                 });
                 hotelMarkers.addLayer(goldMarker);
-                //addMyData(blueMarker);
-                //map.addLayer(pubMarkers);
+                
             }
             map.addLayer(hotelMarkers);
         }
@@ -672,8 +668,7 @@ function getTourism(lat, lon) {
                     opacity: 0.7
                 });
                 tourismMarkers.addLayer(tourismMarker);
-                //addMyData(blueMarker);
-                //map.addLayer(pubMarkers);
+                
             }
             map.addLayer(tourismMarkers);
         }
@@ -692,7 +687,7 @@ function getAirports(iso) {
           
             console.log(data);
             for (let i = 0; i < data.results.length; i++) {
-                //let pubMarkers = L.MarkerClusterGroup();
+            
                 let latituMarker = data.results[i]['coordinates']['latitude'];
                 let longituMarker = data.results[i]['coordinates']['longitude'];
                 let airportMarker = L.marker([latituMarker, longituMarker], {
@@ -705,8 +700,7 @@ function getAirports(iso) {
                     opacity: 0.7
                 }).openPopup();
                 airportMarkers.addLayer(airportMarker);
-                //addMyData(blueMarker);
-                //map.addLayer(pubMarkers);
+                
             }
             map.addLayer(airportMarkers);
         }
@@ -725,7 +719,7 @@ function getBeach(iso) {
 
             console.log(data);
             for (let i = 0; i < data.results.length; i++) {
-                //let pubMarkers = L.MarkerClusterGroup();
+                
                 let lattMarker = data.results[i]['coordinates']['latitude'];
                 let longgMarker = data.results[i]['coordinates']['longitude'];
                 let beachMarker = L.marker([lattMarker, longgMarker], {
@@ -738,8 +732,7 @@ function getBeach(iso) {
                     opacity: 0.7
                 }).openPopup();
                 beachMarkers.addLayer(beachMarker);
-                //addMyData(blueMarker);
-                //map.addLayer(pubMarkers);
+                
             }
             map.addLayer(beachMarkers);
         }
@@ -759,7 +752,7 @@ function getMountain(iso) {
 
             console.log(data);
             for (let i = 0; i < data.results.length; i++) {
-                //let pubMarkers = L.MarkerClusterGroup();
+                
                 let latitudMarker = data.results[i]['coordinates']['latitude'];
                 let longitudMarker = data.results[i]['coordinates']['longitude'];
                 let image = data.results[i]['images'][0]['source_url'];
@@ -781,8 +774,7 @@ function getMountain(iso) {
                     opacity: 0.7
                 }).openPopup();
                 mountainMarkers.addLayer(mountainMarker);
-                //addMyData(blueMarker);
-                //map.addLayer(pubMarkers);
+                
             }
             map.addLayer(mountainMarkers);
         }
@@ -808,8 +800,7 @@ function clickSelect() {
     airportMarkers.clearLayers();
     map.removeLayer(beachMarkers);
     beachMarkers.clearLayers();
-    //map.removeLayer(weatherMarker);
-    //weatherMarker.clearLayers();
+    
    
     const code = $("#select option:selected").attr("value");
     
