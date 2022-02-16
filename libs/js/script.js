@@ -771,9 +771,8 @@ function getMountain(iso) {
                     riseOnHover: true,
                     title: data.results[i]['name'],
                     opacity: 0.8
-                }).bindPopup(element).bindTooltip(data.results[i]['name'], {
-                    permanent: true,
-                    opacity: 0.7
+                }).bindPopup(data.results[i]['name']).bindTooltip(element, {
+                    permanent: false,
                 }).openPopup();
                 mountainMarkers.addLayer(mountainMarker);
                 
