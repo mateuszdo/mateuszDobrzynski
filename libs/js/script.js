@@ -550,16 +550,35 @@ function getWikipedia(lat, lng) {
         },
         success: function (data) {
             if (data) {
+               console.log(data)
                
-               $("#link1").html(data.geonames[0]['title']);
-               $("#link1").attr('href', 'https://' + data.geonames[0]['wikipediaUrl']);
-               $("#wiki1").html(data.geonames[0]['summary']);
-               $("#link2").html(data.geonames[1]['title']);
-               $("#link2").attr('href', 'https://' + data.geonames[1]['wikipediaUrl']);
-               $("#wiki2").html(data.geonames[1]['summary']);
-               $("#link3").html(data.geonames[2]['title']);
-               $("#link3").attr('href', 'https://' + data.geonames[2]['wikipediaUrl']);
-               $("#wiki3").html(data.geonames[2]['summary']);
+                if (!data.geonames[0]['title']) {
+                    $("#link1").html("No more articles for this location");
+                } else {
+                    $("#link1").html(data.geonames[0]['title']);
+                    $("#link1").attr('href', 'https://' + data.geonames[0]['wikipediaUrl']);
+                    $("#wiki1").html(data.geonames[0]['summary']);
+                }
+               
+               
+               
+                if (!(data.geonames[1]['title'])) {
+                    $("#link2").html("No more articles for this location");
+                } else {
+                    $("#link2").html(data.geonames[1]['title']);
+                    $("#link2").attr('href', 'https://' + data.geonames[1]['wikipediaUrl']);
+                    $("#wiki2").html(data.geonames[1]['summary']);
+                }
+               
+               
+                if (!(data.geonames[2]['title'])) {
+                    $("#link3").html("No more articles for this location");
+                } else {
+                    $("#link3").html(data.geonames[2]['title']);
+                    $("#link3").attr('href', 'https://' + data.geonames[2]['wikipediaUrl']);
+                    $("#wiki3").html(data.geonames[2]['summary']);
+                }
+               
             }
 
         },
@@ -817,7 +836,7 @@ function getMountain(iso) {
             iso: iso
         },
         success: function (data) {
-
+                console.log(data);
             
             for (let i = 0; i < data.results.length; i++) {
                 
