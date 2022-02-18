@@ -22,15 +22,15 @@ L.easyButton('<img src="libs/favicon_io/icons8-restart-24.png">', function (btn,
 }).addTo(map);
 
 
-const googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+const googleStreets = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 }).addTo(map);
-const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+const googleHybrid = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 }).addTo(map);
-const googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+const googleTerrain = L.tileLayer('https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 }).addTo(map);
@@ -67,7 +67,7 @@ let layerControl = {
 L.control.layers(baseMaps, layerControl).addTo(map);
 //L.control.layers(baseMaps).addTo(map);
 
-
+/*
 const greenIcon = new L.Icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -76,15 +76,7 @@ const greenIcon = new L.Icon({
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
 });
-const orangeIcon = new L.Icon({
-    iconUrl: 'libs/favicon_io/weather.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [80, 100],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-    zIndexOffset: 1000
-});
+
 
 const myIcon = new L.Icon({
     iconUrl: "https://img.icons8.com/office/80/000000/place-marker--v1.png",
@@ -149,10 +141,74 @@ const beachIcon = new L.Icon({
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
 });
+*/
+const orangeIcon = new L.Icon({
+    iconUrl: 'libs/favicon_io/weather.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [80, 100],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+    zIndexOffset: 1000
+});
+
+const cityMarker = L.ExtraMarkers.icon({
+        icon: 'fa-city',
+        markerColor: 'red',
+        shape: 'circle',
+        prefix: 'fa'
+});
+
+const pubMarker = L.ExtraMarkers.icon({
+    icon: 'fa-utensils',
+    markerColor: 'cyan',
+    shape: 'square',
+    prefix: 'fa'
+});
+
+const visitorMarker = L.ExtraMarkers.icon({
+    icon: 'fa-landmark',
+    markerColor: 'purple',
+    shape: 'star',
+    prefix: 'fa'
+});
+
+const hotelMarker = L.ExtraMarkers.icon({
+    icon: 'fa-bed',
+    markerColor: 'green-light',
+    shape: 'square',
+    prefix: 'fa'
+});
+
+const airMarker = L.ExtraMarkers.icon({
+    icon: 'fa-plane-departure',
+    markerColor: 'blue-dark',
+    shape: 'circle',
+    prefix: 'fa'
+});
+
+const beachesMarker = L.ExtraMarkers.icon({
+    icon: 'fa-umbrella-beach',
+    markerColor: 'pink',
+    shape: 'star',
+    prefix: 'fa'
+});
+
+const mountainsMarker = L.ExtraMarkers.icon({
+    icon: 'fa-mountain',
+    markerColor: 'orange-dark',
+    shape: 'penta',
+    prefix: 'fa'
+});
+
+
+
+
+
 
 
 if ('geolocation' in navigator) {
-    console.log('geolocation available');
+    
     navigator.geolocation.getCurrentPosition(position => {
         let {
             latitude,
@@ -201,12 +257,12 @@ function getCountryInfo(lat, lng) {
                 }
                 
                 $("#select").val(countryISO2).trigger("change");
-                getBorders(countryISO2);
+                //getBorders(countryISO2);
                 //getCities(countryISO2);
-                getNews(countryISO2);
-                getAirports(countryISO2);
-                getBeach(countryISO2);
-                getMountain(countryISO2);
+                //getNews(countryISO2);
+                //getAirports(countryISO2);
+                //getBeach(countryISO2);
+                //getMountain(countryISO2);
                 //getCountryInfoByISO2(countryISO2);
                 
                 
@@ -230,7 +286,7 @@ function getCountryInfoByISO2(code) {
         success: function (data) {
             if (data) {
                
-                console.log(data);
+                
                 $("#countryName").html(data['name']);
                 $("#nativeName").html(data['nativeName']);
                 $("#flag").attr('src', data['flags']['svg']);
@@ -270,7 +326,7 @@ function getCountryInfoByISO2(code) {
                 currency_to = $("#selectCurrency option:selected").val();
                 let  amount = $("#currencyValue").val();
                 
-                //exchangeCurrency(currency_from, currency_to, amount);
+                exchangeCurrency(currency_from, currency_to, amount);
                 
                 
             }
@@ -333,7 +389,7 @@ function getWeather(lat, lon) {
                 $("#cityname").html(data.name);
                 $("#weatherForecastCityName").html(data.name);
                 $("#weather-descr").html(data.weather[0]['description']);
-                $("#wicon").attr('src', "http://openweathermap.org/img/w/"+data.weather[0]['icon']+".png");
+                $("#wicon").attr('src', "https://openweathermap.org/img/w/"+data.weather[0]['icon']+".png");
                 $("#temp").html(Math.round(data.main.temp) +  "&#8451");
                 $("#humidity").html(data.main.humidity + "%");
                 $("#pressure").html(data.main.pressure + " hPa");
@@ -363,7 +419,7 @@ function getWeatherByCity(city) {
                 $("#cityname").html(data.name);
                 $("#weatherForecastCityName").html(data.name);
                 $("#weather-descr").html(data.weather[0]['description']);
-                $("#wicon").attr('src', "http://openweathermap.org/img/w/" + data.weather[0]['icon'] + ".png");
+                $("#wicon").attr('src', "https://openweathermap.org/img/w/" + data.weather[0]['icon'] + ".png");
                 $("#temp").html(Math.round(data.main.temp) + "&#8451");
                 $("#humidity").html(data.main.humidity + "%");
                 $("#pressure").html(data.main.pressure + " hPa");
@@ -390,7 +446,7 @@ function getWeatherForecast(lat, lon) {
         },
         success: function (data) {
             if (data) {
-                console.log(data);
+                
                 
                 $("#day1").html(new Date(data.daily[1]['dt'] * 1000).toLocaleDateString('en-us', { weekday: 'short' }));
                 $("#day2").html(new Date(data.daily[2]['dt'] * 1000).toLocaleDateString('en-us', { weekday: 'short' }));
@@ -406,13 +462,13 @@ function getWeatherForecast(lat, lon) {
                 $("#temp5day").html(Math.round(data.daily[5]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[5]['temp']['night']) + "℃");
                 $("#temp6day").html(Math.round(data.daily[6]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[6]['temp']['night']) + "℃");
                 $("#temp7day").html(Math.round(data.daily[7]['temp']['day']) + "&#176" + "  |  " + Math.round(data.daily[7]['temp']['night']) + "℃");
-                $("#wicon1").attr('src', "http://openweathermap.org/img/w/"+data.daily[1]['weather'][0]['icon']+".png");
-                $("#wicon2").attr('src', "http://openweathermap.org/img/w/"+data.daily[2]['weather'][0]['icon']+".png");
-                $("#wicon3").attr('src', "http://openweathermap.org/img/w/"+data.daily[3]['weather'][0]['icon']+".png");
-                $("#wicon4").attr('src', "http://openweathermap.org/img/w/" + data.daily[4]['weather'][0]['icon'] + ".png");
-                $("#wicon5").attr('src', "http://openweathermap.org/img/w/" + data.daily[5]['weather'][0]['icon'] + ".png");
-                $("#wicon6").attr('src', "http://openweathermap.org/img/w/" + data.daily[6]['weather'][0]['icon'] + ".png");
-                $("#wicon7").attr('src', "http://openweathermap.org/img/w/" + data.daily[7]['weather'][0]['icon'] + ".png");
+                $("#wicon1").attr('src', "https://openweathermap.org/img/w/"+data.daily[1]['weather'][0]['icon']+".png");
+                $("#wicon2").attr('src', "https://openweathermap.org/img/w/"+data.daily[2]['weather'][0]['icon']+".png");
+                $("#wicon3").attr('src', "https://openweathermap.org/img/w/"+data.daily[3]['weather'][0]['icon']+".png");
+                $("#wicon4").attr('src', "https://openweathermap.org/img/w/" + data.daily[4]['weather'][0]['icon'] + ".png");
+                $("#wicon5").attr('src', "https://openweathermap.org/img/w/" + data.daily[5]['weather'][0]['icon'] + ".png");
+                $("#wicon6").attr('src', "https://openweathermap.org/img/w/" + data.daily[6]['weather'][0]['icon'] + ".png");
+                $("#wicon7").attr('src', "https://openweathermap.org/img/w/" + data.daily[7]['weather'][0]['icon'] + ".png");
 
             }
 
@@ -494,7 +550,7 @@ function getWikipedia(lat, lng) {
         },
         success: function (data) {
             if (data) {
-               //console.log(data);
+               
                $("#link1").html(data.geonames[0]['title']);
                $("#link1").attr('href', 'https://' + data.geonames[0]['wikipediaUrl']);
                $("#wiki1").html(data.geonames[0]['summary']);
@@ -516,7 +572,7 @@ function getWikipedia(lat, lng) {
 
 function getNews(code) {
     $.ajax({
-        url: "libs/php/getNews.php",
+        url: "libs/php/getNews2.php",
         type: "POST",
         dataType: "json",
         data: {
@@ -524,22 +580,32 @@ function getNews(code) {
         },
         success: function (data) {
 
-            console.log(data);
-            $("#news-link1").html(data.articles[0]['title']);
-            $("#news-link1").attr('href', data.articles[0]['link']);
             
-            $("#news-link2").html(data.articles[1]['title']);
-            $("#news-link2").attr('href', data.articles[1]['link']);
-            
-            $("#news-link3").html(data.articles[2]['title']);
-            $("#news-link3").attr('href', data.articles[2]['link']);
-           
-            $("#news-link4").html(data.articles[3]['title']);
-            $("#news-link4").attr('href', data.articles[3]['link']);
-            
-            $("#news-link5").html(data.articles[4]['title']);
-            $("#news-link5").attr('href', data.articles[4]['link']);
-            
+            $("#news-source-1").html(data.articles[0]['source']['name']);
+            $("#news-link-1").html(data.articles[0]['description']);
+            $("#news-link-1").attr('href', data.articles[0]['url']);
+            $("#news-img-1").attr('src', data.articles[0]['urlToImage']);
+
+            $("#news-source-2").html(data.articles[1]['source']['name']);
+            $("#news-link-2").html(data.articles[1]['description']);
+            $("#news-link-2").attr('href', data.articles[1]['url']);
+            $("#news-img-2").attr('src', data.articles[1]['urlToImage']);
+
+            $("#news-source-3").html(data.articles[2]['source']['name']);
+            $("#news-link-3").html(data.articles[2]['description']);
+            $("#news-link-3").attr('href', data.articles[2]['url']);
+            $("#news-img-3").attr('src', data.articles[2]['urlToImage']);
+
+            $("#news-source-4").html(data.articles[3]['source']['name']);
+            $("#news-link-4").html(data.articles[3]['description']);
+            $("#news-link-4").attr('href', data.articles[3]['url']);
+            $("#news-img-4").attr('src', data.articles[3]['urlToImage']);
+
+            $("#news-source-5").html(data.articles[4]['source']['name']);
+            $("#news-link-5").html(data.articles[4]['description']);
+            $("#news-link-5").attr('href', data.articles[4]['url']);
+            $("#news-img-5").attr('src', data.articles[4]['urlToImage']);
+
         }
     })
 };
@@ -556,13 +622,13 @@ function getPubs(lat, lon) {
         },
         success: function (data) {
 
-           //console.log(data.features);
+           
             for(let i = 0; i < data.features.length; i++) {
                 
                 let ltMarker = data.features[i]['properties']['lat'];
                 let lnMarker = data.features[i]['properties']['lon'];
                 let blueMarker = L.marker([ltMarker, lnMarker], {
-                    icon: pubIcon,
+                    icon: pubMarker,
                     riseOnHover: true,
                     title: data.features[i]['properties']['name'],
                     opacity: 0.8
@@ -587,14 +653,14 @@ function getCities(code) {
            code: code
         },
         success: function (data) {
-           //console.log(data);
+           
           
             data.forEach(element => {
                 let latMarker = element.coordinates.latitude;
                 let lonMarker = element.coordinates.longitude;
                 
                 let pinkMarker = L.marker([latMarker, lonMarker], {
-                    icon: myIcon,
+                    icon: cityMarker,
                     riseOnHover: true,
                     title: element.name,
                     opacity: 0.8
@@ -622,13 +688,13 @@ function getHotels(lat, lon) {
         },
         success: function (data) {
          
-            //console.log(data.features);
+            
             for (let i = 0; i < data.features.length; i++) {
                 
                 let latiMarker = data.features[i]['properties']['lat'];
                 let longiMarker = data.features[i]['properties']['lon'];
                 let goldMarker = L.marker([latiMarker, longiMarker], {
-                    icon: hotelIcon,
+                    icon: hotelMarker,
                     riseOnHover: true,
                     title: data.features[i]['properties']['name'],
                     opacity: 0.8
@@ -655,13 +721,13 @@ function getTourism(lat, lon) {
         },
         success: function (data) {
 
-            console.log(data);
+            
             for (let i = 0; i < data.features.length; i++) {
                 
                 let latitMarker = data.features[i]['properties']['lat'];
                 let longitMarker = data.features[i]['properties']['lon'];
                 let tourismMarker = L.marker([latitMarker, longitMarker], {
-                    icon: greenIcon,
+                    icon: visitorMarker,
                     riseOnHover: true,
                     title: data.features[i]['properties']['name'],
                     opacity: 0.8
@@ -687,13 +753,13 @@ function getAirports(iso) {
         },
         success: function (data) {
           
-            console.log(data);
+            
             for (let i = 0; i < data.results.length; i++) {
             
                 let latituMarker = data.results[i]['coordinates']['latitude'];
                 let longituMarker = data.results[i]['coordinates']['longitude'];
                 let airportMarker = L.marker([latituMarker, longituMarker], {
-                    icon: airportIcon,
+                    icon: airMarker,
                     riseOnHover: true,
                     title: data.results[i]['name'],
                     opacity: 0.8
@@ -719,13 +785,13 @@ function getBeach(iso) {
         },
         success: function (data) {
 
-            console.log(data);
+            
             for (let i = 0; i < data.results.length; i++) {
                 
                 let lattMarker = data.results[i]['coordinates']['latitude'];
                 let longgMarker = data.results[i]['coordinates']['longitude'];
                 let beachMarker = L.marker([lattMarker, longgMarker], {
-                    icon: beachIcon,
+                    icon: beachesMarker,
                     riseOnHover: true,
                     title: data.results[i]['name'],
                     opacity: 0.8
@@ -752,27 +818,23 @@ function getMountain(iso) {
         },
         success: function (data) {
 
-            console.log(data);
+            
             for (let i = 0; i < data.results.length; i++) {
                 
                 let latitudMarker = data.results[i]['coordinates']['latitude'];
                 let longitudMarker = data.results[i]['coordinates']['longitude'];
                 let image = data.results[i]['images'][0]['source_url'];
-                //let snippet = data.results[i]['snippet'];
                 let element = document.createElement("img");
-                //let snip = document.createElement("p");
                 element.setAttribute("src", image);
-                //snip.setAttribute("class", "marker-p");
                 element.setAttribute("class", "marker-img");
                 
-                //document.getElementsByClassName("marker-p").innerHTML(snippet);
                 let mountainMarker = L.marker([latitudMarker, longitudMarker], {
-                    icon: mountainIcon,
+                    icon: mountainsMarker,
                     riseOnHover: true,
                     title: data.results[i]['name'],
                     opacity: 0.8
-                }).bindPopup(data.results[i]['name']).bindTooltip(element, {
-                    permanent: false,
+                }).bindPopup(element).bindTooltip(data.results[i]['name'], {
+                    permanent: true,
                 }).openPopup();
                 mountainMarkers.addLayer(mountainMarker);
                 
@@ -805,7 +867,7 @@ function clickSelect() {
    
     const code = $("#select option:selected").attr("value");
     
-    //console.log(code);
+    
     getCountryInfoByISO2(code);
     getBorders(code);
     getCities(code);
