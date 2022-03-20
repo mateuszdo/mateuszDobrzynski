@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>companydircetory</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="libs/bootstrap/css/bootstrap.css" rel="stylesheet">-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Lato:ital,wght@0,300;0,400;1,300&family=Roboto:ital,wght@0,300;0,500;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="libs/icons/favicon.ico">
+    <link rel="stylesheet" href="libs/css/styles.css">
+</head>
+
+<body class="notLoaded">
+    <div id="preloader"></div>
+    
+    <nav class="navbar navbar-expand-sm navbar-light search p-2 bg-dark fixed-top d-flex flex-column mb-1">
+        <form class="d-flex col-12 w-100 mx-auto mb-4">
+            <input id="myInput" class="form-control m-1" type="text" placeholder="Search" aria-label="Search">
+            <!-- <button class="btn btn-outline-success m-1" type="submit">Search...</button> -->
+        </form>
+    
+    <nav class="navbar navbar-expand-sm navbar-light fixed-top nav2 pt-2">
+        <div class="container-fluid d-flex flex-row">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Add New
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a id="addEmployee" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#employeeModal"
+                        href="#">Employee</a></li>
+                <li><a id="addDepartment" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#departmentModal"
+                        href="#">Department</a></li>
+                <li><a id="addLocation" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#locationModal"
+                        href="#">Location</a></li>
+            </ul>
+
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="edit" aria-current="page" data-bs-toggle="modal"
+                            data-bs-target="#editemployeeModal" href="#"><img
+                                src="libs/icons/icons8-edit-24.png">Edit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="delete" aria-current="page" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal" href="#"><img src="libs/icons/icons8-delete-24.png">Delete</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</nav>
+    <main class="bg-white border border-3 border-rounded rounded-3 mx-2 scrollable">
+        <div class="container-fluid p-2">
+            <div class="row width-100 d-flex flex-row mt-5">
+                <div class="nav-item dropdown col me-auto d-flex justify-content-start">
+                    <a class="nav-link " href="#" id="navbarFilter" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <img src="libs/icons/icons8-stack-24.png">
+
+                    </a>
+                    <ul class="dropdown-menu border border-rounded bg-light" aria-labelledby="navbarDropdown">
+                       
+                        <li><a id="filterByEmployees" class="dropdown-item" href="#">Employees</a></li>
+                        <li><a id="filterByLocation" class="dropdown-item" href="#">Locations</a></li>
+                        <li><a id="filterByDepartment" class="dropdown-item" href="#">Departments</a></li>
+                        <!--   <li><a id="sortByDepartment" class="dropdown-item" href="#">Departament</a></li>
+                        <li><a id="sortByEmail" class="dropdown-item" href="#">Email</a></li>
+                           <li>
+                                            <hr>
+                                        </li>
+                                        <li><a id="sortASC" class="dropdown-item" href="#">A-Z | Z-A</a></li>
+                                    -->
+                    </ul>
+                </div>
+                <p id="cardTopLeft" class="col d-flex justify-content-center">Employees</p>
+                <div class="nav-item dropdown col me-0 d-flex justify-content-end">
+                    <a class="nav-link d-flex flex-row" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+
+                        <img src="libs/icons/icons8-see-more-30.png">
+
+                    </a>
+                    <ul class="dropdown-menu border border-rounded bg-light" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item disabled" href="#">Sort By</a></li>
+                        <li><a id="sortByFirstName" class="dropdown-item" href="#">First Name</a></li>
+                        <li><a id="sortByLastName" class="dropdown-item" href="#">Last Name</a></li>
+                        <li><a id="sortByLocation" class="dropdown-item" href="#">Location</a></li>
+                        <li><a id="sortByDepartment" class="dropdown-item" href="#">Departament</a></li>
+                        <li><a id="sortByEmail" class="dropdown-item" href="#">Email</a></li>
+                        <li><a id="sortByJobTitle" class="dropdown-item" href="#">Job Title</a></li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li><a id="sort" class="dropdown-item" href="#">A-Z | Z-A</a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="container-fluid" id="responsecontainer">
+                <table id="tbl"
+                    class="table table-borderless table-light table-responsive table-hover table-white col-12">
+                    <thead class="tablehead col-12 stickyheader">
+
+                    </thead>
+                    <tbody id="tablebody" class="tablebody col-12">
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!------------ MODALS ------------->
+
+        <!-- add new employee modal -->
+        <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModal" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title">Add Employee</h5>
+                            <p>Please fill all the fields and press <strong>Create</strong> to save new employee or 'X'
+                                to exit.</p>
+                            <img src="libs/icons/icons8-add-user-64.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Add Employee</h5>
+                                <p class="mt-3">Please fill all the fields and click <strong>Create</strong> to save new
+                                    employee or 'X' to exit.</p>
+                                <img class="mt-3" src="libs/icons/icons8-add-user-64.png">
+                            </div>
+                            <div class="modal-body">
+                                <form id="saveEmployeeForm">
+                                    <div class="form-group">
+                                        <input id="newEmployeeFirstName" name="newEmployeeFirstName" required
+                                            type="text"
+                                            class="form-control my-5 p-1 border-top-0 border-start-0 border-end-0 rounded-0"
+                                            aria-label="First Name" placeholder="First Name">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide First Name.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="newEmployeeLastName" name="newEmployeeLastName" required type="text"
+                                            class="form-control my-5 p-1 border-top-0 border-start-0 border-end-0 rounded-0"
+                                            aria-label="Last Name" placeholder="Last Name">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide Last Name.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="newEmployeeJobTitle" name="newEmployeeJobTitle" type="text"
+                                            class="form-control my-5 p-1 border-top-0 border-start-0 border-end-0 rounded-0" aria-label="Job Title"
+                                            placeholder="Job Title">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide Job title.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="newEmployeeEmail" required type="email"
+                                            class="form-control my-5 p-1 border-top-0 border-start-0 border-end-0 rounded-0"
+                                            aria-label="Email" placeholder="Email">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please use valid email format.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addEmployeeSelectDepartment" class="my-3">Choose Department :
+                                        </label>
+                                        <select id="addEmployeeSelectDepartment" required
+                                            class="form-select col-sm-12 col-md-7 selectpicker form-control btn-warning">
+                                            <option>Choose department...</option>
+                                        </select>
+
+                                        <button type="submit" class="btn btn-primary w-100 mt-2">Create</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- add new department modal -->
+        <div class="modal fade" id="departmentModal" tabindex="-1" aria-labelledby="departmentModal" aria-hidden="true"
+            data-backdrop="static" data-keybord="false">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title mb-3">Add Department</h5>
+                            <p>Please fill all the fields and press <strong>Create</strong> to add new departmen or 'X'
+                                to exit.</p>
+                            <img class="mt-3" src="libs/icons/icons8-department-100.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Add Department</h5>
+                                <p class="mt-3">To add new department, fill in the form and click <strong>Add</strong>
+                                    to add new department or 'X' to exit.</p>
+                                <img class="mt-3" src="libs/icons/icons8-department-100.png">
+                            </div>
+                            <div class="modal-body">
+                                <form id="saveDepartmentForm">
+                                    <div class="form-group">
+                                        <input id="departmentInput" name="departmentInput" required type="text"
+                                            class="form-control my-5 p-1 border-top-0 border-start-0 border-end-0 rounded-0"
+                                            aria-label="Department Name" placeholder="Department">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide First Name.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectLocation" class="my-3">Choose Location : </label>
+                                        <select id="selectLocation" required
+                                            class="form-select col-sm-12 col-md-7 selectpicker form-control btn-warning">
+                                            <option>Choose location...</option>
+                                        </select>
+
+                                        <button type="submit" class="btn btn-primary w-100 mt-2">Create</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- add new location modal -->
+        <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModal" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title mb-3">Add Location</h5>
+                            <p>Please fill all the fields and press <strong>Create</strong> to save new location or 'X'
+                                to exit.</p>
+                            <img class="mt-3" src="libs/icons/icons8-location-80.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Add Location</h5>
+                                <p class="mt-3">Please fill all the field and click <strong>Create</strong> to save new
+                                    location or 'X' to exit.</p>
+                                <img class="mt-3" src="libs/icons/icons8-location-80.png">
+                            </div>
+                            <div class="modal-body">
+                                <form id="saveLocationForm">
+                                    <div class="form-group">
+                                        <input id="locationInput" name="locationInput" required type="text"
+                                            class="form-control my-5 p-1 border-top-0 border-start-0 border-end-0 rounded-0"
+                                            aria-label="Location Name" placeholder="Location">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide valid Location.</div>
+                                    </div>
+                                    <div class="form-group">
+
+
+                                        <button type="submit" class="btn btn-primary w-100 mt-2">Create</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- employee edit modal -->
+        <div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title">Edit Employee</h5>
+                            <p>Please change the fields if require and click <strong>Update</strong> to save changes or
+                                'X'
+                                to exit.</p>
+                            <img src="libs/icons/icons8-add-user-64.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Edit Employee</h5>
+                                <p class="mt-3">Please change the fields if require and click <strong>Save</strong> to
+                                    save
+                                    changes or <bold>Discard</bold> to
+                                    close the window.</p>
+                                <img class="mt-3" src="libs/icons/icons8-add-user-64.png">
+                            </div>
+                            <div class="modal-body">
+                                <form id="updateEmployeeForm">
+                                    <input id="editId" class="d-none">
+                                    <input id="editDepartmentId" class="d-none">
+                                    <div class="form-group">
+                                        <label for="editFirstName" class="warning">First Name</label>
+                                        <input type="text" id="editFirstName" required
+                                            class="form-control my-3 p-1 border-top-0 border-start-0 border-end-0 rounded-0 outline-none"
+                                            aria-label="First Name">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide valid Location.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editLastName">Last Name</label>
+                                        <input type="text" id="editLastName" required
+                                            class="form-control my-3 p-1 border-top-0 border-start-0 border-end-0 rounded-0"
+                                            aria-label="Last Name">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide valid Location.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editJobTitle">Job Title</label>
+                                        <input type="text" id="editJobTitle"
+                                            class="form-control my-3 p-1 border-top-0 border-start-0 border-end-0 rounded-0" aria-label="Job Title">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide valid Location.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editEmail">Email</label>
+                                        <input type="text" id="editEmail" required
+                                            class="form-control my-3 p-1 border-top-0 border-start-0 border-end-0 rounded-0"
+                                            aria-label="Email">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide valid Location.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="editEmployeeSelectDepartment"
+                                            class="selectpicker form-control btn-warning">
+
+                                        </select>
+                                        <button type="submit" class="btn btn-primary w-100 mt-2">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- department edit modal -->
+        <div class="modal fade" id="editDepartmentModal" tabindex="-1" aria-labelledby="editDepartmentModal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title">Edit Department</h5>
+                            <p>Please change the fields if require and click <strong>Update</strong> to save changes or
+                                'X'
+                                to exit.</p>
+                            <img src="libs/icons/icons8-department-100.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Edit Department</h5>
+                                <p class="mt-3">Please change the fields if require and click <strong>Update</strong> to
+                                    save
+                                    changes or 'X' to exit.</p>
+                                <img class="mt-3" src="libs/icons/icons8-department-100.png">
+                            </div>
+                            <div class="modal-body">
+                                <form id="updateDepartmentForm">
+                                    <input id="department-id" class="d-none">
+                                    <input id="department-location-id" class="d-none">
+                                    <div class="form-group">
+                                        <label for="departmentName" class="warning">Department name</label>
+                                        <input type="text" id="departmentName" required
+                                            class="form-control my-3 p-1 border-top-0 border-start-0 border-end-0 rounded-0 outline-none"
+                                            aria-label="Department Name">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide valid Deaprtment Name.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="selectLocation2" required
+                                            class="form-select col-sm-12 col-md-7 selectpicker form-control btn-warning locationselect">
+                                            <option>Choose location...</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary w-100 mt-2">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- location edit modal -->
+        <div class="modal fade" id="editLocationModal" tabindex="-1" aria-labelledby="editLocationModal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title">Edit Location</h5>
+                            <p>Please change the fields if require and click <strong>Update</strong> to save changes or
+                                'X'
+                                to exit.</p>
+                            <img src="libs/icons/icons8-location-80.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Edit Location</h5>
+                                <p class="mt-3">Please change the fields if require and click <strong>Update</strong> to
+                                    save
+                                    changes or 'X' to exit.</p>
+                                <img class="mt-3" src="libs/icons/icons8-location-80.png">
+                            </div>
+                            <div class="modal-body">
+                                <form id="updateLocationForm">
+                                    <!-- <p id="location-id" class="d-none"></p> -->
+                                    <input id="location-id" class="d-none">
+                                    <div class="form-group">
+                                        <label for="locationName" class="warning">Location name</label>
+                                        <input type="text" id="locationName" required
+                                            class="form-control my-3 p-1 border-top-0 border-start-0 border-end-0 rounded-0 outline-none"
+                                            aria-label="Location Name">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please provide valid Location Name.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary w-100 mt-2">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- delete employee modal -->
+        <div class="modal fade" id="deleteEmployeeModal" tabindex="-1" aria-labelledby="deleteEmployeeModal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title mb-3">Delete Employee</h5>
+
+                            <img class="mt-3" src="libs/icons/icons8-delete-100.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Delete Employee</h5>
+
+                                <img class="mt-3" src="libs/icons/icons8-delete-100.png">
+                            </div>
+                            <div class="modal-body">
+                                <p class="mt-3">Are you sure you want to delete <em><span
+                                            id="employeeToDelete"></span><em></em> from the database?</p>
+                            </div>
+                            <div class="modal-footer d-flex flex-row justify-content-center">
+                                <button id="deleteEmployeeButton" type="button" class="btn btn-primary"
+                                    data-bs-dismiss="modal">Delete</button>
+                                <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Discard</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- delete location modal -->
+        <div class="modal fade" id="deleteLocationModal" tabindex="-1" aria-labelledby="deleteLocationModal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title mb-3">Delete</h5>
+        
+                            <img class="mt-3" src="libs/icons/icons8-delete-100.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Delete</h5>
+        
+                                <img class="mt-3" src="libs/icons/icons8-delete-100.png">
+                            </div>
+                            <div class="modal-body">
+                                <p class="mt-3">Are you sure you wish to delete <span id="locationToDelete"></span>
+                                    department from the database?</p>
+                            </div>
+                            <div class="modal-footer d-flex flex-row justify-content-center">
+                                <button id="deleteLocationButton" type="button" class="btn btn-primary"
+                                    data-bs-dismiss="modal">Delete</button>
+                                <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Discard</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- delete department modal -->
+        <div class="modal fade" id="deleteDepartmentModal" tabindex="-1" aria-labelledby="deleteDeparmtentModal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title mb-3">Delete</h5>
+
+                            <img class="mt-3" src="libs/icons/icons8-delete-100.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Delete</h5>
+
+                                <img class="mt-3" src="libs/icons/icons8-delete-100.png">
+                            </div>
+                            <div class="modal-body">
+                                <p class="mt-3">Are you sure you wish to delete <span id="departmentToDelete"></span>
+                                    department from the database?</p>
+                            </div>
+                            <div class="modal-footer d-flex flex-row justify-content-center">
+                                <button id="deleteDepartmentButton" type="button" class="btn btn-primary"
+                                    data-bs-dismiss="modal">Delete</button>
+                                <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Discard</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  success add modal -->
+        <div class="modal fade" id="success-add-modal" tabindex="-1" aria-labelledby="success-add-modal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title mb-3">Success</h5>
+
+                            <img class="mt-3 small-img" src="libs/icons/noun-success-4213622.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Success</h5>
+
+                                <img class="mt-3 small-img" src="libs/icons/noun-success-4213622.png">
+                            </div>
+                            <div class="modal-body">
+                                <p class="mt-3">Item has successfully been added to the database.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  success delete modal -->
+        <div class="modal fade" id="success-delete-modal" tabindex="-1" aria-labelledby="success-delete-modal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title mb-3">Success</h5>
+
+                            <img class="mt-3 small-img" src="libs/icons/noun-success-4213622.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Success</h5>
+
+                                <img class="mt-3 small-img" src="libs/icons/noun-success-4213622.png">
+                            </div>
+                            <div class="modal-body">
+                                <p class="mt-3">Item has successfully been removed from the database.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  cannot delete department modal -->
+        <div class="modal fade" id="cannot-delete-department-modal" tabindex="-1"
+            aria-labelledby="cannot-delete-department-modal" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-danger p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title mb-3">Delete department</h5>
+
+                            <img class="mt-3 small-img" src="libs/icons/noun-exclamation-3235732.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-danger p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Delete department</h5>
+
+                                <img class="mt-3 small-img" src="libs/icons/noun-exclamation-3235732.png">
+                            </div>
+                            <div class="modal-body">
+                                <p class="mt-3 danger"><span id="departmentNotToDelete"></span> department cannot be
+                                    deleted as it has dependencies. Please make sure that it has no employees associated
+                                    with it and try again. </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  cannot delete location modal -->
+        <div class="modal fade" id="cannot-delete-location-modal" tabindex="-1"
+            aria-labelledby="cannot-delete-location-modal" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-danger p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title mb-3">Delete location</h5>
+
+                            <img class="mt-3 small-img" src="libs/icons/noun-exclamation-3235732.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-danger p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Delete location</h5>
+
+                                <img class="mt-3 small-img" src="libs/icons/noun-exclamation-3235732.png">
+                            </div>
+                            <div class="modal-body">
+                                <p class="mt-3 danger"><em><span id="locationNotToDelete"></span></em> location cannot
+                                    be deleted as it has dependencies. Please make
+                                    sure that it has no departments associated with it and try again. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  something wrong modal -->
+        <div class="modal fade" id="something-wrong-modal" tabindex="-1" aria-labelledby="something-wrong-modal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-md modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="row">
+                        <div
+                            class="modal-header col col-5 bg-light p-5 d-none d-md-flex flex-column justify-content-around">
+                            <h5 class="modal-title mb-3">Ups...</h5>
+
+                            <img class="mt-3 small-img" src="libs/icons/noun-exclamation-3235732.png">
+                        </div>
+                        <div class="col-sm-12 col-md-7  d-flex flex-column">
+                            <button type="button" class="btn-close ms-auto m-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <div
+                                class="modal-header col-12 bg-light p-5 d-flex d-md-none flex-column justify-content-around">
+                                <h5 class="modal-title">Ups...</h5>
+
+                                <img class="mt-3 small-img" src="libs/icons/noun-exclamation-3235732.png">
+                            </div>
+                            <div class="modal-body">
+                                <p class="mt-3">This item already exists in the database or some field still needs to be
+                                    filled in.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="libs/jquery/jquery-3.6.0.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>-->
+    <script src="libs/bootstrap-5.0.2-dist/js/bootstrap.bundle.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>-->
+    <script type="text/javascript" src="libs/js/script.js"></script>
+</body>
+
+</html>

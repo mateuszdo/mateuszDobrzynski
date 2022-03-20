@@ -1,0 +1,101 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: rgb(228, 228, 228);
+}
+
+
+
+nav {
+    background-color: rgb(228, 228, 228);
+
+}
+
+
+
+.search {
+    background-color: rgb(250, 250, 250);
+}
+
+.dropdown-menu {
+    appearance: none;
+}
+
+main {
+    margin-top: 13vh;
+}
+.nav2 {
+    margin-top: 4rem;
+}
+.stickyheader {
+    position: sticky;
+    top: 7rem;
+
+}
+
+.stickyhead {
+    position: sticky;
+    top: 7rem;
+}
+
+.form-control {
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: groove;
+}
+
+a,
+button {
+    font-family: 'Robot', sans-serif;
+}
+
+td {
+    font-family: 'Inter', sans-serif;
+}
+
+h5 {
+    font-family: 'Lato', sans-serif;
+
+}
+
+p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+.selected {
+    background-color: antiquewhite;
+}
+
+input[type="text"]:focus {
+    outline: none;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0 0.5em;
+}
+
+.dep {
+    margin-left: 10rem;
+}
+/* Preloader */
+#preloader {
+    background:white url("../icons/Spinner-1s-200px.gif") no-repeat center center;
+    background-size: 15%;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 10000000000;
+    transition: 3s ease-out;
+}
+.notLoaded {
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+    margin: 0px;
+}
+
+

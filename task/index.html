@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./libs/css/style.css">
+    <title>Task</title>
+</head>
+<body>
+    <div class="header">
+        <h1 class="heading">Using PHP to get data from the API</h1>
+    </div>
+    <div class="main">
+        <table class="main-table">
+            <thead>
+                <tr>
+                    <th>API name</th>
+                    <th>API description</th>
+                    <th>Results</th>
+                </tr>
+            </thead>   
+            <tbody>
+                <tr>
+                    <td id="name">1. WEATHER CHECKER USING NEARBY AIRPORTS ICAO CODES</td>
+                    <td>
+                        <!--<form action="libs/php/getWeather.php" method="POST">-->
+                            <p>Please select the airport from the droplist to find out the weather condition</p><br>
+                            <select id="weatherId">
+                                <option value="EGLL">Heathrow</option>
+                                <option value="EGKK">London Gatwick</option>
+                                <option value="EGSS">London Stanstead</option>
+                                <option value="EGCB">Manchester</option>
+                                <option value="EGGW">London Luton</option>
+                                <option value="EGPH">Edinburgh</option>
+                                <option value="EGBB">Birmingham</option>
+                                <option value="EGGD">Bristol</option>
+                                <option value="EGPF">Glasgow</option>
+                                <option value="EGAA">Belfast International</option>             
+                            </select> <br>                              
+                            <button class="submitBtn" id="getWeather">SUBMIT</button>
+                        <!--</form>-->
+                    </td>
+                    <td>
+                        <div>
+                            <p>Temperature(C):</p><h2 id="getTemp"></h2><br>
+                             <p>Wind Speed(KN):</p><h2 id="getWind"></h2>
+                             <p>Clouds:</p><h2 id="getCloud"></h2><br>
+                             <p>Humidity:</p><h2 id="getHumidity"></h2>
+                        </div>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td>2. FIND NEAREST POPULATED PLACE</td>
+                    <td>
+                            <label for="lat">Please type in lattitude and longitude in order to find closest city and the country of selected spot</label><br>
+                            <input type="number" id="lat" name="lat" placeholder="latitude in decimal"><br>
+                            <input type="number" id="lng" name="lng" placeholder="longitude in decimal"><br>
+                            <button class="submitBtn" id="getPlace">SUBMIT</button>
+                        
+                    </td>
+                    <td>
+                        <div>
+                            <p>City:</p><h2 id="cityName"></h2><br>
+                            <p>Country:</p><h2 id="countryName"></h2>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3. RECENT EARTHQUAKES</td>
+                    <td>  <label for="north">Please select coordinates of bounding box</label><br>
+                          <input type="number" id="north" name="north" placeholder="north boundry"><br>
+                          <input type="number" id="south" name="south" placeholder="south boundry"><br>
+                           <input type="number" id="east" name="east" placeholder="east boundry"><br>
+                           <input type="number" id="west" name="south" placeholder="west boundry"><br>
+                           <button class="submitBtn" id="getEarthquake">SUBMIT</button>
+                    </td>
+                    <td>
+                        <div>
+                            <p>Date:</p><h2 id="earthquakeDate"></h2><br>
+                            <p>Depth(km):</p><h2 id="earthquakeDepth"></h2><br>
+                            <p>Magnitude:</p><h2 id="earthquakeMagnitude"></h2>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                
+            </tfoot>
+        </table>
+    </div>
+    <div id="preloader"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="libs/js/script.js"></script>
+</body>
+</html>
